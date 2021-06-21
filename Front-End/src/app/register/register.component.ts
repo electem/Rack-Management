@@ -20,15 +20,11 @@ export class RegisterComponent implements OnInit {
     location: ''
   };
 
-  isUserRegister = true;
-  isLogin = false;
-
   constructor(
     private router: Router,
     private userService: UserService,
     private formBuilder: FormBuilder,
-  ) { this.isUserRegister = true;
-    this.isLogin = false;}
+  ) { }
   loading = false;
   submitted = false;
   registerForm: FormGroup;
@@ -44,8 +40,6 @@ export class RegisterComponent implements OnInit {
       plan: ['', Validators.required],
       clientFk: '',
   });
-  this.isUserRegister = true;
-  this.isLogin = false;
   }
 
   get f() { return this.registerForm.controls; }
@@ -70,8 +64,7 @@ export class RegisterComponent implements OnInit {
               response => {
                 console.log(response);
                 this.submitted = true;
-                this.isUserRegister = false;
-                this.isLogin = true;
+                this.router.navigate(['/login']);
               },
               error => {
                 console.log(error);
