@@ -14,6 +14,7 @@ db.racks = require("./rack.model.js")(sequelize, Sequelize);
 db.trays = require("./tray.model.js")(sequelize, Sequelize);
 db.stores = require("../models/store.model.js")(sequelize, Sequelize);
 db.menus = require("../models/menu.model.js")(sequelize, Sequelize);
+db.notifications = require("../models/notification.model.js")(sequelize, Sequelize);
 //db.itemtemplates = require("./itemTemplate.model.js")(sequelize, Sequelize);
 db.templates = require("./item.model.js")(sequelize, Sequelize);
 db.itemtemplatepropertys = require("./itemTemplateProperty.js")(sequelize, Sequelize);

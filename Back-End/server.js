@@ -55,61 +55,61 @@ app.listen(PORT, () => {
 });
 
 function initial() {
-  Role.create({
-    id: 1,
-    name: "Admin"
-  });
+  // Role.create({
+  //   id: 1,
+  //   name: "Admin"
+  // });
  
-  Role.create({
-    id: 2,
-    name: "moderator"
-  });
+  // Role.create({
+  //   id: 2,
+  //   name: "moderator"
+  // });
  
-  Role.create({
-    id: 3,
-    name: "staff"
-  });
+  // Role.create({
+  //   id: 3,
+  //   name: "staff"
+  // });
 
-  Menu.create({
-    id: 1,
-    label: "Home",
-    action: '/template',
-    menu_fk: 1,
-    roleId: 1
-  });
+  // Menu.create({
+  //   id: 1,
+  //   label: "Home",
+  //   action: '/template',
+  //   menu_fk: 1,
+  //   roleId: 1
+  // });
 
-  Menu.create({
-    id: 2,
-    label: "staff",
-    action: '/staff',
-    menu_fk: 1,
-    roleId: 1
-  });
+  // Menu.create({
+  //   id: 2,
+  //   label: "staff",
+  //   action: '/staff',
+  //   menu_fk: 1,
+  //   roleId: 1
+  // });
 
-  Plan.create({
-    id: 1,
-    name: "Personal",
-    noOfUsers : 1,
-    noOfRacks: 2,
-    noOfItemTypes: 3,
-    rate: 500
-  });
+  // Plan.create({
+  //   id: 1,
+  //   name: "Personal",
+  //   noOfUsers : 1,
+  //   noOfRacks: 2,
+  //   noOfItemTypes: 3,
+  //   rate: 500
+  // });
 
-  Plan.create({
-    id: 2,
-    name: "Company/Traders",
-    noOfUsers : 5,
-    noOfRacks: 10,
-    noOfItemTypes: 10,
-    rate: 1000
-  });
+  // Plan.create({
+  //   id: 2,
+  //   name: "Company/Traders",
+  //   noOfUsers : 5,
+  //   noOfRacks: 10,
+  //   noOfItemTypes: 10,
+  //   rate: 1000
+  // });
 
-  Plan.create({
-    id: 3,
-    name: "Distributors",
-    noOfUsers : 25,
-    noOfRacks: 50,
-    noOfItemTypes: 20,
-    rate: 2000
-  });
+  // Plan.create({
+  //   id: 3,
+  //   name: "Distributors",
+  //   noOfUsers : 25,
+  //   noOfRacks: 50,
+  //   noOfItemTypes: 20,
+  //   rate: 2000
+  // });
 }

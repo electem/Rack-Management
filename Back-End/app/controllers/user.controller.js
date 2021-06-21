@@ -229,6 +229,25 @@ exports.update = (req, res) => {
     });
 };
 
+exports.validation = (req, res) => {
+  const value= req.params.value;
+  const type= req.params.type;
+  if(value){
+     query = `SELECT * FROM users WHERE username = '${value}' `;
+  }
+  else if(type){
+    query = `SELECT * FROM users WHERE email = '${type}' `;
+  }
+  sequelize.query(query, { type: sequelize.QueryTypes.SELECT})
+  .then(data => {
+    res.send(data);
+  }).catch(err => {
+      res.status(500).send({
+        message: "Error retrieving users"
+      });
+    });
+};
+
 // Delete a Staff with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
@@ -262,10 +281,9 @@ exports.forgotpassword = (req, res) => {
   const email = user.email;
   var randomNumber = Math.random().toString(36).slice(2);
   var hash = crypto.createHash('md5').update(randomNumber).digest('hex');
-  const password=hash;
+  const password = hash;
   let query = `UPDATE users SET password = '${password}' WHERE email = '${email}' `;
 
-  // Save User in the database
  sequelize.query(query).then(data => {
             if(data[1].rowCount >=1) {
               console.log(data[1]);

@@ -47,6 +47,7 @@ module.exports = function(app) {
   router.get("/client/staff/:id", user.findOne);
   router.put("/client/staff/update/:id", user.update);
   router.post("/client/resetPassword/", user.forgotpassword);
+  router.get("/client/validation/:value/:type", user.validation);
   router.delete("/client/staff/delete/:id", user.delete);
   router.get("/client/plans", user.findAllPlans);
   router.get("/activation/:clientPK/:userPk", user.updateUserStatus);
