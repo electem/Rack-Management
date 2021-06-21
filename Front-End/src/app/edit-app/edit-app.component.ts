@@ -17,6 +17,7 @@ export class EditAppComponent implements OnInit {
     label: '',
     value: ''
   };
+  tempData : any = {}
   success = false;
 
   fieldModels: Array<field> = [
@@ -188,6 +189,7 @@ export class EditAppComponent implements OnInit {
   ngOnInit() {
      this.UserObj = JSON.parse(sessionStorage.getItem('userObj'));
      this.model.clientFk = this.UserObj.clientFk;
+     this.retrieveTemplates();
   }
 
   onDragStart(event: DragEvent) {
@@ -299,7 +301,29 @@ export class EditAppComponent implements OnInit {
     item.selected = !item.selected;
   }
 
+  retrieveTemplates(): void {
+    this.formService.getAll(this.UserObj.clientFk)
+      .subscribe(
+        data => {
+          this.tempData = data;
+          console.log(data);
+        },
+        error => {
+          console.log(error);
+        });
+  }
+
   submit() {
+    let valid = true;
+    this.tempData.forEach(field => {
+      if(field.name == this.model.name) {
+        valid = false;
+      }
+     console.log(field);
+    });
+    if (!valid) {
+      return false;
+    }
     const input = new FormData;
     input.append('formId', this.model._id);
     input.append('attributes', JSON.stringify(this.model.attributes));

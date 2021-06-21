@@ -126,6 +126,7 @@ export class FormListComponent implements OnInit {
       //Prepare Row Data
       rowdata = Object.assign({"id":dbRecord.id})
       rowdata = Object.assign(rowdata, {"name":dbRecord.name})
+      
 
       //Extract label and values from the Attributes
       dbRecord.attributes.forEach(dbRecordCol => {
@@ -133,7 +134,7 @@ export class FormListComponent implements OnInit {
         var colLabel = dbRecordCol.label
         rowdata = Object.assign(rowdata, { [colLabel]:colVal })
       });
-
+      rowdata = Object.assign(rowdata, {"actions": `<a href="http://localhost:4200/EditForm/${this.route.snapshot.params.name}/${dbRecord.id}"> Edit</a>`})
       //push a record 
       rowDataList.push(rowdata);
     });
