@@ -16,6 +16,7 @@ export class RegisterComponent implements OnInit {
     username: '',
     email: '',
     password: '',
+    confirmPassword:'',
     phone: '',
     location: ''
   };
@@ -33,12 +34,14 @@ export class RegisterComponent implements OnInit {
   submitted = false;
   registerForm: FormGroup;
   planList:any;
+  isExist=false;
   ngOnInit() {
     this.getPlans();
     this.registerForm = this.formBuilder.group({
       username : ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
       phone: ['', Validators.required],
       location: ['', Validators.required],
       plan: ['', Validators.required],
@@ -55,31 +58,42 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.invalid) {
       return;
     }
-    const client = {
-      name: this.registerForm.value.username,
-      planFk: this.registerForm.value.plan
-    };
-    this.userService.createClient(client)
-      .subscribe(
-        response => {
-          console.log(response);
-          this.submitted = true;
-          this.registerForm.value.clientFk = response.id;
-          this.userService.create(this.registerForm.value)
+    if(this.user.password == this.user.confirmPassword){
+      const client = {
+        name: this.registerForm.value.username,
+        planFk: this.registerForm.value.plan
+      };
+      this.userService.createClient(client)
+        .subscribe(
+          response => {
+            console.log(response);
+            this.submitted = true;
+            this.registerForm.value.clientFk = response.id;
+            this.userService.backendValidation(client.name,this.registerForm.value.email)
             .subscribe(
               response => {
-                console.log(response);
-                this.submitted = true;
-                this.isUserRegister = false;
-                this.isLogin = true;
-              },
-              error => {
-                console.log(error);
-              });
-              },
-        error => {
-          console.log(error);
+                if(response.length>0){
+                  this.isExist = true;
+                }
+              else
+            this.userService.create(this.registerForm.value)
+              .subscribe(
+                response => {
+                  console.log(response);
+                  this.submitted = true;
+                  this.isUserRegister = false;
+                  this.isLogin = true;
+                },
+                error => {
+                  console.log(error);
+                });
+                },
+          error => {
+            console.log(error);
         });
+      });
+    }
+    
   }
 
   getPlans(): void {

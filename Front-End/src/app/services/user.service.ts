@@ -28,6 +28,9 @@ export class UserService {
     return this.http.post(baseUrl + '/api/user/client/resetPassword',data);
   }
   
+  backendValidation(value: any,type:any): Observable<any> {
+    return this.http.get(`${baseUrl}/api/user/client/validation/${value}/${type}`);
+  }
 
   saveClientStaff(clientName:any, data: any): Observable<any> {
     return this.http.post(baseUrl + '/api/user/client/staff/save/'+ clientName, data);
