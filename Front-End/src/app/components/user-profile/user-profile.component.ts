@@ -5,6 +5,7 @@ import { UploadFilesService } from '../../services/upload-files.service';
 import { UserProfileService } from '../../services/user-profile.service';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { AlertService } from '../_alert/alert.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -30,14 +31,32 @@ export class UserProfileComponent implements OnInit {
     phone:'',
     user_fk:0
   };
+  options = {
+    autoClose: true,
+    keepAfterRouteChange: false
+};
   constructor(private userProfile:UserProfileService,private route: ActivatedRoute,
-    private uploadService: UploadFilesService,private router: Router,) { }
+    private uploadService: UploadFilesService,private router: Router,
+    private alertService:AlertService) { }
 
   ngOnInit(): void {
     
       this.UserObj = JSON.parse(sessionStorage.getItem('userObj'));
       this.user_fk = this.UserObj.clientFk; 
       this.fetchProfileObject(this.route.snapshot.params.id);
+  }
+
+  updateProfile(): any {
+    this.userProfile.updateProfile(this.profile.id,this.profile)
+      .subscribe(
+        response => {
+          this.profile=response;
+          this.alertService.success(response.message,this.options);
+          this.fetchProfileObject(this.user_fk);
+        },
+        error => {
+          console.log(error);
+        });
   }
 
   fetchProfileObject(id:any): any {
@@ -49,10 +68,6 @@ export class UserProfileComponent implements OnInit {
         error => {
           console.log(error);
         });
-  }
-
-  onSubmit() {   
-     this.updateProfile()
   }
 
   selectFile(event: any): void {
@@ -95,19 +110,6 @@ export class UserProfileComponent implements OnInit {
 
       this.selectedFiles = undefined;
     }
-  }
-
-  updateProfile(): any {
-    this.profile.image=this.currentFile.name;
-    this.userProfile.updateProfile(this.profile.id,this.profile)
-      .subscribe(
-        response => {
-          this.profile=response;
-          this.router.navigate(['/profileListing',this.user_fk]);
-        },
-        error => {
-          console.log(error);
-        });
   }
 
   

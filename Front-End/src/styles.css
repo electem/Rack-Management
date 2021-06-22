@@ -23,6 +23,19 @@
     overflow: hidden;
     box-shadow: 1px 1px 4px #ccc;
 }
+.page-container .main-content {
+    padding: 95px 15px 15px 15px;
+    min-height: calc(100vh - 60px);
+}
+.body{
+    font-family: Roboto, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    font-size: 14px;
+    background-color: #f1f1f1;
+    color: #888da8;
+    line-height: 1.5;
+    letter-spacing: 0.2px;
+    overflow-x: hidden;
+}
 .app-box:hover{
     box-shadow: 1px 1px 4px #999;
 }
@@ -49,9 +62,15 @@
     overflow: auto;
     box-shadow: 1px 1px 4px #ddd;
 }
-.form-group .form-control{
-    font-size:inherit;
-    background-color: inherit;
+.form-control{
+    border: 1px solid #e6ecf5;
+    border-radius: 2px;
+    box-shadow: none;
+    height: 42px;
+    font-size: 14px;
+    color: #888da8;
+    transition: all 0.2s ease-in;
+    -webkit-transition: all 0.2s ease-in;
 }
 
 .dndDropArea{

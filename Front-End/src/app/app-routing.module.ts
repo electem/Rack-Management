@@ -7,7 +7,7 @@ import { AddTemplateComponent } from './components/add-template/add-template.com
 import { EditAppComponent } from './edit-app/edit-app.component';
 import { EditFormComponent } from './edit-form/edit-form.component';
 import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
+import { RegisterComponent } from './components/register/register.component';
 import { AddFormComponent } from './components/add-form/add-forms.component';
 import { EditFormsComponent } from './components/edit-forms/edit-forms.component';
 import { FormListComponent } from './components/forms-list/forms-list.component';

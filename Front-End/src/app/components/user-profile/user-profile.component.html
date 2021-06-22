@@ -1,57 +1,136 @@
-<div class="card">
-    <br><h3 class="mr-5">Update UserProfile</h3><br>
-    <div [hidden]="submitted" style="width: 400px;">
-        <form (ngSubmit)="onSubmit()">
-            <div class="card-body ml-3">
-                <div class="form-group">
-                    <label for="userName">UserName</label>
-                    <input type="text" class="form-control" id="userName" required [(ngModel)]="profile.userName" name="userName">
-                </div>
 
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" required [(ngModel)]="profile.email" name="email">
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+        <title>Bootstrap Responsive Web Application Template</title>
+    </head>
+    <body>
+        <div class="main-content">
+            <div class="container-fluid">
+                <div class="page-title">
+                    <h4>Account Setting</h4>
                 </div>
-
-                <div class="form-group">
-                    <label for="phone">MobileNumber</label>
-                    <input type="text" class="form-control" id="phone" required [(ngModel)]="profile.phone" name="phone">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="widget-profile-1 card">
+                                    <div class="profile border bottom">
+                                        <img class="mrg-top-30" src="assets/images/avatars/avatar-5.png" alt="" style="max-width: 100px">
+                                        <h4 class="mrg-top-20 no-mrg-btm text-semibold">{{profile.userName}}</h4>
+                                        <p>Experience Designer</p>
+                                    </div>
+                                    <div class="pdd-horizon-30 pdd-vertical-20">
+                                        <h5 class="text-semibold mrg-btm-5">About</h5>
+                                        <p>It looks like Sandpeople did this, all right. Look, here are Gaffi sticks, Bantha tracks. It's just...I never heard of them.</p>
+                                        <div class="mrg-top-30 text-center">
+                                            <ul class="list-unstyled list-inline">
+                                                <li class="list-inline-item no-pdd-horizon">
+                                                    <a href="" class="btn btn-facebook btn-icon btn-rounded">
+                                                        <i class="ti-facebook"></i>
+                                                    </a>
+                                                </li>
+                                                <li class="list-inline-item no-pdd-horizon">
+                                                    <a href="" class="btn btn-twitter btn-icon btn-rounded">
+                                                        <i class="ti-twitter"></i>
+                                                    </a>
+                                                </li>
+                                                <li class="list-inline-item no-pdd-horizon">
+                                                    <a href="" class="btn btn-google-plus btn-icon btn-rounded">
+                                                        <i class="ti-google"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card">
+                                    <div class="card-heading border bottom">
+                                        <h4 class="card-title">General Info</h4>
+                                    </div>
+                                    <div class="card-block">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <p class="mrg-top-10 text-dark"> <b>Name</b></p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" value="{{profile.userName}}" [(ngModel)]="profile.userName">
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <p class="mrg-top-10 text-dark"> <b>Email</b></p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="email" class="form-control" value="{{profile.email}}" [(ngModel)]="profile.email">
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <p class="mrg-top-10 text-dark"> <b>Phone</b></p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" value="{{profile.phone}}" [(ngModel)]="profile.phone">
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <p class="mrg-top-10 text-dark"> <b>Address</b></p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <textarea class="form-control" value="{{profile.address}}" [(ngModel)]="profile.address"></textarea>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <p class="mrg-top-10 text-dark"> <b>City</b></p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" value="{{profile.city}}" [(ngModel)]="profile.city">
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <p class="mrg-top-10 text-dark"> <b>Photo</b></p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div>
+                                                    <label for="img-upload" class="pointer">
+                                                        <img src="assets/images/avatars/avatar-1.png" width="117" alt="">
+                                                        <span class="btn btn-default display-block no-mrg-btm">Choose file</span>
+                                                        <input class="d-none" type="file" name="uploadedimages0" multiple id="img-upload" (change)="selectFile($event)">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <p class="mrg-top-10 text-dark"> <b>Status</b></p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p class="mrg-top-10">
+                                                    <span class="status online mrg-top-10"></span>
+                                                    <span class="mrg-left-10">Available</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <button  class="btn btn-primary mb-3" (click)="updateProfile()">Update UserProfile</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="form-group">
-                    <label for="address">Address</label>
-                    <textarea class="form-control" id="address" rows="4" cols="50" required [(ngModel)]="profile.address" name="address"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="city">City</label>
-                    <input type="text" class="form-control" id="city" required [(ngModel)]="profile.city" name="city">
-                </div>
-
-                <div class="col-8">
-                    Image<label class="btn btn-default p-0" for="image">
-                    <input type="file" (change)="selectFile($event)"/>
-                    </label>
-                </div>
-
-                <button  class="btn btn-primary mt-3">Update UserProfile</button>
+            </div>
         </div>
-            <!-- <a routerLink="/rackList" class="btn btn-link mt-3">Cancel</a> -->
-        </form>
-    </div>
-</div>
-
-<div *ngIf="currentFile" class="progress my-3">
-    <div
-      class="progress-bar progress-bar-info progress-bar-striped"
-      role="progressbar"
-      attr.aria-valuenow="{{ progress }}"
-      aria-valuemin="0"
-      aria-valuemax="100"
-      [ngStyle]="{ width: progress + '%' }"
-    >
-      {{ progress }}%
-    </div>
-  </div>
-
-  <div *ngIf="message" class="alert alert-secondary" role="alert">{{ message }}</div>
+</body>
+</html>
