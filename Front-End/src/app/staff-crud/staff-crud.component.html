@@ -1,3 +1,6 @@
+<div class="page-title">
+  <h4>Staff Listing</h4>
+</div>
 <div class="list row">
     <div class="col-md-8">
       <div>
@@ -6,21 +9,21 @@
       </button>
   </div>
     </div>
-    <div class="mat-elevation-z8">
-      <mat-table #table [dataSource]="dataSource">
+    <div class="mat-app-background basic-container">
+      <mat-table #table [dataSource]="dataSource" class="mat-elevation-z8">
     
         <!--- Note that these columns can be defined in any order.
               The actual rendered columns are set as a property on the row definition" -->
     
         <!-- Position Column -->
         <ng-container matColumnDef="name">
-          <mat-header-cell *matHeaderCellDef> Name. </mat-header-cell>
+          <mat-header-cell  class="custom-mat-header-styling tableHeaderCellDiv" *matHeaderCellDef> Name. </mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.username}}  </mat-cell>
         </ng-container>
   
          <!-- Name Column -->
          <ng-container matColumnDef="email">
-            <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+            <mat-header-cell  class="custom-mat-header-styling tableHeaderCellDiv" *matHeaderCellDef> Email </mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.email}}  </mat-cell>
           </ng-container>
           

@@ -42,8 +42,9 @@ exports.create = (req, res) => {
     var citemData = JSON.parse(data.dataValues.attributes);
     req.body.label = data.dataValues.name;
     req.body.action = "menu" + '/' + data.dataValues.name + '/' + data.dataValues.id;
-    req.body.menu_fk = 1,
     req.body.roleId = 1,
+    req.body.menu_fk = 1,
+    req.body.templateID = data.dataValues.id;
     Menu.menuCreate(req, res);
     citemData.forEach(function(citemData) {
         data.dataValues[citemData.name] = citemData.value;
@@ -62,7 +63,6 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
   var name = req.query.name;
   var clientFk = req.query.clientFk;
- // var condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
   var condition = clientFk ? { clientFk: { [Op.eq]: clientFk } } : null;
   Items.findAll({ where: condition})
     .then(data => {

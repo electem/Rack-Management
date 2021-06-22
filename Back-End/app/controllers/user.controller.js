@@ -437,3 +437,16 @@ exports.createTemplateByPlan = (req, res) => {
       });
     });
 };
+
+exports.getRoleNameByID = (req, res) => {
+  var roleId = req.query.roleId;
+  let query = `select name from roles where id = ${roleId}`;
+  sequelize.query(query, { type: sequelize.QueryTypes.SELECT})
+  .then(data => {
+    res.send(data);
+  }).catch(err => {
+      res.status(500).send({
+        message: "Error retrieving Form with id=" + id
+      });
+    });
+};

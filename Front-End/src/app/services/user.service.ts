@@ -63,4 +63,8 @@ export class UserService {
   getPlansList() : Observable<any> {
     return this.http.get(`${baseUrl}/api/user/client/plans`);
   }
+
+  getRoleNameByID(roleId:any): Observable<any> {
+    return this.http.get(`${baseUrl}/api/user/role?roleId=${roleId}`);
+  }
 }

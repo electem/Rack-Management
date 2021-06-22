@@ -51,5 +51,6 @@ module.exports = function(app) {
   router.delete("/client/staff/delete/:id", user.delete);
   router.get("/client/plans", user.findAllPlans);
   router.get("/activation/:clientPK/:userPk", user.updateUserStatus);
+  router.get("/role", user.getRoleNameByID);
   app.use('/api/user', router);
 };    
