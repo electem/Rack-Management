@@ -1,27 +1,23 @@
-<div 
-class="container marginT60  marginB30" 
-style="max-width:500px;"
->
-  
-  <div class="col-12">
+<div class="main-content">
+  <div class="container-fluid">
+  <!-- <div class="col-12">
     <input
     type="text"
     class="form-control"
     placeholder="Please enter form name"
     [(ngModel)]="model.name"
   />  
-  </div>
-
-  <div *ngIf="success" class="col-12">
-    <div class="form-group">
-    <label>Your form has been submitted.</label>
-    </div>
-  </div>
+</div> -->
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
   <form class="ftheme" >
-  <div *ngIf="!success" class="col-12">
+    <div class="card-block">
+      <div class="mrg-top-40">
+  <div *ngIf="!success" class="col-md-8 ml-auto mr-auto">
     <div *ngFor="let item of model.attributes" class="form-group">
       <div *ngIf="item.type=='text'">
-        <label>{{item.label}}</label> <label *ngIf="item.required" class="text-danger">*</label>
+        <label >{{item.label}}</label> <label *ngIf="item.required" class="text-danger">*</label>
         <input type="text" class="form-control" id="{{item.name}}" placeholder="{{item.placeholder}}" [(ngModel)]="item.value" [required]="item.required" [ngModelOptions]="{standalone: true}" autocomplete="off">
       </div>
       <div *ngIf="item.type=='email'">
@@ -58,7 +54,7 @@ style="max-width:500px;"
         <p class="form-text">{{item.placeholder}}</p>
       </div>
       <div *ngIf="item.type=='autocomplete'">
-    hh     <label>{{item.label}}</label> <label *ngIf="item.required" class="text-danger">*</label>
+        <label>{{item.label}}</label> <label *ngIf="item.required" class="text-danger">*</label>
         <select class="form-control" id="{{item.name}}" [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}">
           <option *ngFor="let v of item.values" [value]="v.value">{{v.label}}</option>  
         </select>
@@ -90,12 +86,29 @@ style="max-width:500px;"
       </div>
       
     </div>
-    <div class="btn-cont" style="float: right;">
-      <span>
-        <button type="button"   (click)="submit()" class="btn btn-primary">Save</button>
-      </span>
-      <span class="pl-2"><button type="button" class="btn btn-danger pl-2" (click)="cancel()">Cancel</button></span>
-    </div> 
+    <div class="row">
+      <div class="col-md-6 col-xs-6">
+          <div class="checkbox">
+              <input id="check1" type="hidden">
+              <label for="check1"> <a class="text-link" href=""></a>.</label>
+          </div>
+      </div>
+      <div class="col-md-6 col-xs-6">
+          <div class="text-right mrg-top-5">
+             
+        <div class="form-group">
+          <button  class="btn btn-primary" style="background-color: #2185d0;  border-color: #2185d0;" (click)="submit()" >Save</button>
+          <button class="btn btn-default"  style="border-color: #d4deee;" (click)="cancel()">Cancel</button>
+      </div>
+          </div>
+      </div>
   </div>
+  </div>
+  </div>
+</div>
   </form>
+    </div>
+</div>
+  </div>
+</div>
 </div>

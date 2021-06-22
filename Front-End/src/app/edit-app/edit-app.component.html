@@ -1,27 +1,17 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
 <div *ngIf="model && !report" class="padding20 white-bg">
   <div class="row">
     <div class="col-12">
-       <!-- <div class="btn-cont">
-            <button (click)="initReport()" class="btn btn-primary pull-left">Response</button>
-            <button (click)="updateForm()" class="btn btn-primary pull-right">Update</button>
-            <button routerLink="/application/{{model._id}}" class="btn btn-primary pull-right" style="margin-right:3px;">View <i class="fa fa-external-link"></i></button>
-            <button (click)="saveForm()" class="btn btn-primary pull-right">Save and submit the form</button>
-        </div>-->
     </div>
   </div>
   <div class="spacer30"></div>
   <div class="row">
     <h4 (click)="test()">Form Builder</h4>
     <div class="col-4">
-
-        <!--<div class="row">
-        <label class="col-8">Background Color</label>
-        <input class="colorpick col-4" type="color" name="bgColor" [(ngModel)]="model.theme.bgColor" >    
-        </div>
-        <div class="row">
-        <label class="col-8">Text Color</label>
-        <input class="colorpick col-4" type="color" name="textColor" [(ngModel)]="model.theme.textColor">    
-        </div>-->
 
       <h4 (click)="test()">Select Fields</h4>
       <p>Customize your form by drag and drop below fields to the form area.</p>
@@ -244,44 +234,28 @@
       <div class="dndPlaceholder" dndPlaceholderRef>
       </div>
       </section>
-      <div class="btn-cont" style="float: right;">
-        <span>
-          <button type="button"   (click)="submit()" class="btn btn-primary">Save</button>
-        </span>
-        <span class="pl-2"><button type="button" class="btn btn-danger pl-2" (click)="cancel()">Cancel</button></span>
-      </div>
+      <div class="row">
+        <div class="col-md-6 col-xs-6">
+            <div class="checkbox">
+                <input id="check1" type="hidden">
+                <label for="check1"> <a class="text-link" href=""></a>.</label>
+            </div>
+        </div>
+        <div class="col-md-6 col-xs-6">
+            <div class="text-right mrg-top-5">
+               
+          <div class="form-group">
+            <button  class="btn btn-primary" style="background-color: #2185d0;  border-color: #2185d0;" (click)="submit()" >Save</button>
+            <button class="btn btn-default"  style="border-color: #d4deee;" (click)="cancel()">Cancel</button>
+        </div>
+            </div>
+        </div>
+  </div>
     </div>
   </div>
 </div>
-
- 
-
-<div *ngIf="report" class="padding20 white-bg">
-    <div class="row">
-        <div class="col-12 btn-cont">
-            <button (click)="report=false" class="btn btn-primary"><< Back</button>
-        </div>
-        <div class="col-12 spacer30"></div>
-        <!-- if records found -->
-        <div  *ngIf="reports?.length > 0" class="col-12">
-            <div *ngFor="let records of reports" class="report-block">
-                <div *ngFor="let record of records.attributes">
-                    <div *ngIf="record.type !='button' && record.type !='paragraph'" class="row">
-                     <div class="col-4">{{record.label}}</div>
-                        <div class="col-8">{{record.value}}</div>
-                    </div>
-                </div>
-            </div>
-            <!-- <pre>{{reports|json}}</pre> -->
-        </div> 
-        <!-- if no records found -->
-        <div *ngIf="reports?.length == 0" class="col-12 btn-cont">
-            No response found
-        </div>
-
-    </div>
-
 </div>
-
-<!-- <pre *ngIf="model">{{model|json}}</pre> -->
-
+</div>
+</div>
+</div>
+</div>
