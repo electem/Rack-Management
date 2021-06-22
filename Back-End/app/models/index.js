@@ -27,19 +27,6 @@ db.user.belongsTo(db.role, {
   as: "role",
 });
 
-db.templates.hasMany(db.menus, { as: "menu" });
-db.menus.belongsTo(db.templates, {
-  foreignKey: "itemId",
-  as: "templates",
-});
-
-db.role.hasMany(db.menus, { as: "menu" });
-db.menus.belongsTo(db.role, {
-  foreignKey: "roleId",
-  as: "role",
-});
-      
-
 db.trays.belongsToMany(db.templates, {
   through: "tray_item",
   foreignKey: "trayId",

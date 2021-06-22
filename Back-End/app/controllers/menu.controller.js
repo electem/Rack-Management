@@ -14,21 +14,12 @@ exports.menuCreate = (req, res) => {
       action: req.body.action,
       menu_fk: req.body.menu_fk,
       roleId: req.body.roleId,
-      itemId:req.body.itemId,
+      templateID:req.body.templateID,
       clientFk: req.body.clientFk,
   };
 
   // Save Rack in the database
   Menu.create(menu)
-      .then(data => {
-          res.send(data);
-      })
-      .catch(err => {
-          res.status(500).send({
-              message:
-                  err.message || "Some error occurred while creating the Rack."
-          });
-      });
 };
 
 
