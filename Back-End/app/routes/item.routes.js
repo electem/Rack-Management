@@ -17,7 +17,7 @@ module.exports = app => {
     router.put("/:id", items.update);
   
     // Delete a Tutorial with id
-    router.delete("/:id", items.delete);
+    router.delete("/:id/:name", items.delete);
       
     app.use('/api/items', router);
   };

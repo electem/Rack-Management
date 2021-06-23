@@ -15,7 +15,11 @@ export class StaffCrudComponent implements OnInit {
   dataSource = new MatTableDataSource<any>();
   constructor(private userService: UserService, private router: Router,) { }
   roleId : ''
+  RoleObj: any = {};
+  RoleName= ''
   ngOnInit(): void {
+    this.RoleObj = JSON.parse(sessionStorage.getItem('roleObj'));
+    this.RoleName =  this.RoleObj[0].name;
     this.getStaffByRole();
     this.UserObj = JSON.parse(sessionStorage.getItem('userObj'));
     this.clientFk = this.UserObj.clientFk;

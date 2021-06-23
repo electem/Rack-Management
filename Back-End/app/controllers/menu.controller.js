@@ -41,13 +41,25 @@ exports.findMenuByItemId = (req, res) => {
 
 exports.findAll = (req, res) => {
     var clientFk = req.query.clientFk;
-    let query = `SELECT * FROM menus  WHERE "clientFk" IS NULL OR "clientFk" = ${clientFk}`;
+    let query = `SELECT * FROM menus  WHERE "templateID" IS NULL OR "templateID" IN (SELECT "templateID" FROM Templates WHERE "clientFk" = ${clientFk})`;
     sequelize.query(query, { type: sequelize.QueryTypes.SELECT})
     .then(data => {
       res.send(data);
     }).catch(err => {
         res.status(500).send({
           message: "Error retrieving Form with id=" + id
+        });
+      });
+  };
+
+  exports.delete = (req, res) => {
+    const templateID = req.params.templateID;
+    Menu.destroy({
+      where: { templateID: templateID }
+    })
+      .catch(err => {
+        res.status(500).send({
+          message: "Could not delete Tutorial with id=" + templateID
         });
       });
   };

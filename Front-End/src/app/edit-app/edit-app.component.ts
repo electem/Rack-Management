@@ -315,7 +315,7 @@ export class EditAppComponent implements OnInit {
 
   submit() {
     let valid = true;
- 
+    
     if (!valid) {
       alert("Template name already exists");
       return false;

@@ -83,20 +83,23 @@ export class TemplateListComponent implements OnInit {
         });
   }
 
-  deleteTemplate(id): void {
-    this.formService.delete(id)
+  deleteTemplate(id,name): void {
+    this.formService.delete(id,name)
       .subscribe(
         response => {
           console.log(response);
           this.formService.getAll(this.clientFk);
-          this.router.navigate(['/template']);
+          this.router.navigate(['/template'])
+          .then(() => {
+            window.location.reload(); 
+          });
         },
         error => {
           console.log(error);
         });
   }
 
-  removeTemplate(id) {
+  removeTemplate(id,name) {
     swal({
       title: 'Are you sure?',
       text: 'Do you want to remove this template?',
@@ -107,7 +110,7 @@ export class TemplateListComponent implements OnInit {
       confirmButtonText: 'Yes, remove!'
     }).then((result) => {
       if (result.value) {
-        this.deleteTemplate(id);
+        this.deleteTemplate(id,name);
       }
     });
 

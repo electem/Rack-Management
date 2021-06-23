@@ -42,8 +42,8 @@ export class FormService {
     return this.http.put(`${baseUrl}/api/items/${id}`, data);
   }
 
-  delete(id: any): Observable<any> {
-    return this.http.delete(`${baseUrl}/api/items/${id}`);
+  delete(id: any, name:any): Observable<any> {
+    return this.http.delete(`${baseUrl}/api/items/${id}/${name}`);
   }
 
   deleteAll(): Observable<any> {
