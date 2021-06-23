@@ -33,6 +33,7 @@
       [style.backgroundColor]="model.theme.bgColor"
       [style.color]="model.theme.textColor">
       <h2><input class="form-control" type="text" style = "font-size: 14px;" placeholder="Enter Template name" [(ngModel)]="model.name" /></h2>
+      <div *ngIf="isExist" style="color: red;">Template name already exist</div>
        <textarea class="form-control" type="text" style = "font-size: 14px;" placeholder="Enter Description" [(ngModel)]="model.description"> </textarea>
       </div>
 

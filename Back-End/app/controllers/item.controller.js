@@ -146,4 +146,17 @@ exports.findOne = (req, res) => {
     });
 };
 
+exports.validation = (req, res) => {
+  const value = req.params.value;
+  let query = `SELECT * FROM templates WHERE name = '${value}'`
+  sequelize.query(query, { type: sequelize.QueryTypes.SELECT})
+  .then(data => {
+    res.send(data);
+  }).catch(err => {
+      res.status(500).send({
+        message: "Error retrieving users"
+      });
+    });
+};
+
 
