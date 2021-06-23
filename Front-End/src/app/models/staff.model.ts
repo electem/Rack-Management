@@ -3,5 +3,6 @@ export class Staff {
     username?: string;
     email?: string;
     password?: string;
+    confirmPassword?: string;
   }
 

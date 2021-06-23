@@ -200,9 +200,15 @@ export class EditFormComponent implements OnInit {
                 } else {
                   datas.attributes = JSON.parse(datas.attributes);
                 }
+
+                if(datas.attributes == null || datas.attributes == undefined) {
+                  this.model.attributes = [];
+                } else {
+                  this.model.attributes = datas.attributes;
+                }
                   this.model.name = datas.name;
                   this.model.description = datas.description;
-                  this.model.attributes = datas.attributes;
+                 
                   console.log(data);
               },
               error => {

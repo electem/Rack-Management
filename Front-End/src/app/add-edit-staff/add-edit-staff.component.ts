@@ -16,11 +16,12 @@ export class AddStaffComponent implements OnInit {
     username: '',
     email: '',
     password: '',
+    confirmPassword: '',
   };
   UserObj: any = {};
   staffRoleID: '';
   clientName: '';
-  staffObj = { username: '', email: '', password:'' };
+  staffObj = { username: '', email: '', password:'' , confirmPassword : ''};
   constructor(  private router: Router,
     private userService: UserService,
     private formBuilder: FormBuilder,private route: ActivatedRoute) { }
@@ -36,6 +37,7 @@ export class AddStaffComponent implements OnInit {
       username : ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
       clientFk: this.UserObj.clientFk,
       status: 'ACTIVE',
       roleId: this.staffRoleID,
@@ -50,6 +52,7 @@ export class AddStaffComponent implements OnInit {
     if (this.staffForm.invalid) {
       return;
     }
+    if(this.staff.password == this.staff.confirmPassword){
     if(this.route.snapshot.params.id) {
       return this.updateClientStaff();
     }
@@ -65,6 +68,7 @@ export class AddStaffComponent implements OnInit {
         error => {
           console.log(error);
         });
+      }
   }
 
   updateClientStaff(): void {
@@ -113,6 +117,7 @@ export class AddStaffComponent implements OnInit {
               data => {
                 console.log(data);
                 this.staffObj = data;
+                this.staffObj.confirmPassword = data.password;
             },
                 error => {
                     console.log(error);
