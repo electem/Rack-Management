@@ -46,6 +46,7 @@ export class RegisterComponent implements OnInit {
       location: ['', Validators.required],
       plan: ['', Validators.required],
       clientFk: '',
+      roleId: 1,
   });
   this.isUserRegister = true;
   this.isLogin = false;

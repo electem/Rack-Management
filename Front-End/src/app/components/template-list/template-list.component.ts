@@ -21,8 +21,12 @@ export class TemplateListComponent implements OnInit {
   constructor(private formService: FormService,
     private route: ActivatedRoute,
     private router: Router) { }
+  RoleObj: any = {};
+  RoleName= ''
 
   ngOnInit(): void {
+    this.RoleObj = JSON.parse(sessionStorage.getItem('roleObj'));
+    this.RoleName =  this.RoleObj[0].name;
     this.UserObj = JSON.parse(sessionStorage.getItem('userObj'));
     this.clientFk = this.UserObj.clientFk;
     this.retrieveTemplates();

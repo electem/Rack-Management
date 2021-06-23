@@ -21,12 +21,14 @@ const db = require("./app/models");
 const Role = db.role;
 const Menu = db.menus;
 const Plan = db.plans;
+const USER = db.user;
+const CLIENT = db.clients;
 
 db.sequelize.sync();
 // force: true will drop the table if it already exists
  db.sequelize.sync({force: false}).then(() => {
    console.log('Drop and Resync Database with { force: true }');
-   initial();
+ //  initial();
  });
 
 // simple route
@@ -55,6 +57,9 @@ app.listen(PORT, () => {
 });
 
 function initial() {
+  CLIENT.create({
+    name: "SuperAdmin",
+  });
   Role.create({
     id: 1,
     name: "Admin"
@@ -62,7 +67,7 @@ function initial() {
  
   Role.create({
     id: 2,
-    name: "moderator"
+    name: "SuperAdmin"
   });
  
   Role.create({
@@ -71,7 +76,6 @@ function initial() {
   });
 
   Menu.create({
-    id: 1,
     label: "Home",
     action: '/template',
     menu_fk: 1,
@@ -79,10 +83,9 @@ function initial() {
   });
 
   Menu.create({
-    id: 2,
     label: "staff",
     action: '/staff',
-    menu_fk: 1,
+    menu_fk: 2,
     roleId: 1
   });
 
@@ -111,5 +114,12 @@ function initial() {
     noOfRacks: 50,
     noOfItemTypes: 20,
     rate: 2000
+  });
+    
+  USER.create({
+    username: "superadmin",
+    email: "developers@electems.com",
+    password: "59a318dc58e054cc975332365bf1e264",
+    status:"ACTIVE"
   });
 }

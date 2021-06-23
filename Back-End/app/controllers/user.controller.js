@@ -36,7 +36,8 @@ exports.Create = (req, res) => {
     password: req.body.password,
     phone: req.body.phone,
     location: req.body.location,
-    clientFk: req.body.clientFk
+    clientFk: req.body.clientFk,
+    roleId: req.body.roleId,
   };
   
   var hash = crypto.createHash('md5').update(user.password).digest('hex');
@@ -390,7 +391,6 @@ exports.updateUserStatus = (req, res) => {
   var userPk = req.params.userPk;
   let query = `UPDATE users SET status = 'ACTIVE' WHERE id = '${userPk}' `;
   req.query.clientFk = clientFk;
-   exports.getClientNameByID(req, res);
   sequelize.query(query, { type: sequelize.QueryTypes.SELECT})
   .then(data => {
     exports.createTemplateByPlan(req, res);
@@ -403,6 +403,7 @@ exports.updateUserStatus = (req, res) => {
 };
 
 exports.createTemplateByPlan = (req, res) => {
+  exports.getClientNameByID(req, res);
   var clientFk = req.query.clientFk;
   let query = `SELECT p.* FROM plans p, clients c where c."planFk" = p.id and c.id = ${clientFk} `;
   sequelize.query(query, { type: sequelize.QueryTypes.SELECT})
@@ -423,7 +424,7 @@ exports.createTemplateByPlan = (req, res) => {
 
 exports.getRoleNameByID = (req, res) => {
   var roleId = req.query.roleId;
-  let query = `select name from roles where id = ${roleId}`;
+  let query = `select * from roles where id = ${roleId}`;
   sequelize.query(query, { type: sequelize.QueryTypes.SELECT})
   .then(data => {
     res.send(data);

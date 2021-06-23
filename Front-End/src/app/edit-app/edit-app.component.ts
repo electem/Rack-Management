@@ -315,11 +315,7 @@ export class EditAppComponent implements OnInit {
 
   submit() {
     let valid = true;
-    this.tempData.forEach(field => {
-      if(field.name.toUpperCase() == this.model.name.toUpperCase()) {
-        valid = false;
-      }
-    });
+ 
     if (!valid) {
       alert("Template name already exists");
       return false;
