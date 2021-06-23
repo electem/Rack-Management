@@ -49,8 +49,8 @@ export class AddFormComponent implements OnInit {
   }
 
   cancel() {
-          this.router.navigate(['/template']);
-          this.formService.getAll(this.clientFk);
+    this.router.navigate(['/menu/' + this.route.snapshot.params.name + '/' + this.route.snapshot.params.id]);
+    this.formService.getAll(this.clientFk);
   }
 
   submit() {
