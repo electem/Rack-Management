@@ -41,7 +41,13 @@ exports.findMenuByItemId = (req, res) => {
 
 exports.findAll = (req, res) => {
     var clientFk = req.query.clientFk;
-    let query = `SELECT * FROM menus  WHERE "templateID" IS NULL OR "templateID" IN (SELECT "templateID" FROM Templates WHERE "clientFk" = ${clientFk})`;
+    var roleId = req.query.roleId;
+    let query;
+    if(roleId == 3 || roleId == 1) {
+       query = `SELECT * FROM menus  WHERE "clientFk" = ${clientFk}`;
+    } else {
+      query = `SELECT * FROM menus  WHERE "clientFk" IS NULL OR "clientFk" = ${clientFk}`;
+    }
     sequelize.query(query, { type: sequelize.QueryTypes.SELECT})
     .then(data => {
       res.send(data);

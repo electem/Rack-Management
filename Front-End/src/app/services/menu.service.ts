@@ -19,8 +19,8 @@ export class MenuService {
     return this.http.get(`${baseUrl}/api/menu/item/${itemId}`);
   }
 
-  fetchAllMenus(clientFk:any): Observable<any> {
-    return this.http.get(`${baseUrl}/api/menu/?clientFk=${clientFk}`);
+  fetchAllMenus(clientFk:any, roleId:any): Observable<any> {
+    return this.http.get(`${baseUrl}/api/menu/?clientFk=${clientFk}&roleId=${roleId}`);
   }
 
   createMenu(data: any): Observable<any> {

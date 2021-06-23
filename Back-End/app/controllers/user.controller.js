@@ -185,7 +185,7 @@ exports.getClientNameByID = (req, res) => {
     res.send(data);
   }).catch(err => {
       res.status(500).send({
-        message: "Error retrieving Form with id=" + id
+        message: "Error retrieving Form with id=" + clientFk
       });
     });
 };

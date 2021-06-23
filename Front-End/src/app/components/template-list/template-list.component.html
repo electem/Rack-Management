@@ -2,7 +2,7 @@
   <h4>Template Listing</h4>
 </div>
 
-<div class="list row"  *ngIf="RoleName !='staff'">
+<div class="list row">
   <div class="col-md-8">
     <div *ngIf="RoleName=='SuperAdmin'"> 
       <button class="m-3 btn btn-sm btn-primary" style="background-color: #2185d0;
@@ -36,7 +36,7 @@
         <th mat-header-cell  *matHeaderCellDef > Actions </th>
         <td mat-cell *matCellDef="let element" >
           <a  routerLink="/edit/{{ element.name }}/{{ element.id }}"> Edit</a>
-          <a class="mr-2" (click)="removeTemplate(element.id,element.name)"  style="margin-left: 10px;">
+          <a class="mr-2" (click)="removeTemplate(element.id)"  style="margin-left: 10px;">
             Delete
           </a>
         </td>
