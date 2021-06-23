@@ -125,7 +125,7 @@ export class FormListComponent implements OnInit {
       var rowdata; 
       //Prepare Row Data
       rowdata = Object.assign({"id":dbRecord.id})
-      rowdata = Object.assign(rowdata, {"name":dbRecord.name})
+     // rowdata = Object.assign(rowdata, {"name":dbRecord.name})
       
 
       //Extract label and values from the Attributes

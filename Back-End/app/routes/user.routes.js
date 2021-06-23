@@ -51,5 +51,6 @@ module.exports = function(app) {
   router.get("/client/plans", user.findAllPlans);
   router.get("/activation/:clientPK/:userPk", user.updateUserStatus);
   router.get("/role", user.getRoleNameByID);
+  router.get("/client/validation/:value/:type", user.validation);
   app.use('/api/user', router);
 };    

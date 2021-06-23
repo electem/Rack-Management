@@ -5,5 +5,6 @@ export class User {
     password?: string;
     phone?: string;
     location?: string;
+    confirmPassword?: string;
   }
 

@@ -10,6 +10,7 @@ db.Sequelize = Sequelize;
 const transport = require("../config/email.config.js");
 const Plans = db.plans;
 const Template =  require("./item.controller.js");
+const { query } = require("express");
 var clientName = '';
 exports.allAccess = (req, res) => {
   res.status(200).send("Public Content.");
@@ -432,3 +433,25 @@ exports.getRoleNameByID = (req, res) => {
       });
     });
 };
+
+
+exports.validation = (req, res) => {
+  const value = req.params.value;
+  const type = req.params.type;
+  let query;
+  if(value) {
+     query = `SELECT * FROM users WHERE username = '${value}'`
+  } else if (type) {
+    query = `SELECT * FROM users WHERE email = '${type}'`
+  }
+  sequelize.query(query, { type: sequelize.QueryTypes.SELECT})
+  .then(data => {
+    res.send(data);
+  }).catch(err => {
+      res.status(500).send({
+        message: "Error retrieving users"
+      });
+    });
+};
+
+  
