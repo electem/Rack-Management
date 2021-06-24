@@ -79,14 +79,14 @@ function initial() {
     label: "Home",
     action: '/template',
     menu_fk: 1,
-    roleId: 1
+    roleId: 2
   });
 
   Menu.create({
     label: "staff",
     action: '/staff',
     menu_fk: 2,
-    roleId: 1
+    roleId: 2
   });
 
   Plan.create({
@@ -120,6 +120,8 @@ function initial() {
     username: "superadmin",
     email: "developers@electems.com",
     password: "59a318dc58e054cc975332365bf1e264",
-    status:"ACTIVE"
+    status:"ACTIVE",
+    clientFk: 1,
+    roleId: 2
   });
 }
