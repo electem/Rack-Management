@@ -37,7 +37,6 @@ export class AddStaffComponent implements OnInit {
     this.PlanObj = JSON.parse(sessionStorage.getItem('planObj'));
     this.getStaffRole();
     this.getClientName(this.UserObj.clientFk);
-    this.getClientStaffList();
     this.staffForm = this.formBuilder.group({
       username : ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -48,10 +47,11 @@ export class AddStaffComponent implements OnInit {
       roleId: this.staffRoleID,
   });
   this.getStaffData(this.route.snapshot.params.id);
+
   }
 
   getClientStaffList(): void {
-    this.userService.getClientStaffList(this.UserObj.clientFk,this.UserObj.roleId)
+    this.userService.getClientStaffList(this.UserObj.clientFk,this.staffRoleID)
       .subscribe(
         data => {
           this.noOfstaff = data;
@@ -115,6 +115,7 @@ export class AddStaffComponent implements OnInit {
         .subscribe(
             data => {
                 this.staffRoleID = data[0].id;
+                this.getClientStaffList();
             },
             error => {
                 console.log(error);
