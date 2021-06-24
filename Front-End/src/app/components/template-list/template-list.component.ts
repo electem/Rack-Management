@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Template } from 'src/app/models/template.model';
 import { FormService } from 'src/app/services/app.form.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import swal from 'sweetalert2';
 @Component({
   selector: 'app-Templates-list',
@@ -18,6 +20,8 @@ export class TemplateListComponent implements OnInit {
   clientFk: '';
   displayedColumns: string[] = ['id', 'name','actions'];
   dataSource = new MatTableDataSource<any>();
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
   constructor(private formService: FormService,
     private route: ActivatedRoute,
     private router: Router) { }
@@ -30,6 +34,16 @@ export class TemplateListComponent implements OnInit {
     this.UserObj = JSON.parse(sessionStorage.getItem('userObj'));
     this.clientFk = this.UserObj.clientFk;
     this.retrieveTemplates();
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
+
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
   }
 
   retrieveTemplates(): void {
