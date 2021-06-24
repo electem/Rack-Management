@@ -38,6 +38,7 @@ exports.Create = (req, res) => {
     location: req.body.location,
     clientFk: req.body.clientFk,
     roleId: req.body.roleId,
+    planFk: req.body.plan,
   };
   
   var hash = crypto.createHash('md5').update(user.password).digest('hex');

@@ -24,7 +24,9 @@ export class StaffCrudComponent implements OnInit {
     this.PlanObj = JSON.parse(sessionStorage.getItem('planObj'));
     this.RoleObj = JSON.parse(sessionStorage.getItem('roleObj'));
     this.RoleName =  this.RoleObj[0].name;
-    this.noOfUsers = this.PlanObj[0].noOfUsers;
+    if(this.PlanObj.length ) {
+      this.noOfUsers = this.PlanObj[0].noOfUsers;
+    }
     this.getStaffByRole();
     this.UserObj = JSON.parse(sessionStorage.getItem('userObj'));
     this.clientFk = this.UserObj.clientFk;
