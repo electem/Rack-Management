@@ -43,7 +43,7 @@ exports.findAll = (req, res) => {
     var clientFk = req.query.clientFk;
     var roleId = req.query.roleId;
     let query;
-    if(roleId == 3 || roleId == 1) {
+    if(roleId == 3) {
        query = `SELECT * FROM menus  WHERE "clientFk" = ${clientFk}`;
     } else {
       query = `SELECT * FROM menus  WHERE "clientFk" IS NULL OR "clientFk" = ${clientFk}`;

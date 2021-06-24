@@ -57,6 +57,7 @@ export class LoginComponent implements OnInit {
           this.showSuccess=true;
           Client.clientFK = response.clientFk;
           sessionStorage.setItem('userObj', JSON.stringify(response));
+          this.retrievePlan(1);
            this.retrieveRole(response.roleId);
         }
         else {
@@ -86,6 +87,17 @@ export class LoginComponent implements OnInit {
               window.location.reload();
             });
           } 
+        },
+        error => {
+          console.log(error);
+        });
+  }
+
+  retrievePlan(id): void {
+    this.userService.getPlanByID(id)
+      .subscribe(
+        data => {
+          sessionStorage.setItem('planObj', data);
         },
         error => {
           console.log(error);

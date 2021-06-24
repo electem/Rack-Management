@@ -455,4 +455,18 @@ exports.validation = (req, res) => {
     });
 };
 
+//Fetch role 
+exports.getPlan = (req, res) => {
+  var id = req.query.palnId;
+  let query = `select * from plans where id = ${id}`;
+  sequelize.query(query, { type: sequelize.QueryTypes.SELECT})
+  .then(data => {
+    res.send(data);
+  }).catch(err => {
+      res.status(500).send({
+        message: "Error retrieving Form with id=" + id
+      });
+    });
+};
+
   
