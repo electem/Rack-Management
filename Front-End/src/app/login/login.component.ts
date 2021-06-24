@@ -97,7 +97,7 @@ export class LoginComponent implements OnInit {
     this.userService.getPlanByID(id)
       .subscribe(
         data => {
-          sessionStorage.setItem('planObj', data);
+          sessionStorage.setItem('planObj', JSON.stringify(data));
         },
         error => {
           console.log(error);
