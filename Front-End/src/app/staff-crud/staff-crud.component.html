@@ -1,8 +1,8 @@
 <div class="page-title">
   <h4>Staff Listing</h4>
 </div>
-<div class="list row" >
-    <div class="col-md-8">
+<div class="list row">
+    <div class="col-md-8"  *ngIf="this.noOfstaff.length < this.noOfUsers">
       <div>
        <button class="m-3 btn btn-sm btn-primary" style="background-color: #2185d0;
        border-color: #2185d0;" routerLink="/add-staff/">

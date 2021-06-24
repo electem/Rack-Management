@@ -11,15 +11,20 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class StaffCrudComponent implements OnInit {
   UserObj: any = {};
   clientFk: '';
+  PlanObj: any = {};
   displayedColumns: string[] = ['name', 'email','actions'];
   dataSource = new MatTableDataSource<any>();
   constructor(private userService: UserService, private router: Router,) { }
   roleId : ''
   RoleObj: any = {};
   RoleName= ''
+  noOfstaff : any = [];
+  noOfUsers: '';
   ngOnInit(): void {
+    this.PlanObj = JSON.parse(sessionStorage.getItem('planObj'));
     this.RoleObj = JSON.parse(sessionStorage.getItem('roleObj'));
     this.RoleName =  this.RoleObj[0].name;
+    this.noOfUsers = this.PlanObj[0].noOfUsers;
     this.getStaffByRole();
     this.UserObj = JSON.parse(sessionStorage.getItem('userObj'));
     this.clientFk = this.UserObj.clientFk;
@@ -29,6 +34,7 @@ export class StaffCrudComponent implements OnInit {
     this.userService.getClientStaffList(this.clientFk,this.roleId)
       .subscribe(
         data => {
+          this.noOfstaff = data;
           this.dataSource.data = data;
         },
         error => {

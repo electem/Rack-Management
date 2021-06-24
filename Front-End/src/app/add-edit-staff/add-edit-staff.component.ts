@@ -19,10 +19,8 @@ export class AddStaffComponent implements OnInit {
     confirmPassword: '',
   };
   UserObj: any = {};
-  PlanObj: any = {};
   staffRoleID: '';
   clientName: '';
-  noOfstaff : any = [];
   staffObj = { username: '', email: '', password:'' , confirmPassword : ''};
   noOfUsers: '';
   constructor(  private router: Router,
@@ -34,7 +32,6 @@ export class AddStaffComponent implements OnInit {
     staffForm: FormGroup;
   ngOnInit(): void {
     this.UserObj = JSON.parse(sessionStorage.getItem('userObj'));
-    this.PlanObj = JSON.parse(sessionStorage.getItem('planObj'));
     this.getStaffRole();
     this.getClientName(this.UserObj.clientFk);
     this.staffForm = this.formBuilder.group({
@@ -50,29 +47,14 @@ export class AddStaffComponent implements OnInit {
 
   }
 
-  getClientStaffList(): void {
-    this.userService.getClientStaffList(this.UserObj.clientFk,this.staffRoleID)
-      .subscribe(
-        data => {
-          this.noOfstaff = data;
-        },
-        error => {
-          console.log(error);
-        });
-  }
-
-  get f() { return this.staffForm.controls; }
+ get f() { return this.staffForm.controls; }
 
   saveClientStaff(): void {
     this.submitted = true;
     if (this.staffForm.invalid) {
       return;
     }
-     this.noOfUsers = this.PlanObj[0].noOfUsers;
-    if(this.noOfstaff.length > this.noOfUsers) {
-      alert("You have exceeded limit of creating staff!!");
-      return;
-    }
+     
     if(this.staff.password == this.staff.confirmPassword){
     if(this.route.snapshot.params.id) {
       return this.updateClientStaff();
@@ -115,7 +97,6 @@ export class AddStaffComponent implements OnInit {
         .subscribe(
             data => {
                 this.staffRoleID = data[0].id;
-                this.getClientStaffList();
             },
             error => {
                 console.log(error);
