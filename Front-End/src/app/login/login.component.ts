@@ -80,7 +80,12 @@ export class LoginComponent implements OnInit {
       .subscribe(
         data => {
           sessionStorage.setItem('roleObj', JSON.stringify(data));
-          if (!!data) {
+          if(data[0].name == 'staff') {
+            this.router.navigate(['/form'])
+            .then(() => {
+              window.location.reload();
+            });
+          } else  if (!!data) {
             this.submitted = true;
             this.router.navigate(['/template'])
             .then(() => {

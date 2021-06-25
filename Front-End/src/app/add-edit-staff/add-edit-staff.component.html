@@ -23,6 +23,7 @@
                                                   <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
                                                     <div *ngIf="f.username.errors.required">Username is required</div>
                                                 </div>
+                                                <div *ngIf="isExist" style="color: red;">Username already exist</div>
                                               </div>
                                           </div>
                                           <div class="col-md-6">
@@ -33,6 +34,7 @@
                                               <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                                                   <div *ngIf="f.email.errors.required">Email is required</div>
                                               </div>
+                                              <div *ngIf="isExist" style="color: red;">Email already exist</div>
                                             </div>
                                           </div>
                                       </div>
