@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit {
           this.showSuccess=true;
           Client.clientFK = response.clientFk;
           sessionStorage.setItem('userObj', JSON.stringify(response));
-          this.retrievePlan(1);
+          this.retrievePlan(response.planFk);
            this.retrieveRole(response.roleId);
         }
         else {
