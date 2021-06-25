@@ -61,36 +61,30 @@ function initial() {
     name: "SuperAdmin",
   });
   Role.create({
-    id: 1,
     name: "Admin"
   });
  
   Role.create({
-    id: 2,
     name: "SuperAdmin"
   });
  
   Role.create({
-    id: 3,
     name: "staff"
   });
 
   Menu.create({
     label: "Home",
     action: '/template',
-    menu_fk: 1,
     roleId: 2
   });
 
   Menu.create({
     label: "staff",
     action: '/staff',
-    menu_fk: 2,
     roleId: 2
   });
 
   Plan.create({
-    id: 1,
     name: "Personal",
     noOfUsers : 1,
     noOfRacks: 2,
@@ -99,7 +93,6 @@ function initial() {
   });
 
   Plan.create({
-    id: 2,
     name: "Company/Traders",
     noOfUsers : 5,
     noOfRacks: 10,
@@ -108,7 +101,6 @@ function initial() {
   });
 
   Plan.create({
-    id: 3,
     name: "Distributors",
     noOfUsers : 25,
     noOfRacks: 50,
