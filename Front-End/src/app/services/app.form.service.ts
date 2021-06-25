@@ -38,8 +38,8 @@ export class FormService {
     return this.http.put(`${baseUrl}/api/items/${id}`, data);
   }
 
-  updateForm(id: any, data: any): Observable<any> {
-    return this.http.put(`${baseUrl}/api/items/${id}`, data);
+  updateForm(id: any, name:any, data: any, menuId: any): Observable<any> {
+    return this.http.put(`${baseUrl}/api/items/${id}/${name}/?menuId=${menuId}`, data);
   }
 
   delete(id: any, name:any): Observable<any> {
@@ -89,5 +89,10 @@ export class FormService {
   templateValidation(value: any): Observable<any> {
     return this.http.get(`${baseUrl}/api/items/template/validate/${value}`);
   }
+
+  getMenyById(templateID: any): Observable<any> {
+    return this.http.get(`${baseUrl}/api/menu/fetchMenu/?templateID=${templateID}`);
+  }
+
 }
 

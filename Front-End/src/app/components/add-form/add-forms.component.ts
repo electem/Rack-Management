@@ -29,6 +29,10 @@ export class AddFormComponent implements OnInit {
     this.clientFk = this.UserObj.clientFk;
   }
 
+  toggleValue(item) {
+    item.selected = !item.selected;
+  }
+
   getFormData(id: string): void {
     let datas ;
       this.formService.get(id)
@@ -101,6 +105,7 @@ export class AddFormComponent implements OnInit {
       itemTempId: this.itemTempId,
     };
 
+    
 
     this.formService.createForm(data,  this.route.snapshot.params.name)
       .subscribe(
