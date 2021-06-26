@@ -16,7 +16,7 @@
         <div class="col mr-5">
           <div class="form-group col-md-5">
             <label for="no_of_rows">No_Of_Rows</label>
-            <input type="number" class="form-control" id="no_of_rows" formControlName="no_of_rows"  [ngClass]="{ 'is-invalid': submitted && f.no_of_rows.errors }"
+            <input [disabled]="true" type="number" class="form-control" id="no_of_rows" formControlName="no_of_rows"  [ngClass]="{ 'is-invalid': submitted && f.no_of_rows.errors }"
             [(ngModel)]="rackObject.no_of_rows"
               name="no_of_rows">
               <div *ngIf="submitted && f.no_of_rows.errors" class="invalid-feedback">
@@ -31,7 +31,7 @@
         <div class="col">
           <div class="form-group col-md-5">
             <label for="no_of_columns">No_Of_Columns</label>
-            <input type="number" class="form-control" id="no_of_columns" formControlName="no_of_columns"  [ngClass]="{ 'is-invalid': submitted && f.no_of_columns.errors }"
+            <input [disabled]="true" type="number" class="form-control" id="no_of_columns" formControlName="no_of_columns"  [ngClass]="{ 'is-invalid': submitted && f.no_of_columns.errors }"
             [(ngModel)]="rackObject.no_of_columns"
               name="no_of_columns">
               <div *ngIf="submitted && f.no_of_columns.errors" class="invalid-feedback">
@@ -42,7 +42,7 @@
         <div class="col mr-5">
           <div class="form-group col-md-5">
             <label for="createdon">Date</label>
-            <input type="date" class="form-control" id="createdon" formControlName="createdon"  [ngClass]="{ 'is-invalid': submitted && f.createdon.errors }"
+            <input [disabled]="true" type="date" class="form-control" id="createdon" formControlName="createdon"  [ngClass]="{ 'is-invalid': submitted && f.createdon.errors }"
             [(ngModel)]="rackObject.createdon"
               name="createdon">
               <div *ngIf="submitted && f.createdon.errors" class="invalid-feedback">

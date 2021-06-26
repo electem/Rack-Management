@@ -5,6 +5,7 @@ import { MenuService } from './services/menu.service';
 import { Menu } from './models/menu.model';
 import { ItemService } from './services/item.service';
 import { UserProfileService } from './services/user-profile.service';
+import { Profile } from './models/userProfile.model';
 
 
 @Component({
@@ -14,7 +15,17 @@ import { UserProfileService } from './services/user-profile.service';
 })
 export class AppComponent {
   itemPk: any;
-  profile:any;
+  profile: Profile = {
+    id:0,
+    userName: '',
+    email: '',
+    address: '',
+    city: '',
+    image: '',
+    phone:'',
+    user_fk:0
+  };
+
   itemlabel: any;
   itemObject: any;
   dataObject: any;
@@ -111,7 +122,7 @@ constructor(private menuService: MenuService,
     }
 
     fetchUserProfileFK() {
-      this.id=this.UserObj.clientFk;
+      this.id=this.UserObj.id;
       this.userProfile.fetchProfileByUserFK(this.id)
       .subscribe(
         response => {

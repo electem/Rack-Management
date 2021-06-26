@@ -29,12 +29,17 @@ export class RackListComponent implements OnInit {
   search: string = '';
   datePicker:string='';
   UserObj: any = {};
+  RoleObj: any = {};
+  RoleName= ''
+
 
   constructor(private rackService:RackService,public datepipe: DatePipe,
     private router: Router,private alertService: AlertService,
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.RoleObj = JSON.parse(sessionStorage.getItem('roleObj'));
+    this.RoleName =  this.RoleObj[0].name;
     this.UserObj = JSON.parse(sessionStorage.getItem('userObj'));
     this.dataSource.paginator = this.paginator;
     this.rackObj.client_fk=this.route.snapshot.params.id

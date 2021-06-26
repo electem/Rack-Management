@@ -6,6 +6,5 @@ export class User {
     confirmPassword?:string;
     phone?: string;
     location?: string;
-    confirmPassword?: string;
   }
 
