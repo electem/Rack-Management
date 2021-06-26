@@ -82,18 +82,22 @@ exports.update = (req, res) => {
   const id = req.params.id;
   const tableName = req.params.name;
   const menuId = req.query.menuId;
-  let query = `ALTER TABLE ${tableName}_template
+  if(req.body.name != tableName) {
+    let query = `ALTER TABLE ${tableName}_template
   RENAME TO ${req.body.name}_template;`;
   sequelize.query(query, { type: sequelize.QueryTypes.UPDATE});
+  }
   Items.update(req.body, {
     where: { id: id }
   })
     .then(num => {
-      if (num == 1) {
-        req.params.id = menuId;
-        req.body.label = req.body.name;
-        req.body.action = "menu" + '/' + req.body.name + '/' + id;
-        Menu.update(req,res)
+      if (num == 1) {   
+        if(req.body.name != tableName) {
+          req.params.id = menuId;
+          req.body.label = req.body.name;
+          req.body.action = "menu" + '/' + req.body.name + '/' + id;
+          Menu.update(req,res)
+        }
         res.send({
           message: "Template was updated successfully."
         });

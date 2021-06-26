@@ -30,14 +30,6 @@ module.exports = (sequelize, Sequelize) => {
         key: 'id'
       }
     },
-    planFk: {
-      type: Sequelize.INTEGER,
-      allowNull: true,
-      references: {         
-        model: 'plans',
-        key: 'id'
-      }
-      },
   }, {});
 
   User.associate = (models) => {
@@ -45,11 +37,10 @@ module.exports = (sequelize, Sequelize) => {
 };
 
 User.associate = (models) => {
-  User.belongsTo(models.Role, { foreignKey: 'roleId', as: 'role' })
-};
-
-User.associate = (models) => {
-  User.belongsTo(models.Plan, { foreignKey: 'planFk', as: 'plans' })
+  User.belongsTo(models.Role, {
+    foreignKey: 'roleId',
+    as: 'role'
+  })
 };
 
   return User;

@@ -470,4 +470,17 @@ exports.getPlan = (req, res) => {
     });
 };
 
+//Fetch role 
+exports.getClient = (req, res) => {
+  var id = req.params.clientId;
+  let query = `select * from clients where id = ${id}`;
+  sequelize.query(query, { type: sequelize.QueryTypes.SELECT})
+  .then(data => {
+    res.send(data);
+  }).catch(err => {
+      res.status(500).send({
+        message: "Error retrieving Form with id=" + id
+      });
+    });
+};
   
