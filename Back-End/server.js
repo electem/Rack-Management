@@ -28,7 +28,7 @@ db.sequelize.sync();
 // force: true will drop the table if it already exists
  db.sequelize.sync({force: false}).then(() => {
    console.log('Drop and Resync Database with { force: true }');
- //  initial();
+   //initial();
  });
 
 // simple route
@@ -48,6 +48,7 @@ require('./app/routes/store.routes')(app);
 require('./app/routes/menu.route')(app);
 require('./app/routes/form.routes')(app);
 require('./app/routes/profile.routes')(app);
+require('./app/routes/file.routes')(app);
 initRoutes(app);
 
 // set port, listen for requests
@@ -81,6 +82,12 @@ function initial() {
   Menu.create({
     label: "staff",
     action: '/staff',
+    roleId: 2
+  });
+  
+  Menu.create({
+    label: "Racks",
+    action: '/racks',
     roleId: 2
   });
 

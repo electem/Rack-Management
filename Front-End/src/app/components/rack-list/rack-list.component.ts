@@ -46,15 +46,6 @@ export class RackListComponent implements OnInit {
     this.rackListing(this.UserObj.clientFk);
   }
 
-  // fetchRack(): any {
-  //   this.rackObj.name=this.search;
-  //   this.rackObj.createdon=undefined;
-  //   this.rackService.searchRack(this.rackObj)
-  //   .subscribe((data: any) => {
-  //     this.dataSource.data = data;
-  //   });
-  // }
-
   fetchRack(): any {
     this.rackObj.name=this.search;;
     this.rackObj.createdon = this.datePicker;

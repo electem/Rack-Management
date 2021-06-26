@@ -41,30 +41,7 @@
                                     <a href="#" data-toggle="tooltip" title="{{UserObj.status}}"><span
                                             class="status online pull-right"></span></a>
                                 </div>
-                                <div class="pdd-horizon-30 pdd-vertical-20">
-                                    <h5 class="text-semibold mrg-btm-5">About</h5>
-                                    <p>It looks like Sandpeople did this, all right. Look, here are Gaffi sticks, Bantha
-                                        tracks. It's just...I never heard of them.</p>
-                                    <div class="mrg-top-30 text-center">
-                                        <ul class="list-unstyled list-inline">
-                                            <li class="list-inline-item no-pdd-horizon">
-                                                <a href="" class="btn btn-facebook btn-icon btn-rounded">
-                                                    <i class="ti-facebook"></i>
-                                                </a>
-                                            </li>
-                                            <li class="list-inline-item no-pdd-horizon">
-                                                <a href="" class="btn btn-twitter btn-icon btn-rounded">
-                                                    <i class="ti-twitter"></i>
-                                                </a>
-                                            </li>
-                                            <li class="list-inline-item no-pdd-horizon">
-                                                <a href="" class="btn btn-google-plus btn-icon btn-rounded">
-                                                    <i class="ti-google"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                
                             </div>
                         </div>
                         <div class="col-md-8">
@@ -83,8 +60,9 @@
                                                 <div *ngIf="submitted && f.userName.errors" class="invalid-feedback">
                                                     <div *ngIf="f.userName.errors.required">UserName is required</div>
                                                 </div>
-                                                <div *ngIf="isExist" class="invalid-feedback ml-3">UserName already exist</div>
+                                                <div *ngIf="isExist" class="text-danger">UserName already exist</div>
                                             </div>
+                                            
                                         </div>
                                         <div class="col">
                                             <div class="col-md-3">
@@ -96,7 +74,7 @@
                                                 <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                                                     <div *ngIf="f.email.errors.required">email is required</div>
                                                 </div>
-                                                <div *ngIf="isExist" class="invalid-feedback ml-3">Email already exist</div>
+                                                <div *ngIf="isExist" class="text-danger">Email already exist</div>
                                             </div>
                                         </div>
                                     </div>

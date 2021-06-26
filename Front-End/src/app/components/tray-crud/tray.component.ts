@@ -183,6 +183,7 @@ export class TrayComponent implements OnInit, OnDestroy {
                         .subscribe(
                             response => {
                                 console.log(response);
+                                this.getTrayDataById(this.route.snapshot.params.id);
                             },
                             error => {
                                 console.log(error);
@@ -210,6 +211,7 @@ export class TrayComponent implements OnInit, OnDestroy {
         response => {
           this.trayObject=response;
           console.log(response);
+          this.getTrayDataById(this.route.snapshot.params.id);
         },
         error => {
           console.log(error);
