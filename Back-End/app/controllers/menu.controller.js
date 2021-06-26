@@ -70,3 +70,25 @@ exports.findAll = (req, res) => {
       });
   };
 
+  // Update a Meny by the id in the request
+exports.update = (req, res) => {
+  const id = req.params.id;
+
+  Menu.update(req.body, {
+    where: { id: id }
+  })
+};
+
+exports.findById = (req, res) => {
+  var templateID = req.query.templateID;
+  let  query = `SELECT * FROM menus  WHERE "templateID" = ${templateID}`;
+  sequelize.query(query, { type: sequelize.QueryTypes.SELECT})
+  .then(data => {
+    res.send(data);
+  }).catch(err => {
+      res.status(500).send({
+        message: "Error retrieving Form with id=" + id
+      });
+    });
+};
+

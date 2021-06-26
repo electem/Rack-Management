@@ -56,7 +56,7 @@
       </div>
       <div *ngIf="item.type=='autocomplete'">
         <label>{{item.label}}</label> <label *ngIf="item.required" class="text-danger">*</label>
-        <select class="form-control" id="{{item.name}}" [(ngModel)]="item.label" [ngModelOptions]="{standalone: true}">
+        <select class="form-control" id="{{item.name}}" [(ngModel)]="item.value" [ngModelOptions]="{standalone: true}">
           <option *ngFor="let v of item.values" [value]="v.value">{{v.label}}</option>  
         </select>
         <!-- <small class="form-text text-muted">{{item.description}}</small> -->

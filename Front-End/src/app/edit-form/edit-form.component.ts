@@ -177,6 +177,7 @@ export class EditFormComponent implements OnInit {
   report = false;
   reports: any = [];
   UserObj: any = {};
+  menuObj: any = {};
   clientFk: '';
   constructor(
     private route: ActivatedRoute, private formService: FormService, private router: Router
@@ -186,7 +187,7 @@ export class EditFormComponent implements OnInit {
     this.UserObj = JSON.parse(sessionStorage.getItem('userObj'));
     this.clientFk = this.UserObj.clientFk;
     this.getFormData(this.route.snapshot.params.name, this.route.snapshot.params.id);
-
+    this.getMenyById(this.route.snapshot.params.id);
   }
 
   getFormData(name: string, id: string): void {
@@ -325,6 +326,17 @@ export class EditFormComponent implements OnInit {
     item.selected = !item.selected;
   }
 
+  getMenyById(id): void {
+    this.formService.getMenyById(id)
+      .subscribe(
+        data => {
+          this.menuObj = data[0];
+        },
+        error => {
+          console.log(error);
+        });
+  }
+
   submit() {
     console.log('Save', this.model);
     const input = new FormData;
@@ -335,13 +347,16 @@ export class EditFormComponent implements OnInit {
       description: this.model.description,
       attributes: this.model.attributes
     };
-
-    this.formService.updateForm(this.route.snapshot.params.id, this.model)
+    const menuId = this.menuObj.id;
+    this.formService.updateForm(this.route.snapshot.params.id, this.route.snapshot.params.name, this.model,menuId)
     .subscribe(
       response => {
         console.log(response);
         this.success = true;
-        this.router.navigate(['/template']);
+        this.router.navigate(['/template'])
+        .then(() => {
+          window.location.reload();
+        });
         this.formService.getAll(this.clientFk);
        // this.submitted = true;
       },

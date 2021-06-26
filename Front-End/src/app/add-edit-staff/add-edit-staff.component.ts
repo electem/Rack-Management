@@ -23,6 +23,7 @@ export class AddStaffComponent implements OnInit {
   clientName: '';
   staffObj = { username: '', email: '', password:'' , confirmPassword : ''};
   noOfUsers: '';
+  isExist = false;
   constructor(  private router: Router,
     private userService: UserService,
     private formBuilder: FormBuilder,private route: ActivatedRoute) { }
@@ -61,6 +62,13 @@ export class AddStaffComponent implements OnInit {
     }
     this.staffForm.value.roleId = this.staffRoleID;
     this.staffForm.value.username =  this.clientName + '.' + this.staffForm.value.username;
+    this.userService.backendValidation(this.staffForm.value.username,this.staffForm.value.email)
+    .subscribe(
+      response => {
+        if(response.length>0){
+          this.isExist = true;
+        }
+      else
     this.userService.saveClientStaff( this.clientName,this.staffForm.value)
       .subscribe(
         response => {
@@ -71,7 +79,11 @@ export class AddStaffComponent implements OnInit {
         error => {
           console.log(error);
         });
-      }
+      },
+      error => {
+        console.log(error);
+    });
+  }
   }
 
   updateClientStaff(): void {

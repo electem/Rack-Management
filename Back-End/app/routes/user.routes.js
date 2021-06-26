@@ -54,5 +54,6 @@ module.exports = function(app) {
   router.get("/role", user.getRoleNameByID);
   router.get("/client/validation/:value/:type", user.validation);
   router.get("/plan", user.getPlan);
+  router.get("/client/fetchdata/:clientId", user.getClient);
   app.use('/api/user', router);
 };    

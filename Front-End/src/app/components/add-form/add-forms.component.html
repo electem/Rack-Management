@@ -64,7 +64,7 @@
         <label>{{item.label}}</label> <label *ngIf="item.required" class="text-danger">*</label>
         <div *ngFor="let v of item.values" class="inline-form-group">
             <label class="cust-check-bx">
-              <input type="checkbox" [value]="v.value" name="{{item.name}}" (click)="toggleValue(v)"> {{v.label}}
+              <input type="checkbox" [value]="v.value" name="{{item.name}}"  (click)="toggleValue(v)" > {{v.label}}
               <span class="checkmark"></span>
             </label>
           </div>

@@ -9,5 +9,7 @@ module.exports = app => {
 
     router.post("/createMenu", menus.menuCreate);
 
+    router.get("/fetchMenu", menus.findById);
+
     app.use('/api/menu', router);
 };

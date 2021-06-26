@@ -75,4 +75,8 @@ export class UserService {
   getPlanByID(palnId:any): Observable<any> {
     return this.http.get(`${baseUrl}/api/user/plan?palnId=${palnId}`);
   }
+
+  getClientList(clientId:any) : Observable<any> {
+    return this.http.get(`${baseUrl}/api/user/client/fetchdata/${clientId}`);
+  }
 }
