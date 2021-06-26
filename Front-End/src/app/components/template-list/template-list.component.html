@@ -41,7 +41,7 @@
         <th mat-header-cell  *matHeaderCellDef > Actions </th>
         <td mat-cell *matCellDef="let element" >
           <a  routerLink="/edit/{{ element.name }}/{{ element.id }}"> Edit</a>
-          <a class="mr-2" (click)="removeTemplate(element.id)"  style="margin-left: 10px;">
+          <a class="mr-2" (click)="removeTemplate(element.id,element.name)"  style="margin-left: 10px;">
             Delete
           </a>
         </td>
