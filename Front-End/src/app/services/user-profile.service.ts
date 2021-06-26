@@ -15,6 +15,10 @@ export class UserProfileService {
     return this.http.post(baseUrl + '/api/profile/createProfile', profile);
   }
 
+  createNotification(notification: any): Observable<any> {
+    return this.http.post(baseUrl + '/api/user/notification', notification);
+  }
+
   updateProfile(id: any,profile:any): Observable<any> {
     return this.http.put(baseUrl + '/api/profile/'+`${id}`,profile);
   }
