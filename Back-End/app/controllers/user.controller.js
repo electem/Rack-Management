@@ -5,6 +5,7 @@ const User = db.user;
 const Client = db.clients;
 const UserProfile = db.userprofile;
 const Sequelize = require("sequelize");
+const userNotification = require('../middleware/userNotification.js');
 const sequelize = require("../config/seq.config.js");
 db.Sequelize = Sequelize;
 const transport = require("../config/email.config.js");
@@ -50,6 +51,7 @@ exports.Create = (req, res) => {
           res.send(data);
           createProfileObject(data);
           sendEmailNotification(data);
+          createNotification(data);
       })
       .catch(err => {
           res.status(500).send({
@@ -59,6 +61,21 @@ exports.Create = (req, res) => {
       });
 };
 
+function createNotification(data){
+  var notification={
+    notificationType: '',
+    email: '',
+    status: '',
+    user_fk:0,
+  }
+  notification.notificationType = 'REGISTERED',
+  notification.email = data.email,
+  notification.status = 'NEW',
+  notification.user_fk = data.clientFk,
+
+  userNotification.saveNotification(notification);
+
+}
 exports.login = (req, res) => {
   const user = {
     username: req.body.username,
