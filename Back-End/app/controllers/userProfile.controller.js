@@ -4,6 +4,7 @@ const Op = db.Sequelize.Op;
 const crypto = require('crypto');
 const Sequelize = require("sequelize");
 const sequelize = require("../config/seq.config.js");
+const userNotification = require('../middleware/userNotification.js');
 db.Sequelize = Sequelize;
 
 exports.updateProfile = (req, res) => {
@@ -75,6 +76,7 @@ exports.updatePassword = (req, res) => {
   const profile={
      password :req.body.password,
     confirmPassword :req.body.confirmPassword,
+    email:req.body.email,
   }
   var hash = crypto.createHash('md5').update(profile.password).digest('hex');
   profile.password = hash;
@@ -85,7 +87,7 @@ exports.updatePassword = (req, res) => {
         res.send({
           message: "profile password was updated successfully."
         });
-        updateUserPassword(profile.password,id);
+        updateUserPassword(profile.password,id,profile.email);
       } else {
         res.send({
           message: `Cannot update profile password id=${id}`
@@ -99,16 +101,34 @@ exports.updatePassword = (req, res) => {
     });
 };
 
-function updateUserPassword(password,id){
+function updateUserPassword(password,id,email){
   let query = `UPDATE users SET password = '${password}' WHERE id = ${id}`;
   sequelize.query(query).then(data => {
       if (data[1].rowCount >=1) {
         console.log("updated user password with id"+id);
-      } else {
+      }
+       else {
         console.log("Cannot update user password  id"+id);
       }
+       createNotification(id,email);
     })
     .catch(err => {
       console.log("Error updating user password with id"+err);
     });
+}
+
+function createNotification(id,email){
+  var notification={
+    notificationType: '',
+    email: '',
+    status: '',
+    user_fk:0,
+  }
+  notification.notificationType = 'CHANGEPASSWORD',
+  notification.email = email,
+  notification.status = 'NEW',
+  notification.user_fk = id,
+
+  userNotification.saveNotification(notification);
+
 }

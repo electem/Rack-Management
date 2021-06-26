@@ -6,6 +6,8 @@ import { UserProfileService } from '../../services/user-profile.service';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AlertService } from '../_alert/alert.service';
+import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -20,7 +22,11 @@ export class UserProfileComponent implements OnInit {
   currentFile?: File;
   progress = 0;
   message = '';
+  profileForm:FormGroup;
+  fileId=undefined;
   fileInfos?: Observable<any>;
+  submitted = false;
+  isExist=false;
   profile: Profile = {
     id:0,
     userName: '',
@@ -31,13 +37,29 @@ export class UserProfileComponent implements OnInit {
     phone:'',
     user_fk:0
   };
+
+  file: any = {
+    filename: '',
+    filepath:'',
+    user_fk:0
+  };
   options = {
     autoClose: true,
     keepAfterRouteChange: false
 };
   constructor(private userProfile:UserProfileService,private route: ActivatedRoute,
     private uploadService: UploadFilesService,private router: Router,
-    private alertService:AlertService) { }
+    private userService:UserService,
+    private alertService:AlertService,
+    private formBuilder:FormBuilder) { 
+      this.profileForm = this.formBuilder.group({
+        userName : ['', Validators.required],
+        email:  ['', Validators.required],
+        address:  ['', Validators.required],
+        city:  ['', Validators.required],
+        phone: ['', Validators.required],
+    });
+    }
 
   ngOnInit(): void {
     
@@ -46,29 +68,7 @@ export class UserProfileComponent implements OnInit {
       this.fetchProfileObject(this.route.snapshot.params.id);
   }
 
-  updateProfile(): any {
-    this.userProfile.updateProfile(this.profile.id,this.profile)
-      .subscribe(
-        response => {
-          this.profile=response;
-          this.alertService.success(response.message,this.options);
-          this.fetchProfileObject(this.user_fk);
-        },
-        error => {
-          console.log(error);
-        });
-  }
-
-  fetchProfileObject(id:any): any {
-    this.userProfile.fetchProfileById(id)
-      .subscribe(
-        response => {
-          this.profile=response;
-        },
-        error => {
-          console.log(error);
-        });
-  }
+  get f() { return this.profileForm.controls; }
 
   selectFile(event: any): void {
     this.selectedFiles = event.target.files;
@@ -111,6 +111,75 @@ export class UserProfileComponent implements OnInit {
       this.selectedFiles = undefined;
     }
   }
+
+  
+  fetchProfileObject(id:any): any {
+    this.userProfile.fetchProfileById(id)
+      .subscribe(
+        response => {
+          this.profile=response;
+          this.uploadService.fetchFile(this.user_fk)
+          .subscribe(
+            response=>{
+              console.log(response);
+              this.profile.image=response[0].filepath;
+              this.fileId=response[0].id;
+            })
+        },
+        error => {
+          console.log(error);
+        });
+  }
+
+  onSubmit(){
+    this.submitted = true;
+    if (this.profileForm.invalid) {
+      return;
+    }
+    this.updateProfile();
+  }
+
+  updateProfile(): any {
+    this.userService.backendValidation(this.profile.userName,this.profile.email)
+    .subscribe(
+      response=>{
+        if(response.length>0){
+          this.isExist = true;
+        }
+        else
+      this.userProfile.updateProfile(this.profile.id,this.profile)
+      .subscribe(
+        response => {
+          this.profile=response;
+          this.alertService.success(response.message,this.options);
+          this.file.filename=this.currentFile.name;
+          this.file.user_fk=this.UserObj.clientFk;
+          if(this.fileId!= undefined){
+            this.uploadService.updateFile(this.fileId,this.file)
+            .subscribe(
+              response=>{
+                console.log(response);
+                this.profile.user_fk=response.id;
+                
+              })
+          }
+          else{
+            this.uploadService.createFile(this.file)
+            .subscribe(
+              response=>{
+                console.log(response);
+              })
+          }
+            
+        },
+        error => {
+          console.log(error);
+        });
+      });
+  }
+
+
+  
 
   
 

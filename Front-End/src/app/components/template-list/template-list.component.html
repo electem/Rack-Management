@@ -4,13 +4,19 @@
 
 <div class="list row">
   <div class="col-md-8">
-    <div>
-      <button class="m-3 btn btn-sm btn-primary" routerLink="/addTemplate/">
+    <div *ngIf="RoleName=='SuperAdmin'"> 
+      <button class="m-3 btn btn-sm btn-primary" style="background-color: #2185d0;
+      border-color: #2185d0;" routerLink="/addTemplate/">
             Add Item Template
       </button>
     </div>
   </div>
   <div class="mat-app-background basic-container">
+    <div class="mat-field-header">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
+    </div>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
       <!--- Note that these columns can be defined in any order.
@@ -42,5 +48,6 @@
       </ng-container>
 
     </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
   </div>
 </div>

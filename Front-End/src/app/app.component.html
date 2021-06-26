@@ -32,7 +32,7 @@
                                 <ul class="list-info overflow-y-auto relative scrollable">
                                     <li>
                                         <a href="">
-                                            <img class="thumb-img" src="assets/images/avatars/avatar-4.png" alt="">
+                                            <img [src]="profileObject.image">
                                             <div class="info">
                                                 <span class="title">
                                                     <span class="font-size-14 text-semibold">Minerva Hooper</span>
@@ -80,10 +80,16 @@
                                 </a>
                             </li>
                             <li>
-                                <a (click)="changePasswordByUserFk()">
+                                <a class="" data-bs-toggle="modal" data-bs-target="#changePassword">
                                     <i class="ti-user pdd-right-10"></i>
                                     <span>Change Password</span>
                                 </a>
+                                <!-- <button class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                    <span class="d-flex align-items-center">
+                                        <i class="bi-chat-text-fill me-2"></i>
+                                        <span class="small">Login</span>
+                                    </span>
+                                </button> -->
                             </li>
                             <li role="separator" class="divider"></li>
                             <li>
@@ -102,6 +108,21 @@
         <div class="main-content">
             <div class="container-fluid">
                 <router-outlet></router-outlet>
+            </div>
+        </div>
+        <div class="modal" id="changePassword" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+            <div class="modal-sm modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-gradient-primary-to-secondary p-2">
+                        <h5 class="modal-title font-alt text-white" id="feedbackModalLabel">Change Password</h5>
+                        <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body border-0 p-4">    
+                      
+                        <app-change-password></app-change-password> 
+                             
+                    </div>
+                </div>
             </div>
         </div>
       </div>

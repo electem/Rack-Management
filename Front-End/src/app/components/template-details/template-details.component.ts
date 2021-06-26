@@ -73,15 +73,15 @@ export class TemplateDetailsComponent implements OnInit {
         });
   }
 
-  deleteTemplate(): void {
-    this.formService.delete(this.currentTemplate.id)
-      .subscribe(
-        response => {
-          console.log(response);
-          this.router.navigate(['/template']);
-        },
-        error => {
-          console.log(error);
-        });
-  }
+  // deleteTemplate(): void {
+  //   this.formService.delete(this.currentTemplate.id)
+  //     .subscribe(
+  //       response => {
+  //         console.log(response);
+  //         this.router.navigate(['/template']);
+  //       },
+  //       error => {
+  //         console.log(error);
+  //       });
+  // }
 }

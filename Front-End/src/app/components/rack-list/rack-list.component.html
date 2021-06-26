@@ -1,16 +1,22 @@
 <div class="example-container mat-elevation-z8"><br>
   <div class="input-group">
-    <input type="search" class="form-control rounded" style="max-width: max-content;" [(ngModel)]="search" placeholder="Search" aria-label="Search"
+    <input type="search" class="form-control rounded ml-5" style="max-width: max-content;" [(ngModel)]="search" placeholder="Search" aria-label="Search"
       aria-describedby="search-addon" />
-    <button type="button" class="btn btn-outline-primary" (click)="fetchRack()">search</button>&nbsp;
     <mat-form-field>
-      <input matInput [matDatepicker]="picker"  [(ngModel)]="datePicker" placeholder="Choose a date" style="margin-left: 300px;">
+      <input matInput [matDatepicker]="picker"  [(ngModel)]="datePicker" placeholder="Choose a date" style="margin-left: 100px;">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
-    <button type="button" class="btn btn-outline-primary" (click)="fetchDate()">search</button>&nbsp;
+    <button type="button" class="btn btn-outline-primary" (click)="fetchRack()">search</button>&nbsp;
   </div>
-
+  
+  <div class="col-md-8">
+    <div>
+      <button class="m-3 btn btn-sm btn-primary" routerLink="/createRack">
+        Add Rack
+      </button>
+    </div>
+  </div>
   
   <mat-table #table [dataSource]="dataSource" style="margin-top: 30px;" >
     
@@ -39,25 +45,24 @@
       <mat-cell *matCellDef="let element"> {{element.createdon | date:'shortDate'}} </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="edit">
-      <mat-header-cell *matHeaderCellDef class="text-center"> action </mat-header-cell>
-      <mat-cell *matCellDef="let element" (click)="fetchRackById(element.id)">Edit</mat-cell>
+     <ng-container matColumnDef="actions">
+      <mat-header-cell  *matHeaderCellDef > Actions </mat-header-cell>
+      <mat-cell *matCellDef="let element" >
+        <a class="mr-2" routerLink="/editRack/{{ element.id }}"> Edit</a>
+        <a class="mr-2" (click)="deleteRack(element.id)" style="margin-left: 10px;">
+          Delete
+        </a>
+        <a class="mr-2"  (click)="fetchTrayView(element.id)" style="margin-left: 10px;">
+          Tray-View
+        </a>
+      </mat-cell>
     </ng-container>
-
-    <ng-container matColumnDef="delete">
-      <mat-header-cell *matHeaderCellDef></mat-header-cell>
-      <mat-cell *matCellDef="let element" (click)="deleteRack(element.id)">Delete</mat-cell>
-    </ng-container>
-    
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>
-
-<button type="button" class="btn btn-danger pull-right" style="margin-right: 100px;" (click)="cancel()">Cancel</button>
 
 
 <!-- Copyright 2018 Google Inc. All Rights Reserved.

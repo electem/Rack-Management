@@ -19,6 +19,7 @@ export class EditAppComponent implements OnInit {
   };
   tempData : any = {}
   success = false;
+  isExist=false;
 
   fieldModels: Array<field> = [
     {
@@ -314,16 +315,6 @@ export class EditAppComponent implements OnInit {
   }
 
   submit() {
-    let valid = true;
-    this.tempData.forEach(field => {
-      if(field.name.toUpperCase() == this.model.name.toUpperCase()) {
-        valid = false;
-      }
-    });
-    if (!valid) {
-      alert("Template name already exists");
-      return false;
-    }
     const input = new FormData;
     input.append('formId', this.model._id);
     input.append('attributes', JSON.stringify(this.model.attributes));
@@ -334,7 +325,14 @@ export class EditAppComponent implements OnInit {
       clientFk: this.UserObj.clientFk,
     };
 
-    this.formService.saveForm(data)
+    this.formService.templateValidation(this.model.name)
+            .subscribe(
+              response => {
+                if(response.length>0){
+                  this.isExist = true;
+                }
+              else
+            this.formService.saveForm(data)
       .subscribe(
         response => {
           console.log(response);
@@ -349,6 +347,10 @@ export class EditAppComponent implements OnInit {
         },
         error => {
           console.log(error);
+        });
+                },
+          error => {
+            console.log(error);
         });
   }
 

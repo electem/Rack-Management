@@ -1,4 +1,5 @@
 const { verifySignUp } = require("../middleware");
+const { userNotification } = require("../middleware");
 const controller = require("../controllers/auth.controller");
 
 module.exports = function(app) {
@@ -16,6 +17,13 @@ module.exports = function(app) {
       verifySignUp.checkDuplicateUsernameOrEmail,
     ],
     controller.signup
+  );
+
+  app.post(
+    "/api/user/notification",
+    [
+      userNotification.saveNotification,
+    ],
   );
 
   app.post("/api/auth/signin", controller.signin);

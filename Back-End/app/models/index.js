@@ -21,7 +21,7 @@ db.itemtemplatepropertys = require("./itemTemplateProperty.js")(sequelize, Seque
 db.products = require("./itemForm.model.js")(sequelize, Sequelize);
 db.clients = require("./client.model.js")(sequelize, Sequelize);
 db.plans = require("./plan.model.js")(sequelize, Sequelize);
-
+db.files = require("../models/file.model.js")(sequelize, Sequelize);
 db.role.hasMany(db.user, { as: "users" });
 db.user.belongsTo(db.role, {
   foreignKey: "roleId",

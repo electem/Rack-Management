@@ -29,7 +29,15 @@ module.exports = (sequelize, Sequelize) => {
         model: 'clients',
         key: 'id'
       }
-    }
+    },
+    planFk: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+      references: {         
+        model: 'plans',
+        key: 'id'
+      }
+      },
   }, {});
 
   User.associate = (models) => {
@@ -38,6 +46,10 @@ module.exports = (sequelize, Sequelize) => {
 
 User.associate = (models) => {
   User.belongsTo(models.Role, { foreignKey: 'roleId', as: 'role' })
+};
+
+User.associate = (models) => {
+  User.belongsTo(models.Plan, { foreignKey: 'planFk', as: 'plans' })
 };
 
   return User;

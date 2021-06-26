@@ -57,13 +57,8 @@ export class LoginComponent implements OnInit {
           this.showSuccess=true;
           Client.clientFK = response.clientFk;
           sessionStorage.setItem('userObj', JSON.stringify(response));
-          if (!!response) {
-            this.submitted = true;
-            this.router.navigate(['/template'])
-            .then(() => {
-              window.location.reload();
-            });
-          } 
+          this.retrievePlan(response.planFk);
+           this.retrieveRole(response.roleId);
         }
         else {
           this.showError = true;
@@ -78,4 +73,34 @@ export class LoginComponent implements OnInit {
     this.router.navigate(['/forgotpassword'])
   }  
   
+  
+
+  retrieveRole(id): void {
+    this.userService.getRoleNameByID(id)
+      .subscribe(
+        data => {
+          sessionStorage.setItem('roleObj', JSON.stringify(data));
+          if (!!data) {
+            this.submitted = true;
+            this.router.navigate(['/template'])
+            .then(() => {
+              window.location.reload();
+            });
+          } 
+        },
+        error => {
+          console.log(error);
+        });
+  }
+
+  retrievePlan(id): void {
+    this.userService.getPlanByID(id)
+      .subscribe(
+        data => {
+          sessionStorage.setItem('planObj', JSON.stringify(data));
+        },
+        error => {
+          console.log(error);
+        });
+  }
 }

@@ -10,6 +10,7 @@ db.Sequelize = Sequelize;
 const transport = require("../config/email.config.js");
 const Plans = db.plans;
 const Template =  require("./item.controller.js");
+const { query } = require("express");
 var clientName = '';
 exports.allAccess = (req, res) => {
   res.status(200).send("Public Content.");
@@ -35,7 +36,9 @@ exports.Create = (req, res) => {
     password: req.body.password,
     phone: req.body.phone,
     location: req.body.location,
-    clientFk: req.body.clientFk
+    clientFk: req.body.clientFk,
+    roleId: req.body.roleId,
+    planFk: req.body.plan,
   };
   
   var hash = crypto.createHash('md5').update(user.password).digest('hex');
@@ -183,7 +186,7 @@ exports.getClientNameByID = (req, res) => {
     res.send(data);
   }).catch(err => {
       res.status(500).send({
-        message: "Error retrieving Form with id=" + id
+        message: "Error retrieving Form with id=" + clientFk
       });
     });
 };
@@ -407,7 +410,6 @@ exports.updateUserStatus = (req, res) => {
   var userPk = req.params.userPk;
   let query = `UPDATE users SET status = 'ACTIVE' WHERE id = '${userPk}' `;
   req.query.clientFk = clientFk;
-   exports.getClientNameByID(req, res);
   sequelize.query(query, { type: sequelize.QueryTypes.SELECT})
   .then(data => {
     exports.createTemplateByPlan(req, res);
@@ -420,6 +422,7 @@ exports.updateUserStatus = (req, res) => {
 };
 
 exports.createTemplateByPlan = (req, res) => {
+  exports.getClientNameByID(req, res);
   var clientFk = req.query.clientFk;
   let query = `SELECT p.* FROM plans p, clients c where c."planFk" = p.id and c.id = ${clientFk} `;
   sequelize.query(query, { type: sequelize.QueryTypes.SELECT})
@@ -440,7 +443,7 @@ exports.createTemplateByPlan = (req, res) => {
 
 exports.getRoleNameByID = (req, res) => {
   var roleId = req.query.roleId;
-  let query = `select name from roles where id = ${roleId}`;
+  let query = `select * from roles where id = ${roleId}`;
   sequelize.query(query, { type: sequelize.QueryTypes.SELECT})
   .then(data => {
     res.send(data);
@@ -450,3 +453,39 @@ exports.getRoleNameByID = (req, res) => {
       });
     });
 };
+
+
+exports.validation = (req, res) => {
+  const value = req.params.value;
+  const type = req.params.type;
+  let query;
+  if(value) {
+     query = `SELECT * FROM users WHERE username = '${value}'`
+  } else if (type) {
+    query = `SELECT * FROM users WHERE email = '${type}'`
+  }
+  sequelize.query(query, { type: sequelize.QueryTypes.SELECT})
+  .then(data => {
+    res.send(data);
+  }).catch(err => {
+      res.status(500).send({
+        message: "Error retrieving users"
+      });
+    });
+};
+
+//Fetch role 
+exports.getPlan = (req, res) => {
+  var id = req.query.palnId;
+  let query = `select * from plans where id = ${id}`;
+  sequelize.query(query, { type: sequelize.QueryTypes.SELECT})
+  .then(data => {
+    res.send(data);
+  }).catch(err => {
+      res.status(500).send({
+        message: "Error retrieving Form with id=" + id
+      });
+    });
+};
+
+  

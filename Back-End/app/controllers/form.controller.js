@@ -106,15 +106,22 @@ exports.delete = (req, res) => {
   const name = req.params.name;
   let query = `Delete from ${name}_template WHERE id = ${id}`;
   sequelize.query(query, { type: sequelize.QueryTypes.DELETE}).then(num => {
-      if (num == 1) {
-        res.send({
-          message: "Form was deleted successfully!"
-        });
-      } else {
-        res.send({
-          message: `Cannot delete Form with id=${id}. Maybe Form was not found!`
-        });
-      }
+    
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Could not delete Form with id=" + id
+      });
+    });
+};
+
+// Delete a Forms with the specified id in the request
+exports.deleteFromTemplate = (req, res) => {
+  const itemtempid = req.params.id;
+  const name = req.params.name;
+  let query = `Delete from ${name}_template WHERE itemtempid = ${itemtempid}`;
+  sequelize.query(query, { type: sequelize.QueryTypes.DELETE}).then(num => {
+    
     })
     .catch(err => {
       res.status(500).send({

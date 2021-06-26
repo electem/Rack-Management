@@ -67,4 +67,12 @@ export class UserService {
   getRoleNameByID(roleId:any): Observable<any> {
     return this.http.get(`${baseUrl}/api/user/role?roleId=${roleId}`);
   }
+
+  backendValidation(value: any,type:any): Observable<any> {
+    return this.http.get(`${baseUrl}/api/user/client/validation/${value}/${type}`);
+  }
+
+  getPlanByID(palnId:any): Observable<any> {
+    return this.http.get(`${baseUrl}/api/user/plan?palnId=${palnId}`);
+  }
 }

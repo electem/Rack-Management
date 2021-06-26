@@ -7,6 +7,7 @@ db.Sequelize = Sequelize;
 const Items = db.templates;
 const Op = db.Sequelize.Op;
 const Menu =  require("./menu.controller.js");
+const Form =  require("./form.controller.js");
 // Create and Save a new Template
 exports.create = (req, res) => {
   // Validate request
@@ -104,7 +105,10 @@ exports.update = (req, res) => {
 // Delete a Template with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
-
+  req.params.name = req.params.name;
+  req.params.templateID = req.params.id;
+  Menu.delete(req, res);
+  Form.deleteFromTemplate(req, res);
   Items.destroy({
     where: { id: id }
   })
@@ -138,6 +142,19 @@ exports.findOne = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message: "Error retrieving Template with id=" + id
+      });
+    });
+};
+
+exports.validation = (req, res) => {
+  const value = req.params.value;
+  let query = `SELECT * FROM templates WHERE name = '${value}'`
+  sequelize.query(query, { type: sequelize.QueryTypes.SELECT})
+  .then(data => {
+    res.send(data);
+  }).catch(err => {
+      res.status(500).send({
+        message: "Error retrieving users"
       });
     });
 };

@@ -23,7 +23,8 @@ export class TrayComponent implements OnInit, OnDestroy {
     trayObject:any;
     trayId:any;
 
-    constructor( private route: ActivatedRoute, private ngZone: NgZone,private rackService:RackService) {
+    constructor( private route: ActivatedRoute, private ngZone: NgZone,private rackService:RackService,
+        private alertService:AlertService) {
         // this.ngZone.onUnstable.subscribe(() => console.log('UnStable'));
     }
     @ViewChild(KtdGridComponent, {static: true}) grid: KtdGridComponent;
@@ -241,6 +242,7 @@ export class TrayComponent implements OnInit, OnDestroy {
       .subscribe(
         response => {
           this.trayObject=response;
+          this.alertService.success(response.message);
           console.log(response);
         },
         error => {

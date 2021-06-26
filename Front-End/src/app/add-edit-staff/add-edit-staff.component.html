@@ -50,7 +50,14 @@
                                       </div>
                                       <div class="row">
                                           <div class="col-md-12">
-                                              
+                                            <div class="form-group">
+                                                <label for="title">Confirm Password</label>
+                                                <input type="text" class="form-control"  type="password" id="confirmPassword" formControlName="confirmPassword"  
+                                              [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" name="confirmPassword"  [(ngModel)]="staffObj.confirmPassword"/>
+                                              <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
+                                                  <div *ngIf="f.confirmPassword.errors.required">Confirm Password is required</div>
+                                              </div>
+                                              </div>
                                           </div>
                                       </div>
                                       <div class="row">

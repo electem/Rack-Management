@@ -21,12 +21,14 @@ const db = require("./app/models");
 const Role = db.role;
 const Menu = db.menus;
 const Plan = db.plans;
+const USER = db.user;
+const CLIENT = db.clients;
 
 db.sequelize.sync();
 // force: true will drop the table if it already exists
  db.sequelize.sync({force: false}).then(() => {
    console.log('Drop and Resync Database with { force: true }');
-   initial();
+ //  initial();
  });
 
 // simple route
@@ -55,61 +57,71 @@ app.listen(PORT, () => {
 });
 
 function initial() {
-  // Role.create({
-  //   id: 1,
-  //   name: "Admin"
-  // });
+  CLIENT.create({
+    name: "SuperAdmin",
+  });
+  Role.create({
+    id: 1,
+    name: "Admin"
+  });
  
-  // Role.create({
-  //   id: 2,
-  //   name: "moderator"
-  // });
+  Role.create({
+    id: 2,
+    name: "SuperAdmin"
+  });
  
-  // Role.create({
-  //   id: 3,
-  //   name: "staff"
-  // });
+  Role.create({
+    id: 3,
+    name: "staff"
+  });
 
-  // Menu.create({
-  //   id: 1,
-  //   label: "Home",
-  //   action: '/template',
-  //   menu_fk: 1,
-  //   roleId: 1
-  // });
+  Menu.create({
+    label: "Home",
+    action: '/template',
+    menu_fk: 1,
+    roleId: 2
+  });
 
-  // Menu.create({
-  //   id: 2,
-  //   label: "staff",
-  //   action: '/staff',
-  //   menu_fk: 1,
-  //   roleId: 1
-  // });
+  Menu.create({
+    label: "staff",
+    action: '/staff',
+    menu_fk: 2,
+    roleId: 2
+  });
 
-  // Plan.create({
-  //   id: 1,
-  //   name: "Personal",
-  //   noOfUsers : 1,
-  //   noOfRacks: 2,
-  //   noOfItemTypes: 3,
-  //   rate: 500
-  // });
+  Plan.create({
+    id: 1,
+    name: "Personal",
+    noOfUsers : 1,
+    noOfRacks: 2,
+    noOfItemTypes: 3,
+    rate: 500
+  });
 
-  // Plan.create({
-  //   id: 2,
-  //   name: "Company/Traders",
-  //   noOfUsers : 5,
-  //   noOfRacks: 10,
-  //   noOfItemTypes: 10,
-  //   rate: 1000
-  // });
+  Plan.create({
+    id: 2,
+    name: "Company/Traders",
+    noOfUsers : 5,
+    noOfRacks: 10,
+    noOfItemTypes: 10,
+    rate: 1000
+  });
 
-  // Plan.create({
-  //   id: 3,
-  //   name: "Distributors",
-  //   noOfUsers : 25,
-  //   noOfRacks: 50,
-  //   noOfItemTypes: 20,
-  //   rate: 2000
-  // });
+  Plan.create({
+    id: 3,
+    name: "Distributors",
+    noOfUsers : 25,
+    noOfRacks: 50,
+    noOfItemTypes: 20,
+    rate: 2000
+  });
+    
+  USER.create({
+    username: "superadmin",
+    email: "developers@electems.com",
+    password: "59a318dc58e054cc975332365bf1e264",
+    status:"ACTIVE",
+    clientFk: 1,
+    roleId: 2
+  });
 }

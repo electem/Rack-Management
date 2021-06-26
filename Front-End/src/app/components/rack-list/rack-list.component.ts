@@ -14,11 +14,12 @@ import { AlertService } from '../_alert/alert.service';
 export class RackListComponent implements OnInit {
    rackObject:any;
    client_fk:any;
-  displayedColumns: string[] = [ 'id', 'name', 'no_of_rows', 'no_of_columns','createdon','edit','delete','tray-view'];
+  displayedColumns: string[] = [ 'id', 'name', 'no_of_rows', 'no_of_columns','createdon','actions'];
   dataSource = new MatTableDataSource<any>();
   rackObj: any = {
     name: '',
     createdon:'',
+    client_fk:0,
   };
   options = {
     autoClose: true,
@@ -35,25 +36,27 @@ export class RackListComponent implements OnInit {
 
   ngOnInit(): void {
     this.UserObj = JSON.parse(sessionStorage.getItem('userObj'));
-     this.rackObj.client_fk = this.UserObj.clientFk;
     this.dataSource.paginator = this.paginator;
     this.rackObj.client_fk=this.route.snapshot.params.id
-    this.rackListing(this.rackObj.client_fk);
+    this.rackListing(this.UserObj.clientFk);
   }
+
+  // fetchRack(): any {
+  //   this.rackObj.name=this.search;
+  //   this.rackObj.createdon=undefined;
+  //   this.rackService.searchRack(this.rackObj)
+  //   .subscribe((data: any) => {
+  //     this.dataSource.data = data;
+  //   });
+  // }
 
   fetchRack(): any {
-    this.rackObj.name=this.search;
-    this.rackObj.createdon=undefined;
-    this.rackService.searchRack(this.rackObj)
-    .subscribe((data: any) => {
-      this.dataSource.data = data;
-    });
-  }
-
-  fetchDate(): any {
-    this.rackObj.rackName=undefined;
+    this.rackObj.name=this.search;;
     this.rackObj.createdon = this.datePicker;
-    this.rackObj.createdon = this.datepipe.transform(this.rackObj.createdon.toLocaleDateString(), 'yyyy-MM-dd');
+    this.rackObj.client_fk = this.UserObj.clientFk;
+    if(this.rackObj.createdon !== ''){
+      this.rackObj.createdon = this.datepipe.transform(this.rackObj.createdon.toLocaleDateString(), 'yyyy-MM-dd');
+    }
     this.rackService.searchRack(this.rackObj)
     .subscribe((data: any) => {
       this.dataSource.data = data;
@@ -83,7 +86,7 @@ export class RackListComponent implements OnInit {
         response => {
           this.rackObject=response;
           this.alertService.success(response.message,this.options)
-          this.rackListing(this.rackObj.client_fk);
+          this.rackListing(this.UserObj.clientFk);
         },
         error => {
           console.log(error);

@@ -14,8 +14,11 @@ export class ForgotPasswordComponent implements OnInit {
   forgotPasswordForm: FormGroup = new FormGroup({});
   email:string='';
   user: any = {
-    email: this.email
+    email: this.email,
+    user_fk:0,
    };
+  
+   UserObj: any = {};
   userObject:any;
   isForgotPassword = true;
   isUserRegister = false;
@@ -25,8 +28,6 @@ export class ForgotPasswordComponent implements OnInit {
       this.forgotPasswordForm = formBuilder.group({
         email: ['', [Validators.required]]
       }) 
-      this.isForgotPassword = true;
-      this.isUserRegister = false;
      }
 
      get f(){
@@ -35,8 +36,7 @@ export class ForgotPasswordComponent implements OnInit {
     
 
   ngOnInit(): void {
-    this.isForgotPassword = true;
-    this.isUserRegister = false;
+    this.UserObj = JSON.parse(sessionStorage.getItem('userObj'));
   }
 
   submit(){
@@ -48,7 +48,8 @@ export class ForgotPasswordComponent implements OnInit {
     .subscribe(
       response => {
         this.userObject=response;
-        this.router.navigate(['/login'])
+        this.isUserRegister = true;
+        this.isForgotPassword = false;
         console.log(response);
       },
       error => {

@@ -154,10 +154,10 @@ exports.searchRack = (req, res) => {
   var rackname = req.body.name;
   var createdon = req.body.createdon;
   var client_fk = req.body.client_fk;
-  if(createdon == undefined){
+  if(createdon == ''){
     query = `SELECT * FROM racks WHERE name LIKE '%${rackname}%' AND client_fk = ${client_fk} `;
   }
-  else if(rackname == undefined){
+  else if(rackname == ''){
     query = `SELECT * FROM racks WHERE createdon > '${createdon}' AND client_fk = ${client_fk} `;
   }
   else

@@ -15,12 +15,16 @@ import { ConfirmedValidator } from './validator';
 export class ChangePasswordComponent implements OnInit {
   form: FormGroup = new FormGroup({});
   id:any;
+  passChanged=false;
   profileObject:any;
   profile: Profile = {
    password:'',
    confirmPassword:'',
    user_fk:0,
+   email:'',
   };
+  UserObj: any = {};
+
   options = {
     autoClose: true,
     keepAfterRouteChange: false
@@ -46,16 +50,17 @@ export class ChangePasswordComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    this.UserObj = JSON.parse(sessionStorage.getItem('userObj'));
     this.id=this.route.snapshot.params.id;
     this.profile.user_fk=this.id;
+    this.profile.email=this.UserObj.email
   }
   updatePassword(): any {
-      this.userProfile.updatePassword(this.id, this.profile)
+      this.userProfile.updatePassword(this.UserObj.clientFk, this.profile)
         .subscribe(
           data => {
             this.profileObject = data;
-            this.alertService.success(data.message,this.options)
-            this.router.navigate(['/userProfile',this.id]);
+            this.passChanged=true;
           },
           error => {
             console.log(error);
@@ -63,6 +68,14 @@ export class ChangePasswordComponent implements OnInit {
     }
     fetchAllProfiles(){
       this.router.navigate(['/profileListing',this.id]);
+    }
+
+    logout(){
+      window.sessionStorage.clear();
+      this.router.navigate(['/'])
+    .then(() => {
+      window.location.reload();
+    });
     }
   }
 

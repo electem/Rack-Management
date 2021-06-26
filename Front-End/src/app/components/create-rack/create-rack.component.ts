@@ -58,7 +58,7 @@ export class CreateRackComponent implements OnInit {
       .subscribe(
         response => {
           console.log(response);
-          this.router.navigate(['/rackList',this.rack.client_fk]);
+          this.router.navigate(['/racks']);
               },
               error => {
                 console.log(error);
@@ -66,6 +66,6 @@ export class CreateRackComponent implements OnInit {
   }  
 
   fetchAllRacks(){
-    this.router.navigate(['/rackList',this.rack.client_fk]);
+    this.router.navigate(['/racks',]);
   }
 }
