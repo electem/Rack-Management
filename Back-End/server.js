@@ -49,6 +49,7 @@ require('./app/routes/menu.route')(app);
 require('./app/routes/form.routes')(app);
 require('./app/routes/profile.routes')(app);
 require('./app/routes/file.routes')(app);
+require('./app/routes/notification.routes')(app);
 initRoutes(app);
 
 // set port, listen for requests
