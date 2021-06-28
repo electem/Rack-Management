@@ -36,6 +36,7 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { ProfileListingComponent } from './components/profile-listing/profile-listing.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { NgxNumberSpinnerModule } from 'ngx-number-spinner';
 
 const appRoutes: Routes = [
   // { path: '', component: EditAppComponent },
@@ -81,6 +82,7 @@ const appRoutes: Routes = [
     MatNativeDateModule,
     MatPaginatorModule,
     AlertModule,
+    NgxNumberSpinnerModule
   ],
     providers: [ DatePipe],
   bootstrap: [AppComponent]

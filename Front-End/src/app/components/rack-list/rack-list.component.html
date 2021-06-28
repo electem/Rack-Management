@@ -1,5 +1,6 @@
 
-  <div class="input-group">
+ <div class="row">
+  <div class="input-group col">
     <input type="search" class="form-control rounded ml-5 mb-2" style="max-width: max-content;" [(ngModel)]="search" placeholder="Search" aria-label="Search"
       aria-describedby="search-addon" />
     <mat-form-field>
@@ -8,12 +9,13 @@
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
     <button type="button" class="btn btn-sm mt-1" (click)="fetchRack()">Search</button>&nbsp;
-    <div *ngIf="RoleName=='Admin'"> 
-      <button class="btn btn-sm btn-primary mt-2" routerLink="/createRack">
-        Add Rack
-      </button>
-    </div>
   </div>
+  <div *ngIf="RoleName=='Admin'" class="col"> 
+    <button class="btn btn-sm btn-primary mt-2 pull-right" routerLink="/createRack">
+      Add Rack
+    </button>
+  </div>
+</div>
   <br>
   <div class="mat-app-background basic-container">
     <mat-table #table [dataSource]="dataSource" class="mat-elevation-z8">
@@ -55,8 +57,3 @@
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
   </div>
-
-
-<!-- Copyright 2018 Google Inc. All Rights Reserved.
-    Use of this source code is governed by an MIT-style license that
-    can be found in the LICENSE file at http://angular.io/license -->

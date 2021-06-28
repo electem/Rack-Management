@@ -14,7 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ColorSketchModule } from 'ngx-color/sketch';
 import { UploadFilesComponent } from '../upload-files/upload-files.component';
 import {ItemListingComponent} from '../item-crud/item-listing.component';
-
+import { NgxNumberSpinnerModule } from 'ngx-number-spinner';
 
 @NgModule({
   declarations: [TrayComponent, UploadFilesComponent, ItemListingComponent],
@@ -31,7 +31,8 @@ import {ItemListingComponent} from '../item-crud/item-listing.component';
     BrowserAnimationsModule,
     MatChipsModule,
     ColorSketchModule,
-    MatTableModule
+    MatTableModule,
+    NgxNumberSpinnerModule
   ]
 })
 export class TrayModule {}
