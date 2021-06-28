@@ -3814,7 +3814,7 @@ iframe {
 
 .header {
     display: block;
-    height: 65px;
+    height: auto;
     width: calc(100% - 280px);
     position: fixed;
     padding: 0px;

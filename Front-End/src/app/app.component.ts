@@ -130,6 +130,7 @@ constructor(private menuService: MenuService,
       .subscribe(
         response => {
           this.profile=response;
+          this.fetchFile();
           this.router.navigate(['/userProfile',this.profile[0].id]);
         },
         error => {
