@@ -39,6 +39,7 @@ function createTrayObject(id,no_of_rows,no_of_columns){
     h:0,
     rack_fk: 0,
     name: '',
+    color:'',
   }
   for (let i = 1; i <=no_of_rows; i++) {
     for (let j = 1; j <=no_of_columns; j++) {
@@ -48,6 +49,7 @@ function createTrayObject(id,no_of_rows,no_of_columns){
             tray.w=1;
             tray.h=1;
             tray.name="r"+tray.x+"c"+tray.y;
+            tray.color="0000ff";
             Tray.create(tray);
            
     }
