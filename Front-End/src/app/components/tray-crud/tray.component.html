@@ -10,7 +10,7 @@
         <button class="btn" (click)="copyTray()">
           <i class="icon-color fas fa-bars fa-lg"></i> Copy
         </button>
-        <button class="btn" class="liveToastBtn" (click)="removeTray()">
+        <button class="btn" (click)="removeTray()">
           <i class="icon-color fas fa-trash fa-lg"></i> Delete
         </button>
       </div>
@@ -55,7 +55,9 @@
             <span>Save</span>
           </button>
 
-          <button  class="btn btn-primary" style="margin-left: 75px;"(click)="saveTrayLayout(trayList)">SaveLayout</button>
+          <div>
+          <button  class="btn btn-sm btn-primary pull-right mt-1" style="margin-left: 75px;"(click)="saveTrayLayout(trayList)">SaveLayout</button>
+        </div>
         </form>
       </div>
     </div>

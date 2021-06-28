@@ -6,6 +6,7 @@ import { Menu } from './models/menu.model';
 import { ItemService } from './services/item.service';
 import { UserProfileService } from './services/user-profile.service';
 import { Profile } from './models/userProfile.model';
+import { UploadFilesService } from './services/upload-files.service';
 
 
 @Component({
@@ -44,6 +45,7 @@ constructor(private menuService: MenuService,
   private itemService: ItemService,
   private activatedRoute: ActivatedRoute,
   private userProfile:UserProfileService,
+  private uploadService:UploadFilesService,
   private router: Router) { }
   UserObj: any = {};
   ngOnInit(): void {
@@ -51,6 +53,7 @@ constructor(private menuService: MenuService,
     this.itemPk = this.activatedRoute.snapshot.params['id'];
     // this.fetchItemById(this.itemPk);
     this.fetchAllmenus();
+    this.fetchFile();
   }
 
    fetchItemById(itemId: any) {
@@ -133,6 +136,16 @@ constructor(private menuService: MenuService,
           console.log(error);
         });
       
+    }
+
+    fetchFile(){
+      this.id=this.UserObj.id;
+      this.uploadService.fetchFile(this.id)
+      .subscribe(
+        response=>{
+          console.log(response);
+          this.profile.image=response[0].filepath;
+        })
     }
 
     changePasswordByUserFk() {

@@ -134,6 +134,13 @@
     width:100%;
 }
 
+.card-title {
+    font-family: Roboto, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    color: #515365;
+    margin-top: 0px;
+    margin-bottom: 15px;
+}
+
 .dndDropArea .field .fa{
     opacity:0;
 }
