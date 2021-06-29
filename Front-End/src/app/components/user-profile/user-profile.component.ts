@@ -160,7 +160,6 @@ export class UserProfileComponent implements OnInit {
               response=>{
                 console.log(response);
                 this.profile.user_fk=response.id;
-                
               })
           }
           else{

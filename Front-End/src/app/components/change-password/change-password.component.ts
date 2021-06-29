@@ -56,7 +56,7 @@ export class ChangePasswordComponent implements OnInit {
     this.profile.email=this.UserObj.email
   }
   updatePassword(): any {
-      this.userProfile.updatePassword(this.UserObj.clientFk, this.profile)
+      this.userProfile.updatePassword(this.UserObj.id, this.profile)
         .subscribe(
           data => {
             this.profileObject = data;

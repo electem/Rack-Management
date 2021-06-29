@@ -51,7 +51,7 @@ const routes: Routes = [
   { path: 'upload', component:UploadFilesComponent},
   { path: 'userProfile/:id', component:UserProfileComponent},
   { path: 'profileListing/:user_fk', component:ProfileListingComponent},
-  { path: 'changePassword/:id', component:ChangePasswordComponent},
+  { path: 'changePassword', component:ChangePasswordComponent},
   { path: 'form', component: FormListComponent },
   
   

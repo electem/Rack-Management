@@ -14,7 +14,7 @@ import { AlertService } from '../_alert/alert.service';
 export class RackListComponent implements OnInit {
    rackObject:any;
    client_fk:any;
-  displayedColumns: string[] = [  'name', 'no_of_rows', 'no_of_columns','createdon','actions'];
+  displayedColumns: string[] = ['name', 'no_of_rows', 'no_of_columns','createdon','actions'];
   dataSource = new MatTableDataSource<any>();
   rackObj: any = {
     name: '',
@@ -98,7 +98,6 @@ export class RackListComponent implements OnInit {
       error => {
         console.log(error);
       });
-    
   }
   
 
