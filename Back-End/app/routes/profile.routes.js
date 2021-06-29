@@ -11,7 +11,7 @@ module.exports = app => {
 
      router.get("/fetchAllProfiles", profile.fetchAllProfiles);
 
-     router.put("/updatePassword/:id", profile.updatePassword);
+     router.put("/updatePassword/:user_fk", profile.updatePassword);
    
      app.use('/api/profile', router);
   };

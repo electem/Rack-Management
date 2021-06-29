@@ -72,7 +72,7 @@ exports.fetchAllProfiles = (req, res) => {
 };
 
 exports.updatePassword = (req, res) => {
-  const id = req.params.id;
+  const user_fk = req.params.user_fk;
   const profile={
      password :req.body.password,
     confirmPassword :req.body.confirmPassword,
@@ -81,22 +81,22 @@ exports.updatePassword = (req, res) => {
   var hash = crypto.createHash('md5').update(profile.password).digest('hex');
   profile.password = hash;
 
-  let query = `UPDATE userprofiles SET password = '${profile.password}' WHERE id = ${id}`;
+  let query = `UPDATE userprofiles SET password = '${profile.password}' WHERE user_fk = ${user_fk}`;
   sequelize.query(query).then(data => {
       if (data[1].rowCount >=1) {
         res.send({
           message: "profile password was updated successfully."
         });
-        updateUserPassword(profile.password,id,profile.email);
+        updateUserPassword(profile.password,user_fk,profile.email);
       } else {
         res.send({
-          message: `Cannot update profile password id=${id}`
+          message: `Cannot update profile password id=${user_fk}`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error updating Form with id=" + id
+        message: "Error updating Form with id=" + user_fk
       });
     });
 };
