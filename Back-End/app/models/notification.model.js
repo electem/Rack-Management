@@ -12,6 +12,9 @@ module.exports = (sequelize, Sequelize) => {
       content: {
         type: Sequelize.JSON,
     },
+      noOfRetry: {
+        type: Sequelize.INTEGER,
+    },
       user_fk: {
         type: Sequelize.INTEGER,
         allowNull: true,

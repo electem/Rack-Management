@@ -13,6 +13,7 @@ db.userprofile = require("./userProfile.model.js")(sequelize, Sequelize);
 db.racks = require("./rack.model.js")(sequelize, Sequelize);
 db.trays = require("./tray.model.js")(sequelize, Sequelize);
 db.stores = require("../models/store.model.js")(sequelize, Sequelize);
+db.trayItems = require("./trayItem.model.js")(sequelize, Sequelize);
 db.menus = require("../models/menu.model.js")(sequelize, Sequelize);
 db.notifications = require("../models/notification.model.js")(sequelize, Sequelize);
 //db.itemtemplates = require("./itemTemplate.model.js")(sequelize, Sequelize);
@@ -22,21 +23,11 @@ db.products = require("./itemForm.model.js")(sequelize, Sequelize);
 db.clients = require("./client.model.js")(sequelize, Sequelize);
 db.plans = require("./plan.model.js")(sequelize, Sequelize);
 db.files = require("../models/file.model.js")(sequelize, Sequelize);
+
 db.role.hasMany(db.user, { as: "users" });
 db.user.belongsTo(db.role, {
   foreignKey: "roleId",
   as: "role",
-});
-
-db.trays.belongsToMany(db.templates, {
-  through: "tray_item",
-  foreignKey: "trayId",
-  otherKey: "userId"
-});
-db.templates.belongsToMany(db.trays, {
-  through: "tray_item",
-  foreignKey: "itemId",
-  otherKey: "trayId"
 });
 
 // db.products.belongsToMany(db.items, {

@@ -302,12 +302,18 @@ exports.updateTray = (req, res) => {
   //Fetch Tray Data By RackId
   exports.fetchTrayDataByRackId = (req, res) => {
     const tableName = "trays";
+    const tableName2="trayItems";
     const rack_fk= req.params.rack_fk;
-    let query = `SELECT id,name,color,quantity,img,"searchable" FROM ${tableName} WHERE rack_fk = ${rack_fk} `;
-    sequelize.query(query, { type: sequelize.QueryTypes.SELECT})
+    let query = `SELECT ${tableName}.id,${tableName}.name,${tableName}.color,${tableName}.img,SUM("${tableName2}".quantity)
+                 FROM ${tableName} INNER JOIN "${tableName2}"
+                 ON trays.id = "${tableName2}"."trayId"
+                 WHERE ${tableName}.rack_fk = ${rack_fk} 
+                 GROUP BY ${tableName}.id `;
+
+    sequelize.query(query, { type: sequelize.QueryTypes.INNERJOIN})
     .then(data => {
       res.send(data);
-    }).catch(err => {
+    }).catch(err => { 
         res.status(500).send({
           message: "Error retrieving Form with id=" + rack_fk
         });
