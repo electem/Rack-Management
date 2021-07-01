@@ -54,6 +54,10 @@
             <i class="icon-color fa fa-bars fa-lg me-1"></i>
             <span>Save</span>
           </button>
+
+          <div>
+            <button  class="btn btn-success" style="margin-left: 75px;"(click)="saveTrayLayout(trayList)">SaveLayout</button>
+          </div>
         </form>
       </div>
     </div>
@@ -96,15 +100,15 @@
         [draggable]="!disableDrag"
         [resizable]="!disableResize">
 
-        <div class="card m-1 p-2" (click)="editTray(item.id)" class="{{ trayDataListFinal[i].cssClass }}">     
-          <img src="{{ trayDataListFinal[i].img }}" class="card-img-top rounded mx-auto d-block" 
+        <div class="card m-1 p-2" (click)="editTray(item.id)" class="{{ trayDataListFetched[i].cssClass }}">     
+          <img src="{{ trayDataListFetched[i].img }}" class="card-img-top rounded mx-auto d-block" 
             style="width:{{item.w * 100}}px; height:{{((item.h * 50) - 50)}}px;">
     
-          <span class="card-text ">{{ trayDataListFinal[i].name }}</span>
+          <span class="card-text ">{{ trayDataListFetched[i].name }}</span>
           <div class="position-absolute bottom-0 end-0 p-2" >
             <span class="badge badge-pill badge-primary" 
-              style="background-color: {{ trayDataListFinal[i].color}};">
-              {{ trayDataListFinal[i].quantity }}
+              style="background-color: {{ trayDataListFetched[i].color}};">
+              {{ trayDataListFetched[i].quantity }}
             </span>
           </div>
         </div>

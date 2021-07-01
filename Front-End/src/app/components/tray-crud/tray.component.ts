@@ -40,7 +40,7 @@ export class TrayComponent implements OnInit, OnDestroy {
     trayList: KtdGridLayout = [];
 
     trayDataList = [];
-    trayDataListFinal=[];
+    trayDataListFetched=[];
 
 
     transitions: { name: string, value: string }[] = [
@@ -230,7 +230,7 @@ export class TrayComponent implements OnInit, OnDestroy {
         this.traySelected = true;
         const index = this.trayList.findIndex((item) => item.id === id);
         if (index > -1) {
-            this.currentlyBeingEditedTray = this.trayDataList[index];
+            this.currentlyBeingEditedTray = this.trayDataListFetched[index];
             this.form.setValue({trayname: this.currentlyBeingEditedTray.name, quantity: this.currentlyBeingEditedTray.quantity});
             this.currentlyTraySearchable = this.currentlyBeingEditedTray.searchable;
             this.currentlyBeingEditedTray.cssClass = 'traySelected';
@@ -303,7 +303,7 @@ export class TrayComponent implements OnInit, OnDestroy {
             .subscribe(
                 data => {
                     this.trayDataList[0] = data[0];
-                    this.trayDataListFinal = this.trayDataList[0];
+                    this.trayDataListFetched = this.trayDataList[0];
                 },
                 error => {
                     console.log(error);
