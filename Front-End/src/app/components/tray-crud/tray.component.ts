@@ -22,6 +22,10 @@ export class TrayComponent implements OnInit, OnDestroy {
 
     trayObject:any;
     trayId:any;
+    options = {
+        autoClose: true,
+        keepAfterRouteChange: false
+    };
 
     constructor( private route: ActivatedRoute, private ngZone: NgZone,private rackService:RackService,
         private alertService:AlertService) {
@@ -36,6 +40,7 @@ export class TrayComponent implements OnInit, OnDestroy {
     trayList: KtdGridLayout = [];
 
     trayDataList = [];
+    trayDataListFinal=[];
 
 
     transitions: { name: string, value: string }[] = [
@@ -183,7 +188,7 @@ export class TrayComponent implements OnInit, OnDestroy {
                         .subscribe(
                             response => {
                                 console.log(response);
-                                this.alertService.success(response.message);
+                                this.alertService.success(response.message,this.options);
                                 this.getTrayDataById(this.route.snapshot.params.id);
                             },
                             error => {
@@ -211,7 +216,7 @@ export class TrayComponent implements OnInit, OnDestroy {
       .subscribe(
         response => {
           this.trayObject=response;
-          this.alertService.success(response.message);
+          this.alertService.success(response.message,this.options);
           console.log(response);
           this.getTrayDataById(this.route.snapshot.params.id);
         },
@@ -246,14 +251,14 @@ export class TrayComponent implements OnInit, OnDestroy {
       .subscribe(
         response => {
           this.trayObject=response;
-          this.alertService.success(response.message);
+          this.alertService.success(response.message,this.options);
           console.log(response);
         },
         error => {
           console.log(error);
         });
-
     }
+
     changeColorComplete(event) {
         this.currentlyBeingEditedTray.color = event.color.hex;
     }
@@ -297,7 +302,8 @@ export class TrayComponent implements OnInit, OnDestroy {
         this.rackService.getTrayDataById(rack_fk)
             .subscribe(
                 data => {
-                    this.trayDataList = data;
+                    this.trayDataList[0] = data[0];
+                    this.trayDataListFinal = this.trayDataList[0];
                 },
                 error => {
                     console.log(error);

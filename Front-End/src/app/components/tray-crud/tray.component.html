@@ -1,7 +1,7 @@
 <div class="tray-container">
   <div class="layout-json"></div>
 
-  <nav class="navbar navbar-expand-lg navbar-light border border-light sticky mt-5">
+  <nav class="navbar navbar-expand-lg navbar-light border border-light mb-3 sticky">
     <div class="container-fluid justify-content-start" *ngIf="traySelected">
       <div class="btn-group border border-success rounded me-3 g-0" role="group" aria-label="First group">        
         <button class="btn" data-bs-toggle="offcanvas" data-bs-target="#addItemPanel">
@@ -50,14 +50,10 @@
           <input class="form-control me-1" type="text" placeholder="Edit Name" aria-label="Search"  
           formControlName="trayname">
           
-          <button class="btn btn-success" type="submit" title="Save Changes" style="width: 140px;">
+          <button class="btn btn-outline-success" type="submit" title="Save Changes" style="width: 140px;">
             <i class="icon-color fa fa-bars fa-lg me-1"></i>
             <span>Save</span>
           </button>
-
-          <div>
-          <button  class="btn btn-success" style="margin-left: 75px;"(click)="saveTrayLayout(trayList)">SaveLayout</button>
-        </div>
         </form>
       </div>
     </div>
@@ -100,15 +96,15 @@
         [draggable]="!disableDrag"
         [resizable]="!disableResize">
 
-        <div class="card m-1 p-2" (click)="editTray(item.id)" class="{{ trayDataList[i].cssClass }}">     
-          <img src="{{ trayDataList[i].img }}" class="card-img-top rounded mx-auto d-block" 
+        <div class="card m-1 p-2" (click)="editTray(item.id)" class="{{ trayDataListFinal[i].cssClass }}">     
+          <img src="{{ trayDataListFinal[i].img }}" class="card-img-top rounded mx-auto d-block" 
             style="width:{{item.w * 100}}px; height:{{((item.h * 50) - 50)}}px;">
     
-          <span class="card-text ">{{ trayDataList[i].name }}</span>
+          <span class="card-text ">{{ trayDataListFinal[i].name }}</span>
           <div class="position-absolute bottom-0 end-0 p-2" >
             <span class="badge badge-pill badge-primary" 
-              style="background-color: {{ trayDataList[i].color}};">
-              {{ trayDataList[i].quantity }}
+              style="background-color: {{ trayDataListFinal[i].color}};">
+              {{ trayDataListFinal[i].sum }}
             </span>
           </div>
         </div>
