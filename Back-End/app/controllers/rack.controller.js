@@ -305,7 +305,7 @@ exports.updateTray = (req, res) => {
     const tableName2="trayItems";
     const rack_fk= req.params.rack_fk;
     let query = `SELECT ${tableName}.id,${tableName}.name,${tableName}.color,${tableName}.img,SUM("${tableName2}".quantity)
-                 FROM ${tableName} INNER JOIN "${tableName2}"
+                 AS quantity FROM ${tableName} INNER JOIN "${tableName2}"
                  ON trays.id = "${tableName2}"."trayId"
                  WHERE ${tableName}.rack_fk = ${rack_fk} 
                  GROUP BY ${tableName}.id `;
