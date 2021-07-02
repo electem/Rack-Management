@@ -30,7 +30,11 @@ export class RackListComponent implements OnInit {
   datePicker:string='';
   UserObj: any = {};
   RoleObj: any = {};
+  PlanObj: any ={};
   RoleName= ''
+  noOfRackscreated : any = [];
+  noOfRacks: '';
+  isRackCreated=false;
 
 
   constructor(private rackService:RackService,public datepipe: DatePipe,
@@ -40,10 +44,12 @@ export class RackListComponent implements OnInit {
   ngOnInit(): void {
     this.RoleObj = JSON.parse(sessionStorage.getItem('roleObj'));
     this.RoleName =  this.RoleObj[0].name;
+    this.PlanObj = JSON.parse(sessionStorage.getItem('planObj'));
+    this.noOfRacks = this.PlanObj[0].noOfRacks;
     this.UserObj = JSON.parse(sessionStorage.getItem('userObj'));
+    this.rackListing(this.UserObj.clientFk);
     this.dataSource.paginator = this.paginator;
     this.rackObj.client_fk=this.route.snapshot.params.id
-    this.rackListing(this.UserObj.clientFk);
   }
 
   fetchRack(): any {
@@ -93,7 +99,11 @@ export class RackListComponent implements OnInit {
   rackListing(client_fk): void{
     this.rackService.fetchAllRacks(client_fk)
     .subscribe((data: any) => {
+      this.noOfRackscreated = data;
       this.dataSource.data = data;
+      if(this.noOfRackscreated.length < this.noOfRacks && this.RoleName=='Admin'){
+        this.isRackCreated=true;
+      }
     },
       error => {
         console.log(error);

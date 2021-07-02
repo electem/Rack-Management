@@ -10,11 +10,11 @@
     </mat-form-field>
     <button type="button" class="btn btn-sm mt-1" (click)="fetchRack()">Search</button>&nbsp;
   </div>
-  <div *ngIf="RoleName=='Admin'" class="col"> 
-    <button class="btn btn-sm btn-primary mt-2 pull-right" routerLink="/createRack">
-      Add Rack
-    </button>
-  </div>
+    <div  class="col" *ngIf="isRackCreated"> 
+      <button class="btn btn-sm btn-primary mt-2 pull-right" routerLink="/createRack">
+        Add Rack
+      </button>
+    </div>
 </div>
   <br>
   <div class="mat-app-background basic-container">
