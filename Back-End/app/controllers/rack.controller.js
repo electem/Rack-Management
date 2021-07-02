@@ -305,12 +305,12 @@ exports.updateTray = (req, res) => {
     const tableName2="trayItems";
     const rack_fk= req.params.rack_fk;
     let query = `SELECT ${tableName}.id,${tableName}.name,${tableName}.color,${tableName}."searchable",${tableName}.img,SUM("${tableName2}".quantity)
-                 AS quantity FROM ${tableName} INNER JOIN "${tableName2}"
+                 AS quantity FROM ${tableName} FULL JOIN "${tableName2}"
                  ON trays.id = "${tableName2}"."trayId"
                  WHERE ${tableName}.rack_fk = ${rack_fk} 
                  GROUP BY ${tableName}.id `;
 
-    sequelize.query(query, { type: sequelize.QueryTypes.INNERJOIN})
+    sequelize.query(query, { type: sequelize.QueryTypes.FULLJOIN})
     .then(data => {
       res.send(data);
     }).catch(err => { 
