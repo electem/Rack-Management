@@ -2,6 +2,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {Component} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import { HttpClient } from '@angular/common/http';
+import { FormService } from 'src/app/services/app.form.service';
 
 @Component({
   selector: 'item-listing',
@@ -11,11 +12,15 @@ export class ItemListingComponent {
     displayedColumns: string[] = ['select', 'age', 'athlete', 'year', 'country'];
     dataSource = new MatTableDataSource<any>();
     selection = new SelectionModel<any>(true, []);
+    UserObj: any = {};
+    clientFk: '';
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient,private formService:FormService) {}
 
     ngOnInit(): void {
-      this.getData();
+      this.UserObj = JSON.parse(sessionStorage.getItem('userObj'));
+      this.clientFk = this.UserObj.clientFk;
+      this.retrieveTemplates();
     }
 
     /** Whether the number of selected elements matches the total number of rows. */
@@ -42,6 +47,19 @@ export class ItemListingComponent {
       }
       return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
     }
+
+     retrieveTemplates(): void {
+    this.formService.getAll(this.clientFk)
+      .subscribe(
+        data => {
+         // this.Templates = data;
+          this.dataSource.data = data;
+          console.log(data);
+        },
+        error => {
+          console.log(error);
+        });
+  }
 
     private getData(): any {
       this.http.get('/assets/testdata/itemlisting.json')
