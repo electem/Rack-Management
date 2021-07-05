@@ -8,27 +8,19 @@
           <i class="icon-color fas fa-home  fa-lg"></i> Add Items
         </button>
         <button class="btn" (click)="copyTray()">
-          <i class="icon-color fas fa-bars fa-lg"></i> Copy
+          <i class="bi bi-clipboard-data"></i> Copy
         </button>
         <button class="btn" (click)="removeTray()">
-          <i class="icon-color fas fa-trash fa-lg"></i> Delete
+          <i class="bi-trash2-fill"></i> Delete
         </button>
       </div>
       
       <div class="btn-group border border-success rounded me-3" role="group" aria-label="First group">
-        <button class="btn" (click)="openFileUpload = !openFileUpload">
-          <i class="icon-color fas fa-close fa-lg"></i> Pick Image
-        </button>
-        <div class="position-absolute popup-picker" *ngIf="openFileUpload">          
-          <div class="card">
-            <div class="card-header">
-              Upload Images related to the Tray
-            </div>
-            <div class="card-body">
-              <app-upload-files></app-upload-files>
-            </div>
-          </div>
-        </div>
+        <label for="img-upload" class="pointer">
+          <span class="btn btn-default display-block no-mrg-btm"><i class="bi-file-pdf"></i>Choose file</span>
+          <input class="d-none" type="file" name="uploadedimages0" multiple
+              id="img-upload" (change)="selectFile($event)">
+        </label>
         
         <button class="btn" type="button" (click)="isColorOpen = !isColorOpen" >
           <i class="icon-color fas fa-close fa-lg"></i> Pick Color
@@ -56,7 +48,7 @@
           </button>
 
           <div>
-            <button  class="btn btn-success" style="margin-left: 75px;"(click)="saveTrayLayout(trayList)">SaveLayout</button>
+            <button class="btn btn-success" style="margin-left: 75px;"(click)="saveTrayLayout(trayList)">SaveLayout</button>
           </div>
         </form>
       </div>
@@ -101,7 +93,7 @@
         [resizable]="!disableResize">
 
         <div class="card m-1 p-2" (click)="editTray(item.id)" class="{{ trayDataListFetched[i].cssClass }}">     
-          <img src="{{ trayDataListFetched[i].img }}" class="card-img-top rounded mx-auto d-block" 
+          <img  *ngFor="let file of fileList" [src]="file.filepath" class="card-img-top rounded mx-auto d-block" 
             style="width:{{item.w * 100}}px; height:{{((item.h * 50) - 50)}}px;">
     
           <span class="card-text ">{{ trayDataListFetched[i].name }}</span>

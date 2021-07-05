@@ -37,7 +37,17 @@ export class UploadFilesService {
     return this.http.get(`${this.baseUrl}/api/file/fetchFileById/${user_fk}`);
   }
 
+  fetchTrayFile(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/api/file/fetchTrayFile/`);
+  }
+
   updateFile(id: any,file:any): Observable<any> {
     return this.http.put(`${this.baseUrl}/api/file//updateFile/${id}`,file);
   }
+
+  updateTrayByFile(tray_fk: any,file:any): Observable<any> {
+    return this.http.put(`${this.baseUrl}/api/file//updateTrayByFile/${tray_fk}`,file);
+  }
+
+  
 }

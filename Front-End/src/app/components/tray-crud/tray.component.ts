@@ -1,7 +1,7 @@
 import { ActivatedRoute } from '@angular/router';
 import { Component, NgZone, OnDestroy, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
-import { fromEvent, merge, Subscription } from 'rxjs';
+import { fromEvent, merge, Observable, Subscription } from 'rxjs';
 import { debounceTime, filter } from 'rxjs/operators';
 import {
     KtdDragEnd, KtdDragStart, KtdGridComponent, KtdGridLayout, KtdGridLayoutItem, KtdResizeEnd, KtdResizeStart, ktdTrackById
@@ -10,7 +10,11 @@ import { ktdArrayRemoveItem } from './tray.utils';
 import { FormGroup, FormControl, Validators, FormBuilder }
     from '@angular/forms';
 import { RackService } from '../../services/rack.service';
+import { FileTray} from 'src/app/models/trayFile.model';
 import { AlertService } from '../_alert/alert.service';
+import { UploadFilesService } from 'src/app/services/upload-files.service';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
+
 
 
 @Component({
@@ -21,14 +25,28 @@ import { AlertService } from '../_alert/alert.service';
 export class TrayComponent implements OnInit, OnDestroy {
 
     trayObject:any;
+    UserObj: any = {};
+    image:any;
     trayId:any;
     options = {
         autoClose: true,
         keepAfterRouteChange: false
     };
+    selectedFiles?: FileList;
+    currentFile?: File;
+    progress = 0;
+    message = '';
+    fileInfos?: Observable<any>;
+
+    file: FileTray = {
+        filename: '',
+        filepath:'',
+        tray_fk:0,
+        user_fk:0,
+      };
 
     constructor( private route: ActivatedRoute, private ngZone: NgZone,private rackService:RackService,
-        private alertService:AlertService) {
+        private alertService:AlertService,private uploadService: UploadFilesService,) {
         // this.ngZone.onUnstable.subscribe(() => console.log('UnStable'));
     }
     @ViewChild(KtdGridComponent, {static: true}) grid: KtdGridComponent;
@@ -41,6 +59,7 @@ export class TrayComponent implements OnInit, OnDestroy {
 
     trayDataList = [];
     trayDataListFetched=[];
+    fileList=[];
 
 
     transitions: { name: string, value: string }[] = [
@@ -67,6 +86,7 @@ export class TrayComponent implements OnInit, OnDestroy {
     resizeSubscription: Subscription;
     currentlyBeingEditedTray = null;
     traySelected = false;
+    fileId=undefined;
 
 
     currentlyTraySearchable = false;
@@ -82,6 +102,8 @@ export class TrayComponent implements OnInit, OnDestroy {
     openFileUpload: false;
 
     ngOnInit() {
+        this.UserObj = JSON.parse(sessionStorage.getItem('userObj'));
+        this.file.user_fk = this.UserObj.clientFk; 
         this.getTrayProp(this.route.snapshot.params.id);
         this.getTrayDataById(this.route.snapshot.params.id);
         this.resizeSubscription = merge(
@@ -159,6 +181,47 @@ export class TrayComponent implements OnInit, OnDestroy {
         this.dragStartThreshold = parseInt((event.target as HTMLInputElement).value, 10);
     }
 
+    selectFile(event: any): void {
+        this.selectedFiles = event.target.files;
+        this.upload();
+      }
+    
+      upload(): void {
+        this.progress = 0;
+    
+        if (this.selectedFiles) {
+          const file: File | null = this.selectedFiles.item(0);
+    
+          if (file) {
+            this.currentFile = file;
+    
+            this.uploadService.upload(this.currentFile).subscribe(
+              (event: any) => {
+                if (event.type === HttpEventType.UploadProgress) {
+                  this.progress = Math.round(100 * event.loaded / event.total);
+                } else if (event instanceof HttpResponse) {
+                  this.message = event.body.message;
+                  this.fileInfos = this.uploadService.getFiles();
+                }
+              },
+              (err: any) => {
+                console.log(err);
+                this.progress = 0;
+    
+                if (err.error && err.error.message) {
+                  this.message = err.error.message;
+                } else {
+                  this.message = 'Could not upload the file!';
+                }
+    
+                this.currentFile = undefined;
+              });
+    
+          }
+          this.selectedFiles = undefined;
+        }
+      }
+
     /** Adds a grid item to the layout */
     copyTray() {
         const maxId = this.trayList.reduce((acc, cur) => Math.max(acc, parseInt(cur.id, 10)), -1);
@@ -183,12 +246,12 @@ export class TrayComponent implements OnInit, OnDestroy {
                 response => {
                     this.trayObject = response;
                     this.trayObject.id = null;
-                    this.trayObject.name=this.form.controls.trayname.value;
+                    this.trayObject.name = this.form.controls.trayname.value;
                     this.rackService.createTray(this.trayObject)
                         .subscribe(
                             response => {
                                 console.log(response);
-                                this.alertService.success(response.message,this.options);
+                                this.alertService.success(response.message, this.options);
                                 this.getTrayDataById(this.route.snapshot.params.id);
                             },
                             error => {
@@ -197,7 +260,7 @@ export class TrayComponent implements OnInit, OnDestroy {
                 },
                 error => {
                     console.log(error);
-            });
+                });
     }
 
     /**
@@ -252,7 +315,28 @@ export class TrayComponent implements OnInit, OnDestroy {
         response => {
           this.trayObject=response;
           this.alertService.success(response.message,this.options);
+          this.file.filename=this.currentFile.name;
           console.log(response);
+          const index = this.fileList.find(fileList => fileList.id > 0);
+          if(index == this.currentlyBeingEditedTray.id){
+            this.file.tray_fk = this.currentlyBeingEditedTray.id;
+            this.uploadService.updateTrayByFile(this.file.tray_fk,this.file)
+            .subscribe(
+              response=>{
+                console.log(response);
+                this.file.tray_fk=response.id;
+                this.currentlyBeingEditedTray.img=response.filepath;
+              })
+          }
+          else{
+              this.file.tray_fk=this.currentlyBeingEditedTray.id
+            this.uploadService.createFile(this.file)
+            .subscribe(
+              response=>{
+                console.log(response);
+                this.fileId=response.id;
+              })
+          }  
         },
         error => {
           console.log(error);
@@ -304,6 +388,12 @@ export class TrayComponent implements OnInit, OnDestroy {
                 data => {
                     this.trayDataList[0] = data[0];
                     this.trayDataListFetched = this.trayDataList[0];
+                    this.uploadService.fetchTrayFile()
+                        .subscribe(
+                            response => {
+                                console.log(response);
+                                this.fileList=response;
+                            })
                 },
                 error => {
                     console.log(error);

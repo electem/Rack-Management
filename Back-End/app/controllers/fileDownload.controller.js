@@ -7,14 +7,15 @@ db.Sequelize = Sequelize;
 const baseUrl = "http://localhost:8080/files/";
 
 exports.fileCreate = (req, res) => {
-    const directoryPath = baseUrl + req.body.filename;
+    const filePath = baseUrl + req.body.filename;
   const file = {
     filename: req.body.filename,
-    filepath: directoryPath,
+    filepath: filePath,
     user_fk:req.body.user_fk,
+    tray_fk:req.body.tray_fk,
   };
 
-  // Save Rack in the database
+  // Save File in the database
   files.create(file)
       .then(data => {
           res.send(data);
@@ -22,7 +23,7 @@ exports.fileCreate = (req, res) => {
       .catch(err => {
           res.status(500).send({
               message:
-                  err.message || "Some error occurred while creating the Rack."
+                  err.message || "Some error occurred while creating the File."
           });
       });
 };
@@ -35,7 +36,7 @@ exports.findOne = (req, res) => {
       res.send(data);
     }).catch(err => {
         res.status(500).send({
-          message: "Error retrieving racks with user_fk=" + user_fk
+          message: "Error retrieving while fetching File with user_fk=" + user_fk
         });
       });
   }
@@ -62,6 +63,44 @@ exports.findOne = (req, res) => {
       .catch(err => {
         res.status(500).send({
           message: "Error updating Form with id=" + id
+        });
+      });
+  };
+
+  exports.fetchTrayFile = (req, res) => {
+    let query = `SELECT * FROM files WHERE tray_fk IS NOT NULL; `;
+    sequelize.query(query, { type: sequelize.QueryTypes.SELECT})
+    .then(data => {
+      res.send(data);
+    }).catch(err => {
+        res.status(500).send({
+          message: "Error retrieving while fetching File with tray_fk=" + tray_fk
+        });
+      });
+  }
+
+  exports.updateTrayByFile = (req, res) => {
+    const directoryPath = baseUrl + req.body.filename;
+    const tray_fk = req.params.tray_fk;
+    const file = {
+        filename: req.body.filename,
+        filepath: directoryPath,
+      };
+    let query = `UPDATE files SET filepath = '${file.filepath}' WHERE tray_fk = ${tray_fk}`;
+    sequelize.query(query).then(data => {
+        if (data[1].rowCount >=1) {
+          res.send({
+            message: "profile password was updated successfully."
+          });
+        } else {
+          res.send({
+            message: `Cannot update profile password tray_fk=${tray_fk}`
+          });
+        }
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: "Error updating Form with tray_fk=" + tray_fk
         });
       });
   };

@@ -9,6 +9,10 @@ module.exports = app => {
     router.get("/fetchFileById/:user_fk", file.findOne);
 
     router.put("/updateFile/:id", file.updateFile);
+
+    router.get("/fetchTrayFile/", file.fetchTrayFile);
+
+    router.put("/updateTrayByFile/:tray_fk", file.updateTrayByFile);
       
     app.use('/api/file', router);
 

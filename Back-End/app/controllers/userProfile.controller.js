@@ -123,11 +123,13 @@ function createNotification(id,email){
     email: '',
     status: '',
     user_fk:0,
+    noOfRetry:0,
   }
   notification.notificationType = 'CHANGEPASSWORD',
   notification.email = email,
   notification.status = 'NEW',
   notification.user_fk = id,
+  notificationType.noOfRetry=3,
 
   userNotification.saveNotification(notification);
 

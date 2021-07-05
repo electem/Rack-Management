@@ -15,11 +15,24 @@ module.exports = (sequelize, Sequelize) => {
         }
         },
 
+        tray_fk: {
+          type: Sequelize.INTEGER,
+          allowNull: true,
+          references: {         
+            model: 'trays',
+            key: 'id'
+          }
+          },
+
     });
 
     file.associate = (models) => {
         file.belongsTo(models.User, { foreignKey: 'user_fk', as: 'users' })
     };
+
+    file.associate = (models) => {
+      file.belongsTo(models.Tray, { foreignKey: 'tray_fk', as: 'tray' })
+  };
     
   
     return file;
