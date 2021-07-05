@@ -1,3 +1,4 @@
+import { FileTray } from 'src/app/models/trayFile.model';
 import { ActivatedRoute } from '@angular/router';
 import { Component, NgZone, OnDestroy, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
@@ -10,7 +11,6 @@ import { ktdArrayRemoveItem } from './tray.utils';
 import { FormGroup, FormControl, Validators, FormBuilder }
     from '@angular/forms';
 import { RackService } from '../../services/rack.service';
-import { FileTray} from 'src/app/models/trayFile.model';
 import { AlertService } from '../_alert/alert.service';
 import { UploadFilesService } from 'src/app/services/upload-files.service';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
@@ -40,7 +40,7 @@ export class TrayComponent implements OnInit, OnDestroy {
 
     file: FileTray = {
         filename: '',
-        filepath:'',
+        filepath:'http://localhost:8080/files/',
         tray_fk:0,
         user_fk:0,
       };
@@ -310,33 +310,15 @@ export class TrayComponent implements OnInit, OnDestroy {
          this.currentlyBeingEditedTray.name = this.form.controls.trayname.value;
         this.currentlyBeingEditedTray.quantity = this.form.controls.quantity.value;
         console.log(this.currentlyBeingEditedTray);
+        this.file.filepath = this.file.filepath+this.currentFile.name;
+        this.currentlyBeingEditedTray.img=this.file.filepath;
         this.rackService.updateTray(this.currentlyBeingEditedTray.id,this.currentlyBeingEditedTray)
       .subscribe(
         response => {
           this.trayObject=response;
           this.alertService.success(response.message,this.options);
-          this.file.filename=this.currentFile.name;
           console.log(response);
-          const index = this.fileList.find(fileList => fileList.id > 0);
-          if(index == this.currentlyBeingEditedTray.id){
-            this.file.tray_fk = this.currentlyBeingEditedTray.id;
-            this.uploadService.updateTrayByFile(this.file.tray_fk,this.file)
-            .subscribe(
-              response=>{
-                console.log(response);
-                this.file.tray_fk=response.id;
-                this.currentlyBeingEditedTray.img=response.filepath;
-              })
-          }
-          else{
-              this.file.tray_fk=this.currentlyBeingEditedTray.id
-            this.uploadService.createFile(this.file)
-            .subscribe(
-              response=>{
-                console.log(response);
-                this.fileId=response.id;
-              })
-          }  
+
         },
         error => {
           console.log(error);
@@ -388,12 +370,6 @@ export class TrayComponent implements OnInit, OnDestroy {
                 data => {
                     this.trayDataList[0] = data[0];
                     this.trayDataListFetched = this.trayDataList[0];
-                    this.uploadService.fetchTrayFile()
-                        .subscribe(
-                            response => {
-                                console.log(response);
-                                this.fileList=response;
-                            })
                 },
                 error => {
                     console.log(error);

@@ -93,7 +93,7 @@
         [resizable]="!disableResize">
 
         <div class="card m-1 p-2" (click)="editTray(item.id)" class="{{ trayDataListFetched[i].cssClass }}">     
-          <img  *ngFor="let file of fileList" [src]="file.filepath" class="card-img-top rounded mx-auto d-block" 
+          <img [src]="trayDataListFetched[i].img" class="card-img-top rounded mx-auto d-block" 
             style="width:{{item.w * 100}}px; height:{{((item.h * 50) - 50)}}px;">
     
           <span class="card-text ">{{ trayDataListFetched[i].name }}</span>

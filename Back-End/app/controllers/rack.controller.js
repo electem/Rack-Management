@@ -114,24 +114,24 @@ exports.update = (req, res) => {
   // Delete a Rack with the specified id in the request
   exports.delete = (req, res) => {
     const id = req.params.id;
-  
+    deleteTrayByRackFk();
     Rack.destroy({
       where: { id: id }
     })
       .then(num => {
         if (num == 1) {
           res.send({
-            message: "Rack was deleted successfully!"
+            message: "Template was deleted successfully!"
           });
         } else {
           res.send({
-            message: `Cannot delete Rack with id=${id}. Maybe Tutorial was not found!`
+            message: `Cannot delete Template with id=${id}. Maybe Template was not found!`
           });
         }
       })
       .catch(err => {
         res.status(500).send({
-          message: "Could not delete Rack with id=" + id
+          message: "Could not delete Template with id=" + id
         });
       });
   };
@@ -284,20 +284,18 @@ exports.updateTray = (req, res) => {
       });
   };
 
-   //Fetch Tray By RackId
- exports.fetchTrayPropByRackId = (req, res) => {
-  const tableName = "trays";
-  const rack_fk= req.params.rack_fk;
-  let query = `SELECT id,x,y,w,h FROM ${tableName} WHERE rack_fk = ${rack_fk} `;
-  sequelize.query(query, { type: sequelize.QueryTypes.SELECT})
-  .then(data => {
-    res.send(data);
-  }).catch(err => {
-      res.status(500).send({
-        message: "Error retrieving Form with id=" + rack_fk
+
+   //Delete Tray
+   function deleteTrayByRackFk(){
+     const tableName="trays";
+    let query = `Delete from "${tableName}"`;
+    sequelize.query(query).then(data => {
+          console.log("Deleted Trays");
+      })
+      .catch(err => {
+        console.log("Error Deleting Trays"+err);
       });
-    });
-};
+  }
 
   //Fetch Tray Data By RackId
   exports.fetchTrayDataByRackId = (req, res) => {
@@ -319,6 +317,21 @@ exports.updateTray = (req, res) => {
         });
       });
   };
+
+    //Fetch Tray By RackId
+ exports.fetchTrayPropByRackId = (req, res) => {
+  const tableName = "trays";
+  const rack_fk= req.params.rack_fk;
+  let query = `SELECT id,x,y,w,h FROM ${tableName} WHERE rack_fk = ${rack_fk} `;
+  sequelize.query(query, { type: sequelize.QueryTypes.SELECT})
+  .then(data => {
+    res.send(data);
+  }).catch(err => {
+      res.status(500).send({
+        message: "Error retrieving Form with id=" + rack_fk
+      });
+    });
+};
 
 exports.saveTrayLayout = (req, res) => {
   const trayList = req.body;
