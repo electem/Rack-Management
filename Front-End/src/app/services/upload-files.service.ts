@@ -42,12 +42,18 @@ export class UploadFilesService {
   }
 
   updateFile(id: any,file:any): Observable<any> {
-    return this.http.put(`${this.baseUrl}/api/file//updateFile/${id}`,file);
+    return this.http.put(`${this.baseUrl}/api/file/updateFile/${id}`,file);
   }
 
   updateTrayByFile(tray_fk: any,file:any): Observable<any> {
     return this.http.put(`${this.baseUrl}/api/file//updateTrayByFile/${tray_fk}`,file);
   }
+
+  fetchFileAfterMoved(name: any): Observable<any> {
+    return this.http.get(`${this.baseUrl}/files/profileImageAfterMoved/${name}`);
+  }
+
+  
 
   
 }

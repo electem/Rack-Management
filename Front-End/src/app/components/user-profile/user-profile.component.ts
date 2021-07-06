@@ -40,9 +40,10 @@ export class UserProfileComponent implements OnInit {
 
   file: any = {
     filename: '',
-    filepath:'',
+    filepath:'http://localhost:8080/files/profile/',
     user_fk:0
   };
+
   options = {
     autoClose: true,
     keepAfterRouteChange: false
@@ -78,6 +79,10 @@ export class UserProfileComponent implements OnInit {
   
 
   onSubmit(){
+    this.submitted = true;
+    if (this.profileForm.invalid) {
+      return;
+    }
     this.updateProfile();
   }
 
@@ -123,8 +128,7 @@ export class UserProfileComponent implements OnInit {
                   response=>{
                     console.log(response);
                     this.alertService.success("Image uploaded successfully",this.options);
-                    this.profile.user_fk=response.id;
-                    this.fetchFile(this.user_fk);
+                    this.fetchFileAfterMoved(this.currentFile.name);
                   })
               }
               else{
@@ -133,6 +137,7 @@ export class UserProfileComponent implements OnInit {
                   response=>{
                     console.log(response);
                     this.fileId=response.id;
+                    this.fetchFile(this.user_fk);
                   })
               }        
             } else if (event instanceof HttpResponse) {
@@ -175,9 +180,20 @@ export class UserProfileComponent implements OnInit {
     .subscribe(
       response=>{
         console.log(response);
-        this.profile.image=response[0].filepath;
+        this.profile.image=this.file.filepath+response[0].filename;
         this.fileId=response[0].id;
       })
   }
+
+  fetchFileAfterMoved(name){
+    this.uploadService.fetchFileAfterMoved(name)
+    .subscribe(
+      response=>{
+        console.log(response);
+      }
+    )
+  }
+
+  
 
 }

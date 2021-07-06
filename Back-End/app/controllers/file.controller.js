@@ -1,6 +1,7 @@
 const uploadFile = require("../middleware/upload");
 const fs = require("fs");
 const baseUrl = "http://localhost:8080/files/";
+const baseUrlProfile = "http://localhost:8080/files/profile/";
 
 const upload = async (req, res) => {
   try {
@@ -51,9 +52,59 @@ const getListFiles = (req, res) => {
   });
 };
 
+const getListFilesInProfile = (req, res) => {
+  const directoryPath = __basedir + "/resources/static/assets/uploads/";
+
+  fs.readdir(directoryPath, function (err, files) {
+    if (err) {
+      res.status(500).send({
+        message: "Unable to scan files!",
+      });
+    }
+
+    let fileInfos = [];
+    
+    files.forEach((file) => {
+      fileInfos.push({
+        name: file,
+        url: baseUrlProfile + file,
+      });
+    });
+
+    res.status(200).send(fileInfos);
+  });
+};
+
+
 const download = (req, res) => {
   const fileName = req.params.name;
   const directoryPath = __basedir + "/resources/static/assets/uploads/";
+
+  res.download(directoryPath + fileName, fileName, (err) => {
+    if (err) {
+      res.status(500).send({
+        message: "Could not download the file. " + err,
+      });
+    }
+  });
+};
+
+const downloadProfileImages = (req, res) => {
+  const fileName = req.params.name;
+  const directoryPath = __basedir + "/resources/static/assets/uploads/";
+
+  res.download(directoryPath + fileName, fileName, (err) => {
+    if (err) {
+      res.status(500).send({
+        message: "Could not download the file. " + err,
+      });
+    }
+  });
+};
+
+const profileImageAfterMoved = (req, res) => {
+  const fileName = req.params.name;
+  const directoryPath = __basedir + "/resources/static/assets/uploads/profile/";
 
   res.download(directoryPath + fileName, fileName, (err) => {
     if (err) {
@@ -68,4 +119,7 @@ module.exports = {
   upload,
   getListFiles,
   download,
+  getListFilesInProfile,
+  downloadProfileImages,
+  profileImageAfterMoved
 };

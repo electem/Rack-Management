@@ -5,7 +5,7 @@ const Op = db.Sequelize.Op;
 const Sequelize = require("sequelize");
 const sequelize = require("../config/seq.config.js");
 db.Sequelize = Sequelize;
-const baseUrl = "http://localhost:8080/files/";
+const baseUrl = "http://localhost:8080/files/profile/";
 const directoryPath = __basedir + "/resources/static/assets/uploads/";
 
 exports.fileCreate = (req, res) => {
@@ -50,7 +50,8 @@ exports.findOne = (req, res) => {
         filename: req.body.filename,
         filepath: uploadedFile,
       };
-    let query = `UPDATE files SET filepath = '${file.filepath}' WHERE id = ${id}`;
+      
+    let query = `UPDATE files SET filepath = '${file.filepath}',filename = '${file.filename}' WHERE id = ${id}`;
     sequelize.query(query).then(data => {
         if (data[1].rowCount >=1) {
             fileOp.rename(uploadedFile, directoryPath+"/profile/"+file.filename, (err) => {
