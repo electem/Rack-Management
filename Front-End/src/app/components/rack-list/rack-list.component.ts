@@ -5,6 +5,7 @@ import { DatePipe } from '@angular/common'
 import {MatTableDataSource} from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { AlertService } from '../_alert/alert.service';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-rack-list',
@@ -82,7 +83,23 @@ export class RackListComponent implements OnInit {
           this.router.navigate(['/racklayout',id])
   }
 
-  deleteRack(id:any): void {
+  deleteRack(id) {
+    swal({
+      title: 'Are you sure?', 
+      text: 'Do you want to remove this ?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#00B96F',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, remove!'
+    }).then((result) => {
+      if (result.value) {
+        this.deleteRackById(id);
+      }
+    });
+  }
+
+  deleteRackById(id:any): void {
     this.rackService.deleteRackById(id)
       .subscribe(
         response => {
@@ -101,7 +118,7 @@ export class RackListComponent implements OnInit {
     .subscribe((data: any) => {
       this.noOfRackscreated = data;
       this.dataSource.data = data;
-      if(this.noOfRackscreated.length < this.noOfRacks && this.RoleName=='Admin'){
+      if(this.noOfRackscreated.length < this.noOfRacks && this.RoleName =='Admin'){
         this.isRackCreated=true;
       }
     },

@@ -1,10 +1,12 @@
 const db = require("../models");
+const fileOp = require("fs");
 const files = db.files;
 const Op = db.Sequelize.Op;
 const Sequelize = require("sequelize");
 const sequelize = require("../config/seq.config.js");
 db.Sequelize = Sequelize;
 const baseUrl = "http://localhost:8080/files/";
+const directoryPath = __basedir + "/resources/static/assets/uploads/";
 
 exports.fileCreate = (req, res) => {
     const filePath = baseUrl + req.body.filename;
@@ -42,18 +44,24 @@ exports.findOne = (req, res) => {
   }
 
   exports.updateFile = (req, res) => {
-    const directoryPath = baseUrl + req.body.filename;
+    const uploadedFile = directoryPath + req.body.filename;
     const id = req.params.id;
     const file = {
         filename: req.body.filename,
-        filepath: directoryPath,
+        filepath: uploadedFile,
       };
     let query = `UPDATE files SET filepath = '${file.filepath}' WHERE id = ${id}`;
     sequelize.query(query).then(data => {
         if (data[1].rowCount >=1) {
+            fileOp.rename(uploadedFile, directoryPath+"/profile/"+file.filename, (err) => {
+              if (err) throw err;
+              console.log('Rename complete!');
+          })
+
           res.send({
             message: "profile password was updated successfully."
           });
+         
         } else {
           res.send({
             message: `Cannot update profile password id=${id}`

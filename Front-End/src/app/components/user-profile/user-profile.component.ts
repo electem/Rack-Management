@@ -75,6 +75,33 @@ export class UserProfileComponent implements OnInit {
     this.upload();
   }
 
+  
+
+  onSubmit(){
+    this.updateProfile();
+  }
+
+  updateProfile(): any {
+    this.userService.backendValidation(this.profile.userName,this.profile.email)
+    .subscribe(
+      response=>{
+        if(response.length>0){
+          this.isExist = true;
+        }
+        else
+        this.isExist=false;
+      this.userProfile.updateProfile(this.profile.id,this.profile)
+      .subscribe(
+        response => {
+          this.alertService.success(response.message,this.options);
+          this.fetchProfileObject(this.profile.id);
+        },
+        error => {
+          console.log(error);
+        });
+      });
+  }
+
   upload(): void {
     this.progress = 0;
 
@@ -88,6 +115,26 @@ export class UserProfileComponent implements OnInit {
           (event: any) => {
             if (event.type === HttpEventType.UploadProgress) {
               this.progress = Math.round(100 * event.loaded / event.total);
+              this.file.filename=this.currentFile.name;
+              this.file.user_fk=this.UserObj.clientFk;
+              if(this.fileId!= undefined){
+                this.uploadService.updateFile(this.fileId,this.file)
+                .subscribe(
+                  response=>{
+                    console.log(response);
+                    this.alertService.success("Image uploaded successfully",this.options);
+                    this.profile.user_fk=response.id;
+                    this.fetchFile(this.user_fk);
+                  })
+              }
+              else{
+                this.uploadService.createFile(this.file)
+                .subscribe(
+                  response=>{
+                    console.log(response);
+                    this.fileId=response.id;
+                  })
+              }        
             } else if (event instanceof HttpResponse) {
               this.message = event.body.message;
               this.fileInfos = this.uploadService.getFiles();
@@ -107,79 +154,30 @@ export class UserProfileComponent implements OnInit {
           });
 
       }
-
       this.selectedFiles = undefined;
     }
   }
 
-  
   fetchProfileObject(id:any): any {
     this.userProfile.fetchProfileById(id)
       .subscribe(
         response => {
           this.profile=response;
-          this.uploadService.fetchFile(this.user_fk)
-          .subscribe(
-            response=>{
-              console.log(response);
-              this.profile.image=response[0].filepath;
-              this.fileId=response[0].id;
-            })
+          this.fetchFile(this.user_fk);
         },
         error => {
           console.log(error);
         });
   }
 
-  onSubmit(){
-    this.submitted = true;
-    if (this.profileForm.invalid) {
-      return;
-    }
-    this.updateProfile();
-  }
-
-  updateProfile(): any {
-    this.userService.backendValidation(this.profile.userName,this.profile.email)
+  fetchFile(user_fk){
+    this.uploadService.fetchFile(user_fk)
     .subscribe(
       response=>{
-        if(response.length>0){
-          this.isExist = true;
-        }
-        else
-      this.userProfile.updateProfile(this.profile.id,this.profile)
-      .subscribe(
-        response => {
-          this.profile=response;
-          this.alertService.success(response.message,this.options);
-          this.file.filename=this.currentFile.name;
-          this.file.user_fk=this.UserObj.clientFk;
-          if(this.fileId!= undefined){
-            this.uploadService.updateFile(this.fileId,this.file)
-            .subscribe(
-              response=>{
-                console.log(response);
-                this.profile.user_fk=response.id;
-              })
-          }
-          else{
-            this.uploadService.createFile(this.file)
-            .subscribe(
-              response=>{
-                console.log(response);
-              })
-          }
-            
-        },
-        error => {
-          console.log(error);
-        });
-      });
+        console.log(response);
+        this.profile.image=response[0].filepath;
+        this.fileId=response[0].id;
+      })
   }
-
-
-  
-
-  
 
 }

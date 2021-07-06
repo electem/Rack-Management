@@ -93,7 +93,6 @@ export class TrayComponent implements OnInit, OnDestroy {
 
 
     form = new FormGroup({
-        'quantity': new FormControl('', Validators.required),
         'trayname': new FormControl('', Validators.required),
     });
 
@@ -294,7 +293,7 @@ export class TrayComponent implements OnInit, OnDestroy {
         const index = this.trayList.findIndex((item) => item.id === id);
         if (index > -1) {
             this.currentlyBeingEditedTray = this.trayDataListFetched[index];
-            this.form.setValue({trayname: this.currentlyBeingEditedTray.name, quantity: this.currentlyBeingEditedTray.quantity});
+            this.form.setValue({trayname: this.currentlyBeingEditedTray.name});
             this.currentlyTraySearchable = this.currentlyBeingEditedTray.searchable;
             this.currentlyBeingEditedTray.cssClass = 'traySelected';
         }
@@ -308,7 +307,6 @@ export class TrayComponent implements OnInit, OnDestroy {
     saveTray() {
         // console.log(this.form);
          this.currentlyBeingEditedTray.name = this.form.controls.trayname.value;
-        this.currentlyBeingEditedTray.quantity = this.form.controls.quantity.value;
         console.log(this.currentlyBeingEditedTray);
         this.file.filepath = this.file.filepath+this.currentFile.name;
         this.currentlyBeingEditedTray.img=this.file.filepath;

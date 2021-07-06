@@ -3,7 +3,8 @@
 
   <nav class="navbar navbar-expand-lg navbar-light border border-light mb-3 sticky mt-3">
     <div class="container-fluid justify-content-start" *ngIf="traySelected">
-      <div class="btn-group border border-success rounded me-3 g-0" role="group" aria-label="First group">        
+      <div class="btn-group border border-success rounded me-3 g-0" role="group" aria-label="First group">  
+              
         <button class="btn" data-bs-toggle="offcanvas" data-bs-target="#addItemPanel">
           <i class="icon-color fas fa-home  fa-lg"></i> Add Items
         </button>
@@ -38,17 +39,16 @@
 
       <div class="btn-group" role="group" aria-label="First group">
         <form [formGroup]="form" (ngSubmit)="saveTray()" class="d-flex">
-          <ngx-number-spinner formControlName="quantity" class="quantity me-1" [min]="1"></ngx-number-spinner>
           <input class="form-control me-1" type="text" placeholder="Edit Name" aria-label="Search"  
           formControlName="trayname">
           
-          <button class="btn btn-outline-success" type="submit" title="Save Changes" style="width: 140px;">
-            <i class="icon-color fa fa-bars fa-lg me-1"></i>
+          <button class="btn btn-sm btn-primary" type="submit" title="Save Changes">
+            <i class="icon-color fa fa-bars fa-lg mx-1 me-1"></i>
             <span>Save</span>
           </button>
 
           <div>
-            <button class="btn btn-success" style="margin-left: 75px;"(click)="saveTrayLayout(trayList)">SaveLayout</button>
+            <button class="btn btn-sm btn-primary mx-1 mt-1"(click)="saveTrayLayout(trayList)">Save Layout</button>
           </div>
         </form>
       </div>

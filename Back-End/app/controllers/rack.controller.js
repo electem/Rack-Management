@@ -121,17 +121,17 @@ exports.update = (req, res) => {
       .then(num => {
         if (num == 1) {
           res.send({
-            message: "Template was deleted successfully!"
+            message: "Rack was deleted successfully!"
           });
         } else {
           res.send({
-            message: `Cannot delete Template with id=${id}. Maybe Template was not found!`
+            message: `Cannot delete Rack with id=${id}. Maybe Rack was not found!`
           });
         }
       })
       .catch(err => {
         res.status(500).send({
-          message: "Could not delete Template with id=" + id
+          message: "Could not delete Rack with id=" + id
         });
       });
   };

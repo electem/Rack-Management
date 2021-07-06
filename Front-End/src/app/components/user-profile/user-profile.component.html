@@ -22,7 +22,6 @@
                                     <div class="mrg-top-30 mrg-btm-5">
                                         <label for="img-upload" class="pointer">
                                             <img [src]="profile.image" width="100" height="100" alt="">
-
                                             <span class="btn btn-default display-block no-mrg-btm">Choose file</span>
                                             <input class="d-none" type="file" name="uploadedimages0" multiple
                                                 id="img-upload" (change)="selectFile($event)">
@@ -34,7 +33,6 @@
                                                 {{ progress }}%
                                             </div>
                                         </div>
-            
                                         <div *ngIf="message" class="alert alert-secondary" role="alert">{{ message }}</div>
                                     </div>
                                     <h4 class="mrg-top-5 no-mrg-btm text-semibold">{{profile.userName}}</h4>
