@@ -6,6 +6,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { AlertService } from '../_alert/alert.service';
 import swal from 'sweetalert2';
+import { Rack } from 'src/app/models/rack.model';
 
 @Component({
   selector: 'app-rack-list',
@@ -15,6 +16,7 @@ import swal from 'sweetalert2';
 export class RackListComponent implements OnInit {
    rackObject:any;
    client_fk:any;
+   rackArray?:Rack[];
   displayedColumns: string[] = ['name', 'no_of_rows', 'no_of_columns','createdon','actions'];
   dataSource = new MatTableDataSource<any>();
   rackObj: any = {
@@ -26,6 +28,7 @@ export class RackListComponent implements OnInit {
     autoClose: true,
     keepAfterRouteChange: false
 };
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   search: string = '';
   datePicker:string='';
@@ -60,10 +63,26 @@ export class RackListComponent implements OnInit {
     if(this.rackObj.createdon !== ''){
       this.rackObj.createdon = this.datepipe.transform(this.rackObj.createdon.toLocaleDateString(), 'yyyy-MM-dd');
     }
-    this.rackService.searchRack(this.rackObj)
-    .subscribe((data: any) => {
-      this.dataSource.data = data;
-    });
+
+    this.searchRackByName(this.rackArray,this.rackObj.name,this.rackObj.createdon,this.rackObj.client_fk);
+    // this.rackService.searchRack(this.rackObj)
+    // .subscribe((data: any) => {
+    //   this.dataSource.data = data;
+    // });
+  }
+
+  searchRackByName(rackArray:Rack[],rackName:any,createdOn:any,clientFk:any){
+    if(rackName !==""){
+      this.dataSource.data=rackArray.filter(rack => rack.name.includes(rackName));
+      console.log(this.dataSource.data);
+    }
+    else if(createdOn !=""){
+      this.dataSource.data=rackArray.filter(rack => rack.createdon >= createdOn);
+      console.log(this.dataSource.data);
+    }
+    else
+    this.rackListing(clientFk);
+    
   }
 
   fetchRackById(id:any): any {
@@ -118,6 +137,7 @@ export class RackListComponent implements OnInit {
     .subscribe((data: any) => {
       this.noOfRackscreated = data;
       this.dataSource.data = data;
+      this.rackArray=this.dataSource.data
       if(this.noOfRackscreated.length < this.noOfRacks && this.RoleName =='Admin'){
         this.isRackCreated=true;
       }
@@ -126,6 +146,8 @@ export class RackListComponent implements OnInit {
         console.log(error);
       });
   }
+
+
   
 
   cancel(): void{
