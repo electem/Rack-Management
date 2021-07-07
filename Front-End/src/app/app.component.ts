@@ -41,6 +41,12 @@ export class AppComponent {
     itemId: '',
   };
 
+  file: any = {
+    filename: '',
+    filepath:'http://localhost:8080/files/profile/',
+    user_fk:0
+  };
+
 constructor(private menuService: MenuService,
   private itemService: ItemService,
   private activatedRoute: ActivatedRoute,
@@ -50,10 +56,10 @@ constructor(private menuService: MenuService,
   UserObj: any = {};
   ngOnInit(): void {
     this.UserObj = JSON.parse(sessionStorage.getItem('userObj'));
+    this.fetchFile(this.UserObj.id);
     this.itemPk = this.activatedRoute.snapshot.params['id'];
     // this.fetchItemById(this.itemPk);
     this.fetchAllmenus();
-    this.fetchFile();
   }
 
    fetchItemById(itemId: any) {
@@ -130,7 +136,7 @@ constructor(private menuService: MenuService,
       .subscribe(
         response => {
           this.profile=response;
-          this.fetchFile();
+          this.fetchFile(this.id);
           this.router.navigate(['/userProfile',this.profile[0].id]);
         },
         error => {
@@ -139,13 +145,12 @@ constructor(private menuService: MenuService,
       
     }
 
-    fetchFile(){
-      this.id=this.UserObj.id;
-      this.uploadService.fetchFile(this.id)
+    fetchFile(user_fk){
+      this.uploadService.fetchFile(user_fk)
       .subscribe(
         response=>{
           console.log(response);
-          this.profile.image=response[0].filepath;
+          this.profile.image=this.file.filepath+response[0].filename;
         })
     }
 

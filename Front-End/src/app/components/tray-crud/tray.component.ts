@@ -198,6 +198,8 @@ export class TrayComponent implements OnInit, OnDestroy {
               (event: any) => {
                 if (event.type === HttpEventType.UploadProgress) {
                   this.progress = Math.round(100 * event.loaded / event.total);
+                  this.file.filepath = this.file.filepath+this.currentFile.name;
+                  this.currentlyBeingEditedTray.img=this.file.filepath;
                 } else if (event instanceof HttpResponse) {
                   this.message = event.body.message;
                   this.fileInfos = this.uploadService.getFiles();
@@ -308,14 +310,18 @@ export class TrayComponent implements OnInit, OnDestroy {
         // console.log(this.form);
          this.currentlyBeingEditedTray.name = this.form.controls.trayname.value;
         console.log(this.currentlyBeingEditedTray);
-        this.file.filepath = this.file.filepath+this.currentFile.name;
-        this.currentlyBeingEditedTray.img=this.file.filepath;
+        if(this.currentlyBeingEditedTray.img==undefined){
+            this.file.filepath = this.file.filepath+this.currentFile.name;
+            this.currentlyBeingEditedTray.img=this.file.filepath;
+        }
+        
         this.rackService.updateTray(this.currentlyBeingEditedTray.id,this.currentlyBeingEditedTray)
       .subscribe(
         response => {
           this.trayObject=response;
           this.alertService.success(response.message,this.options);
           console.log(response);
+          this.getTrayDataById(this.route.snapshot.params.id);
 
         },
         error => {
@@ -353,8 +359,9 @@ export class TrayComponent implements OnInit, OnDestroy {
     saveTrayLayout(trayList:any): void {
         this.rackService.saveTrayLayout(trayList)
             .subscribe(
-                data => {
-                    this.trayList = data;
+                response => {
+                    this.trayList = response;
+                    this.alertService.success(response.message,this.options);
                     console.log(this.trayList);
                 },
                 error => {

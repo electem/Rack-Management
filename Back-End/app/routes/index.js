@@ -9,7 +9,6 @@ let routes = (app) => {
   
   router.get("/files/:name", controller.download);
   router.get("/files/profile/:name", controller.downloadProfileImages);
-  router.get("/files/profileImageAfterMoved/:name", controller.profileImageAfterMoved);
 
   app.use(router);
 };

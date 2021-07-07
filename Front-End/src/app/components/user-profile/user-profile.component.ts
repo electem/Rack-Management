@@ -127,8 +127,8 @@ export class UserProfileComponent implements OnInit {
                 .subscribe(
                   response=>{
                     console.log(response);
-                    this.alertService.success("Image uploaded successfully",this.options);
-                    this.fetchFileAfterMoved(this.currentFile.name);
+                    this.alertService.success("Image Updated successfully",this.options);
+                    this.fetchAllFiles(this.currentFile.name);
                   })
               }
               else{
@@ -136,6 +136,7 @@ export class UserProfileComponent implements OnInit {
                 .subscribe(
                   response=>{
                     console.log(response);
+                    this.alertService.success("Image uploaded successfully",this.options);
                     this.fileId=response.id;
                     this.fetchFile(this.user_fk);
                   })
@@ -168,7 +169,7 @@ export class UserProfileComponent implements OnInit {
       .subscribe(
         response => {
           this.profile=response;
-          this.fetchFile(this.user_fk);
+          this.fetchAllFiles(this.currentFile.name);
         },
         error => {
           console.log(error);
@@ -185,11 +186,18 @@ export class UserProfileComponent implements OnInit {
       })
   }
 
-  fetchFileAfterMoved(name){
-    this.uploadService.fetchFileAfterMoved(name)
+  fetchAllFiles(name){
+    this.uploadService.fetchAllFiles()
     .subscribe(
       response=>{
         console.log(response);
+        for (let i = 0; i < response.length; i++) {
+          if(response[i].name==name){
+            this.profile.image=this.file.filepath+response[i].name;
+          }
+          
+        }
+        
       }
     )
   }

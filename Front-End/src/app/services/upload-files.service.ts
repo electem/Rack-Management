@@ -49,8 +49,8 @@ export class UploadFilesService {
     return this.http.put(`${this.baseUrl}/api/file//updateTrayByFile/${tray_fk}`,file);
   }
 
-  fetchFileAfterMoved(name: any): Observable<any> {
-    return this.http.get(`${this.baseUrl}/files/profileImageAfterMoved/${name}`);
+  fetchAllFiles(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/files/profile`);
   }
 
   
