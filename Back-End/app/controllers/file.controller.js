@@ -53,7 +53,7 @@ const getListFiles = (req, res) => {
 };
 
 const getListFilesInProfile = (req, res) => {
-  const directoryPath = __basedir + "/resources/static/assets/uploads/";
+  const directoryPath = __basedir + "/resources/static/assets/uploads/profile/";
 
   fs.readdir(directoryPath, function (err, files) {
     if (err) {
@@ -91,7 +91,7 @@ const download = (req, res) => {
 
 const downloadProfileImages = (req, res) => {
   const fileName = req.params.name;
-  const directoryPath = __basedir + "/resources/static/assets/uploads/";
+  const directoryPath = __basedir + "/resources/static/assets/uploads/profile/";
 
   res.download(directoryPath + fileName, fileName, (err) => {
     if (err) {

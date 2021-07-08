@@ -169,7 +169,7 @@ export class UserProfileComponent implements OnInit {
       .subscribe(
         response => {
           this.profile=response;
-          this.fetchAllFiles(this.currentFile.name);
+          this.fetchFile(id);
         },
         error => {
           console.log(error);
