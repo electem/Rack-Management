@@ -6,7 +6,7 @@
       <div class="btn-group border border-success rounded me-3 g-0" role="group" aria-label="First group">  
               
         <button class="btn" data-bs-toggle="offcanvas" data-bs-target="#addItemPanel">
-          <i class="icon-color fas fa-home  fa-lg"></i> Add Items
+          <i class="bi bi-bag"></i> Add Items
         </button>
         <button class="btn" (click)="copyTray()">
           <i class="bi bi-clipboard-data"></i> Copy
@@ -108,3 +108,5 @@
     </ktd-grid>
   </div>
 </div>
+
+ <div *ngIf="message" class="alert alert-secondary" role="alert">{{ message }}</div>

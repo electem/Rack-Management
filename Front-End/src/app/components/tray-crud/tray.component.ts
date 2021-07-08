@@ -311,7 +311,7 @@ export class TrayComponent implements OnInit, OnDestroy {
          this.currentlyBeingEditedTray.name = this.form.controls.trayname.value;
         console.log(this.currentlyBeingEditedTray);
         if(this.currentlyBeingEditedTray.img==undefined){
-            this.file.filepath = this.file.filepath+this.currentFile.name;
+            this.file.filepath ="";
             this.currentlyBeingEditedTray.img=this.file.filepath;
         }
         
@@ -361,8 +361,7 @@ export class TrayComponent implements OnInit, OnDestroy {
             .subscribe(
                 response => {
                     this.trayList = response;
-                    this.alertService.success(response.message,this.options);
-                    console.log(this.trayList);
+                    this.alertService.success("Tray Layout is saved successfully",this.options);
                 },
                 error => {
                     console.log(error);
