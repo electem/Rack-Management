@@ -137,8 +137,7 @@ export class UserProfileComponent implements OnInit {
                   response=>{
                     console.log(response);
                     this.alertService.success("Image uploaded successfully",this.options);
-                    this.fileId=response.id;
-                    this.fetchFile(this.user_fk);
+                    this.fetchAllFiles(response.filename);
                   })
               }        
             } else if (event instanceof HttpResponse) {
@@ -169,7 +168,7 @@ export class UserProfileComponent implements OnInit {
       .subscribe(
         response => {
           this.profile=response;
-          this.fetchFile(id);
+          this.fetchFile(this.UserObj.id);
         },
         error => {
           console.log(error);

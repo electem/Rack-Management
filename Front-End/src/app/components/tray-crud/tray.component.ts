@@ -344,7 +344,7 @@ export class TrayComponent implements OnInit, OnDestroy {
       });
     }
 
-    fetchTrayList(trayList:any): void {
+    fetchTrayList(trayList): void {
         this.rackService.getTrayPropById(trayList)
             .subscribe(
                 data => {
@@ -360,8 +360,8 @@ export class TrayComponent implements OnInit, OnDestroy {
         this.rackService.saveTrayLayout(trayList)
             .subscribe(
                 response => {
-                    this.trayList = response;
-                    this.alertService.success("Tray Layout is saved successfully",this.options);
+                    this.alertService.success(response.message,this.options);
+                    this.getTrayDataById(this.route.snapshot.params.id);
                 },
                 error => {
                     console.log(error);
