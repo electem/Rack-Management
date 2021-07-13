@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Product } from 'src/app/models/form.model';
 import { FormService } from './../../services/app.form.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,13 +15,21 @@ export class FormListComponent implements OnInit {
   
   currentTemplate?: Product;
   currentIndex = -1;
-  name = '';
+  formName = '';
   tempid = '';
   clientFk = '';
   UserObj: any = {};
   templateName: any;
+  templateFormName:any;
+
+  @Input()
+  name:string;
+
+  @Input()
+  id:string;
 
   displayedColumns: string[] = [];
+
   
   constructor(private formService: FormService,
     private route: ActivatedRoute,
@@ -29,15 +37,21 @@ export class FormListComponent implements OnInit {
     dataSource = new MatTableDataSource<any>();
     
   ngOnInit(): void {
+    if(this.name == undefined || this.id == undefined){
+      this.tempid = this.route.snapshot.params['id'];
+      this.templateFormName=this.route.snapshot.params.name;
+      this.retrieveForms();
+    }
     //this.getData();
-    this.tempid = this.route.snapshot.params['id'];
+    this.templateFormName=this.name;
+    this.tempid=this.id;
     this.retrieveForms();
     this.UserObj = JSON.parse(sessionStorage.getItem('userObj'));
     this.clientFk = this.UserObj.clientFk;
   }
 
   retrieveForms(): void {    
-    this.formService.getAllProductsByItemTempId(this.tempid, this.route.snapshot.params.name)
+    this.formService.getAllProductsByItemTempId(this.tempid, this.templateFormName)
       .subscribe(
         data => {
           this.extractData(data)
@@ -71,7 +85,7 @@ export class FormListComponent implements OnInit {
     this.currentTemplate = undefined;
     this.currentIndex = -1;
 
-    this.formService.findByFormsName(this.name)
+    this.formService.findByFormsName(this.formName)
       .subscribe(
         data => {
           this.products = data;
@@ -127,7 +141,6 @@ export class FormListComponent implements OnInit {
       rowdata = Object.assign({"id":dbRecord.id})
      // rowdata = Object.assign(rowdata, {"name":dbRecord.name})
       
-
       //Extract label and values from the Attributes
       dbRecord.attributes.forEach(dbRecordCol => {
         var colVal = dbRecordCol.value ? dbRecordCol.value : ""

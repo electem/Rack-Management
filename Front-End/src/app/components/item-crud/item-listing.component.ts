@@ -17,6 +17,8 @@ export class ItemListingComponent {
     clientFk: '';
     formList=false;
     templateList:any;
+    name:any;
+    id:any;
 
     constructor(private http: HttpClient,private formService:FormService,
       private route: ActivatedRoute,
@@ -59,7 +61,7 @@ export class ItemListingComponent {
         data => {
          // this.Templates = data;
           this.dataSource.data = data;
-          this.templateList=this.dataSource.data
+          this.templateList=this.dataSource.data;
           console.log(data);
         },
         error => {
@@ -78,47 +80,9 @@ export class ItemListingComponent {
     }
 
     fetchFormList(formName:any,formId:any){
-      this.formList=true;
-      this.retrieveForms(formName,formId);
+      this.formList = true;
+      this.name = formName;
+      this.id = formId;
+     
     }
-
-    retrieveForms(formName:any,formId:any): void {    
-      this.formService.getAllProductsByItemTempId(formId, formName)
-        .subscribe(
-          data => {
-            this.extractData(data,formName)
-          });
-    }
-
-    private extractData(serverData,name:any) {
-      var rowDataList:any = [];
-  
-      serverData.forEach(dbRecord => {
-  
-        var rowdata; 
-        //Prepare Row Data
-        rowdata = Object.assign({"id":dbRecord.id})
-       // rowdata = Object.assign(rowdata, {"name":dbRecord.name})
-
-       var createInput = document.createElement("INPUT");
-       createInput.setAttribute("type", "number");
-        
-        //Extract label and values from the Attributes
-        dbRecord.attributes.forEach(dbRecordCol => {
-          var colVal = dbRecordCol.value ? dbRecordCol.value : ""
-          var colLabel = dbRecordCol.label
-          rowdata = Object.assign(rowdata, { [colLabel]:colVal })
-        });
-        rowdata = Object.assign(rowdata, {"quantity": createInput})
-        rowdata = Object.assign(rowdata, {"actions": `<a href="http://localhost:4200/EditForm/${name}/${dbRecord.id}"> Edit</a>`})
-        //push a record 
-        rowDataList.push(rowdata);
-      });
-  
-      //Extract column names
-      this.displayedColumns = Object.getOwnPropertyNames(rowDataList[0])
-  
-      this.dataSource.data = rowDataList
-    }
-  
 }

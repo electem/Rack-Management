@@ -9,7 +9,7 @@
               <input type="text" class="form-control" id="name" formControlName="name"  [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
                 name="name"/>
                 <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
-                  <div *ngIf="f.name.errors.required">rackName is required</div>
+                  <div *ngIf="f.name.errors.required">RackName is required</div>
               </div>
             </div>
           </div>
@@ -19,7 +19,7 @@
               <input type="number" class="form-control" id="no_of_rows" formControlName="no_of_rows"  
               [ngClass]="{ 'is-invalid': submitted && f.no_of_rows.errors }" name="no_of_rows"/>
               <div *ngIf="submitted && f.no_of_rows.errors" class="invalid-feedback">
-                  <div *ngIf="f.no_of_rows.errors.required">No_Of_Rows is required</div>
+                  <div *ngIf="f.no_of_rows.errors.required">Number Of Rows is required</div>
               </div>
             </div>
           </div>
@@ -32,7 +32,7 @@
               <input type="number" class="form-control" id="no_of_columns" formControlName="no_of_columns"  
               [ngClass]="{ 'is-invalid': submitted && f.no_of_columns.errors }" name="no_of_columns"/>
               <div *ngIf="submitted && f.no_of_columns.errors" class="invalid-feedback">
-                  <div *ngIf="f.no_of_columns.errors.required">No_Of_Columns is required</div>
+                  <div *ngIf="f.no_of_columns.errors.required">Number Of Columns is required</div>
               </div>
             </div>
           </div>

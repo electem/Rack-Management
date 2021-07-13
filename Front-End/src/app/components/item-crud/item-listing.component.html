@@ -1,7 +1,11 @@
-<ul class="nav border border-secondary">
-  <li class="nav-item" *ngFor="let template of dataSource.data">
-    <a class="nav-link active" aria-current="page" href="#">{{template.name}}</a>
-  </li>
-</ul>
+<div class="card-body">
+    <ul class="nav border border-secondary">
+      <li class="nav-item" *ngFor="let template of templateList">
+        <a class="nav-link active" (click)="fetchFormList(template.name,template.id)">{{template.name}}</a>
+      </li>
+   </ul>
 
-<app-forms-list [template]="Item1"></app-forms-list>
+  <div *ngIf="formList">
+    <app-forms-list name={{name}} id={{id}}></app-forms-list>
+  </div>
+</div>

@@ -15,9 +15,10 @@ import { ColorSketchModule } from 'ngx-color/sketch';
 import { UploadFilesComponent } from '../upload-files/upload-files.component';
 import {ItemListingComponent} from '../item-crud/item-listing.component';
 import { NgxNumberSpinnerModule } from 'ngx-number-spinner';
+import { FormListComponent } from '../forms-list/forms-list.component';
 
 @NgModule({
-  declarations: [TrayComponent, UploadFilesComponent, ItemListingComponent],
+  declarations: [TrayComponent, UploadFilesComponent, ItemListingComponent,FormListComponent],
   exports: [TrayComponent],
   imports: [
     CommonModule,
