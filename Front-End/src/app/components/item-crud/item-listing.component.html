@@ -1,11 +1,13 @@
 <div class="card-body">
     <ul class="nav border border-secondary">
       <li class="nav-item" *ngFor="let template of templateList">
-        <a class="nav-link active" (click)="fetchFormList(template.name,template.id)">{{template.name}}</a>
+        <a class="nav-link active" (click)="fetchFormList(template.name,template.id)" >{{template.name}}</a>
       </li>
    </ul>
-
-  <div *ngIf="formList">
-    <app-forms-list name={{name}} id={{id}}></app-forms-list>
-  </div>
+      <div *ngIf="formList" >
+        <app-forms-list name={{name}} id={{id}} isQuantity="true"></app-forms-list>
+      </div>
 </div>
+
+  
+

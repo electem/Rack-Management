@@ -254,6 +254,7 @@ export class TrayComponent implements OnInit, OnDestroy {
                                 console.log(response);
                                 this.alertService.success(response.message, this.options);
                                 this.getTrayDataById(this.route.snapshot.params.id);
+                                this.getTrayProp(this.route.snapshot.params.id);
                             },
                             error => {
                                 console.log(error);

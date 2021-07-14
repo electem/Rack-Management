@@ -28,8 +28,10 @@ export class FormListComponent implements OnInit {
   @Input()
   id:string;
 
-  displayedColumns: string[] = [];
+  @Input()
+  isQuantity:string;
 
+  displayedColumns: string[] = [];
   
   constructor(private formService: FormService,
     private route: ActivatedRoute,
@@ -37,7 +39,7 @@ export class FormListComponent implements OnInit {
     dataSource = new MatTableDataSource<any>();
     
   ngOnInit(): void {
-    if(this.name == undefined || this.id == undefined){
+    if(this.name == undefined || this.id == undefined || this.isQuantity== "false"){
       this.tempid = this.route.snapshot.params['id'];
       this.templateFormName=this.route.snapshot.params.name;
       this.retrieveForms();
@@ -128,6 +130,8 @@ export class FormListComponent implements OnInit {
   }
 
   addNewForm(): void {
+    //this.templateFormName=this.name;
+    this.tempid = this.route.snapshot.params['id'];
     this.router.navigate(['/addForm/' + this.route.snapshot.params.name + '/' + this.tempid ]);
   }
 
@@ -145,9 +149,12 @@ export class FormListComponent implements OnInit {
       dbRecord.attributes.forEach(dbRecordCol => {
         var colVal = dbRecordCol.value ? dbRecordCol.value : ""
         var colLabel = dbRecordCol.label
-        rowdata = Object.assign(rowdata, { [colLabel]:colVal })
-      });
+        rowdata = Object.assign(rowdata, { [colLabel]:colVal }) 
+    });
+
+      rowdata = Object.assign(rowdata, { "quantity":`<input type="number" value="120" />` })
       rowdata = Object.assign(rowdata, {"actions": `<a href="http://localhost:4200/EditForm/${this.route.snapshot.params.name}/${dbRecord.id}"> Edit</a>`})
+      
       //push a record 
       rowDataList.push(rowdata);
     });
@@ -156,7 +163,6 @@ export class FormListComponent implements OnInit {
 
     //Extract column names
     this.displayedColumns = Object.getOwnPropertyNames(rowDataList[0])
-
     this.dataSource.data = rowDataList
   }
 
