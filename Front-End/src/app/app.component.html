@@ -19,8 +19,10 @@
                         </div>
                     </li>
                     <li class="notifications dropdown">
-                        <a href="" class="dropdown-toggle" data-toggle="dropdown">
+
+                        <a  (click)="fetchAllNotifications()" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="ti-bell"></i>
+                            <span  *ngIf="afterClickOnNotification" class="counter">1</span>
                         </a>
                         <ul class="dropdown-menu">
                             <li class="notice-header">
@@ -30,26 +32,13 @@
                             <li>
                                 <ul class="list-info overflow-y-auto relative scrollable">
                                     <li>
-                                        <a href="">   
-                                            <div class="info">
-                                                <span class="title">
-                                                    <span class="font-size-14 text-semibold">Minerva Hooper</span>
-                                                <span class="text-gray">commented on your <span class="text-dark">post</span></span>
-                                                </span>
-                                                <span class="sub-title">2 mins ago</span>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="">
                                             <img [src]="profile.image" width="30" height="30" alt="">
                                             <div class="info">
                                                 <span class="title">
-                                                    <span class="font-size-14 text-semibold">Jacob Thornton</span>
-                                                <span class="text-gray">commented on your <span class="text-dark">photo</span></span>
+                                                    <span class="font-size-14 text-semibold">{{UserObj.username}}</span>
+                                                <span class="text-dark"> Has Successfully <span class="text-dark">{{notifications[0].notificationType}}</span></span>
                                                 </span>
                                             </div>
-                                        </a>
                                     </li>
                                     
                                 </ul>

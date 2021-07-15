@@ -29,9 +29,11 @@ export class AppComponent {
   };
 
   itemlabel: any;
+  afterClickOnNotification=true;
   itemObject: any;
   dataObject: any;
   menuObject: any;
+  notifications:any;
   id:any;
   planList:any;
   
@@ -62,6 +64,7 @@ constructor(private menuService: MenuService,
     this.getPlans();
     this.UserObj = JSON.parse(sessionStorage.getItem('userObj'));
     this.fetchFile(this.UserObj.id);
+     this.fetchNotificationByUserFk(this.UserObj.id)
    
     this.itemPk = this.activatedRoute.snapshot.params['id'];
     // this.fetchItemById(this.itemPk);
@@ -171,11 +174,24 @@ constructor(private menuService: MenuService,
         .subscribe(
           data => {
             this.planList = data;
-            planProperties=Object.keys(this.planList[0]);
           },
           error => {
             console.log(error);
           });
+    }
+
+    fetchNotificationByUserFk(user_fk){
+      this.userService.fetchNotificationByUserFk(user_fk)
+      .subscribe(
+        response=>
+        {
+          this.notifications=response;
+          
+      })
+    }
+
+    fetchAllNotifications(){
+      this.afterClickOnNotification=false;
     }
 
 
