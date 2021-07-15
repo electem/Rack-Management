@@ -7,6 +7,7 @@ import { ItemService } from './services/item.service';
 import { UserProfileService } from './services/user-profile.service';
 import { Profile } from './models/userProfile.model';
 import { UploadFilesService } from './services/upload-files.service';
+import { UserService } from './services/user.service';
 
 
 @Component({
@@ -32,6 +33,8 @@ export class AppComponent {
   dataObject: any;
   menuObject: any;
   id:any;
+  planList:any;
+  
 
   menu: Menu = {
     label: '',
@@ -52,11 +55,14 @@ constructor(private menuService: MenuService,
   private activatedRoute: ActivatedRoute,
   private userProfile:UserProfileService,
   private uploadService:UploadFilesService,
+  private userService:UserService,
   private router: Router) { }
   UserObj: any = {};
   ngOnInit(): void {
+    this.getPlans();
     this.UserObj = JSON.parse(sessionStorage.getItem('userObj'));
     this.fetchFile(this.UserObj.id);
+   
     this.itemPk = this.activatedRoute.snapshot.params['id'];
     // this.fetchItemById(this.itemPk);
     this.fetchAllmenus();
@@ -157,6 +163,19 @@ constructor(private menuService: MenuService,
     changePasswordByUserFk() {
       this.id=this.UserObj.clientFk;
           this.router.navigate(['/changePassword',this.id]);
+    }
+
+    getPlans(): void {
+      var planProperties = [];
+      this.userService.getPlansList()
+        .subscribe(
+          data => {
+            this.planList = data;
+            planProperties=Object.keys(this.planList[0]);
+          },
+          error => {
+            console.log(error);
+          });
     }
 
 

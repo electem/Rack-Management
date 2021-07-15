@@ -19,7 +19,6 @@
                         </div>
                     </li>
                     <li class="notifications dropdown">
-                        <span class="counter">5</span>
                         <a href="" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="ti-bell"></i>
                         </a>
@@ -31,8 +30,7 @@
                             <li>
                                 <ul class="list-info overflow-y-auto relative scrollable">
                                     <li>
-                                        <a href="">
-                                            
+                                        <a href="">   
                                             <div class="info">
                                                 <span class="title">
                                                     <span class="font-size-14 text-semibold">Minerva Hooper</span>
@@ -44,13 +42,12 @@
                                     </li>
                                     <li>
                                         <a href="">
-                                            <img class="thumb-img" src="assets/images/avatars/avatar-5.png" alt="">
+                                            <img [src]="profile.image" width="30" height="30" alt="">
                                             <div class="info">
                                                 <span class="title">
                                                     <span class="font-size-14 text-semibold">Jacob Thornton</span>
                                                 <span class="text-gray">commented on your <span class="text-dark">photo</span></span>
                                                 </span>
-                                                <span class="sub-title">5 hours ago</span>
                                             </div>
                                         </a>
                                     </li>
@@ -311,18 +308,55 @@
                 </div>
             </div>
         </section>
-        <!-- Call to action section-->
-        <section class="cta">
-            <div class="cta-content">
-                <div class="container px-5">
-                    <h2 class="text-white display-1 lh-1 mb-4">
-                        Stop waiting.
-                        <br />
-                        Start building.
-                    </h2>
-                    <a class="btn btn-outline-light py-3 px-4 rounded-pill" href="https://startbootstrap.com/theme/new-age" target="_blank">Download for free</a>
+        
+        <!-- Plan Section-->
+        <section class="card" style="background: linear-gradient(
+            45deg
+            , #2937f0, #9f1ae2) !important;">
+            <div class="row">
+                <div class="col-sm-4">
+                  <div class="card bg-light">
+                    <div class="cart_head">
+                        <p class="plan"><strong>{{planList[0].name}}</strong></p>
+                    </div>
+                    <div>
+                        <b class="ml-2">BENEFITS</b><br>
+                        <div class="border-bottom ml-2">Users<span class="pull-right mr-4">{{planList[0].noOfUsers}}</span></div><br>
+                        <div class="border-bottom ml-2"><span>Racks Avaliable</span><span  class="pull-right mr-4">{{planList[0].noOfRacks}}</span></div><br>
+                        <div class="border-bottom ml-2"><span>ItemTypes Avaliable</span>  <span class="pull-right mr-4">{{planList[0].noOfItemTypes}}</span></div><br>
+                        <div class="border-bottom ml-2"><span>Rate</span><span class="pull-right mr-4">{{planList[0].rate}}</span></div>
+                    </div>
+                  </div>
                 </div>
-            </div>
+                <div class="col-sm-4">
+                  <div class="card bg-light">
+                    <div class="cart_head">
+                        <p class="plan"><strong>{{planList[1].name}}</strong></p>
+                    </div>
+                    <div>
+                        <b class="ml-2">BENEFITS</b><br>
+                        <div class="border-bottom ml-2"><span>Users</span><span class="pull-right mr-4">{{planList[1].noOfUsers}}</span></div><br>
+                        <div class="border-bottom ml-2"><span>Racks Avaliable</span><span class="pull-right mr-4">{{planList[1].noOfRacks}}</span></div><br>
+                        <div class="border-bottom ml-2"><span>ItemTypes Avaliable</span><span class="pull-right mr-4">{{planList[1].noOfItemTypes}}</span></div><br>
+                        <div class="border-bottom ml-2"><span>Rate</span><span class="pull-right mr-4">{{planList[1].rate}}</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="card bg-light">
+                    <div class="cart_head">
+                        <p class="plan"><strong>{{planList[2].name}}</strong></p>
+                    </div>
+                    <div>
+                        <b class="ml-2">BENEFITS</b><br>
+                        <div class="border-bottom ml-2"><span>Users</span><span  class="pull-right mr-4">{{planList[2].noOfUsers}}</span></div><br>
+                        <div class="border-bottom ml-2"><span>Racks Avaliable</span><span class="pull-right mr-4">{{planList[2].noOfRacks}}</span></div><br>
+                        <div class="border-bottom ml-2"><span>ItemTypes Avaliable</span><span class="pull-right mr-4">{{planList[2].noOfItemTypes}}</span></div><br>
+                        <div class="border-bottom ml-2"><span>Rate</span><span class="pull-right mr-4">{{planList[2].rate}}</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
         </section>
         <!-- App badge section-->
         <section class="bg-gradient-primary-to-secondary" id="download">
