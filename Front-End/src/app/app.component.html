@@ -10,14 +10,7 @@
                 </ul>           
             
                 <ul class="nav-right d-flex justify-content-end">
-                    <li class="userprofile dropdown">
-                        <a href="" class="ropdown-toggle" data-toggle="dropdown"><i class="flag-icon flag-icon-us"></i> EN</a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#en"><i class="flag-icon flag-icon-us"></i> EN</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#es"><i class="flag-icon flag-icon-es"></i> ES</a>                           
-                        </div>
-                    </li>
+                    
                     <li class="notifications dropdown">
 
                         <a  (click)="fetchAllNotifications()" class="dropdown-toggle" data-toggle="dropdown">
@@ -33,9 +26,9 @@
                                 <ul class="list-info overflow-y-auto relative scrollable">
                                     <li>
                                             <img [src]="profile.image" width="30" height="30" alt="">
-                                            <div class="info">
+                                            <div class="btn-success">
                                                 <span class="title">
-                                                    <span class="font-size-14 text-semibold">{{UserObj.username}}</span>
+                                                    <span class="font-size-18 text-dark">{{UserObj.username}}</span>
                                                 <span class="text-dark"> Has Successfully <span class="text-dark">{{notifications[0].notificationType}}</span></span>
                                                 </span>
                                             </div>
