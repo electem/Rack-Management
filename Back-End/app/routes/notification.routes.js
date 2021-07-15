@@ -4,6 +4,8 @@ module.exports = app => {
       var router = require("express").Router();
     
        router.get("/fetchAllNotification", notification.fetchAllNotification);
+
+       router.get("/fetchNotificationByUserFk/:user_fk", notification.fetchNotificationByUserFk);
   
        app.use('/api/notification', router);
     };

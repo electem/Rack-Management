@@ -20,6 +20,19 @@ exports.fetchAllNotification = (req, res) => {
     });
 };
 
+exports.fetchNotificationByUserFk = (req, res) => {
+  const user_fk = req.params.user_fk;
+  let query = `SELECT * FROM notifications WHERE user_fk = ${user_fk}`;
+  sequelize.query(query, { type: sequelize.QueryTypes.SELECT})
+  .then(data => {
+    res.send(data);
+  }).catch(err => {
+      res.status(500).send({
+        message: "Error retrieving notifications"+err
+      });
+    });
+};
+
 function sendNotificationBasedOnStatus(data) {
 
   for (let i = 0; i < data.length; i++) {
@@ -36,7 +49,7 @@ function sendNotificationBasedOnStatus(data) {
     };
       try {
         transport.sendMail(message, function (err, info) {
-        console.log('mail has sent.');
+        console.log('mail has sent');
         console.log(info);
         query = `UPDATE notifications SET status = 'SENT' WHERE id = ${data[i].id} AND "noOfRetry"= ${noOfRetry}`;
         sequelize.query(query).then(data => {
@@ -54,7 +67,6 @@ function sendNotificationBasedOnStatus(data) {
             }
           })
         }
-    
   }
 }
 
