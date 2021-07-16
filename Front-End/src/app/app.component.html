@@ -25,7 +25,9 @@
                             <li>
                                 <ul class="list-info overflow-y-auto relative scrollable">
                                     <li>
-                                            <img class="thumb-img" src="http://localhost:8080/files/bell-2-48.jpg" width="20" height="20" alt="">
+                                            <img *ngIf="notifications[0].status==='SENT'"  class="thumb-img" src="http://localhost:8080/files/bell-2-48.jpg" width="20" height="20" alt="">
+                                            <img *ngIf="notifications[0].status==='NEW'"  class="thumb-img" src="http://localhost:8080/files/bell-2-48 (1).jpg" width="20" height="20" alt="">
+
                                             <div class="info">
                                                 <span class="title">
                                                     <span class="font-size-18 text-dark">{{UserObj.username}}</span>
