@@ -14,26 +14,26 @@
                     <li class="notifications dropdown">
 
                         <a  (click)="fetchAllNotifications()" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="ti-bell"></i>
+                            <i class="bi-bell"></i>
                             <span  *ngIf="afterClickOnNotification" class="counter">1</span>
                         </a>
                         <ul class="dropdown-menu">
                             <li class="notice-header">
-                                <i class="ti-bell pdd-right-10"></i>
+                                <i class="bi-bell pdd-right-10"></i>
                                 <span>Notifications</span>
                             </li>
                             <li>
                                 <ul class="list-info overflow-y-auto relative scrollable">
                                     <li>
-                                            <img [src]="profile.image" width="30" height="30" alt="">
-                                            <div class="btn-success">
+                                            <img class="thumb-img" src="http://localhost:8080/files/bell-2-48.jpg" width="20" height="20" alt="">
+                                            <div class="info">
                                                 <span class="title">
                                                     <span class="font-size-18 text-dark">{{UserObj.username}}</span>
                                                 <span class="text-dark"> Has Successfully <span class="text-dark">{{notifications[0].notificationType}}</span></span>
+                                                <span class="sub-title">{{notifications[0].createdAt| date:'shortTime'}}</span>
                                                 </span>
                                             </div>
                                     </li>
-                                    
                                 </ul>
                             </li>
                             <li class="notice-footer">
@@ -295,8 +295,8 @@
         <section class="card" style="background: linear-gradient(
             45deg
             , #2937f0, #9f1ae2) !important;">
-            <div class="row">
-                <div class="col-sm-4">
+            <div class="row ml-4">
+                <div class="col-sm-3 default-card">
                   <div class="card bg-light">
                     <div class="cart_head">
                         <p class="plan"><strong>{{planList[0].name}}</strong></p>
@@ -310,7 +310,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-3 default-card">
                   <div class="card bg-light">
                     <div class="cart_head">
                         <p class="plan"><strong>{{planList[1].name}}</strong></p>
@@ -324,7 +324,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-3 default-card">
                   <div class="card bg-light">
                     <div class="cart_head">
                         <p class="plan"><strong>{{planList[2].name}}</strong></p>
