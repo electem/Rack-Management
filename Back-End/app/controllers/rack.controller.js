@@ -297,7 +297,6 @@ exports.updateTray = (req, res) => {
       });
   }
 
-  //Fetch Tray Data By RackId
   exports.fetchTrayDataByRackId = (req, res) => {
     const tableName = "trays";
     const tableName2="trayItems";
@@ -310,7 +309,7 @@ exports.updateTray = (req, res) => {
 
     sequelize.query(query, { type: sequelize.QueryTypes.FULLJOIN})
     .then(data => {
-      res.send(data);
+      res.send(data[0]);
     }).catch(err => { 
         res.status(500).send({
           message: "Error retrieving Form with id=" + rack_fk
@@ -336,7 +335,7 @@ exports.updateTray = (req, res) => {
 exports.saveTrayLayout = (req, res) => {
   const trayList = req.body;
   for (let i = 0; i < trayList.length; i++) {
-    let query = `UPDATE trays SET x = '${trayList[i].x}',y = '${trayList[i].y}',h = '${trayList[i].h}',w = '${trayList[i].w}' WHERE id = ${trayList[i].id}`;
+    let query = `UPDATE trays SET h = '${trayList[i].h}',w = '${trayList[i].w}' WHERE id = ${trayList[i].id}`;
     sequelize.query(query).then(trayList => {
       if (trayList[i] == i) {
         res.send({
