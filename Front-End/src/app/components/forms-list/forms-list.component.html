@@ -8,14 +8,19 @@
         Add new form
       </button>
     </div>
-    <div class="mat-app-background basic-container">
+    <div class="mat-app-background basic-container" >
       <mat-table  #table  [dataSource]="dataSource"  class="mat-elevation-z8">
         <ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumns">
           <mat-header-cell  class="custom-mat-header-styling tableHeaderCellDiv" *matHeaderCellDef>{{ column }} </mat-header-cell>
-          <mat-cell *matCellDef="let element">  <div [innerHTML]="element[column]">
-          </div> </mat-cell>
+          <mat-cell *matCellDef="let element">  
+              <div [innerHTML]="element[column]">
+            </div> 
+            <a *ngIf="column=='actions'" class="bi-trash-fill context-menu mr-3" (click)="removeForm(element.id)"></a>
+            <div *ngIf="column =='Quantity' && isQuantity=='true'">
+            <input type="number" id="quantity" class="form-control"/>
+          </div>
+         </mat-cell>
         </ng-container>
-      
         <mat-header-row *matHeaderRowDef="displayedColumns"> </mat-header-row>
         <mat-row  *matRowDef="let row; columns: displayedColumns;"></mat-row>
       </mat-table>

@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import swal from 'sweetalert2';
 import { HttpClient } from '@angular/common/http';
+import { AlertService } from '../_alert';
 @Component({
   selector: 'app-forms-list',
   templateUrl: './forms-list.component.html',
@@ -31,10 +32,16 @@ export class FormListComponent implements OnInit {
   @Input()
   isQuantity:string;
 
+  options = {
+    autoClose: true,
+    keepAfterRouteChange: false
+};
+
   displayedColumns: string[] = [];
   
   constructor(private formService: FormService,
     private route: ActivatedRoute,
+    private alertService: AlertService,
     private router: Router, private http: HttpClient) { }
     dataSource = new MatTableDataSource<any>();
     
@@ -98,20 +105,48 @@ export class FormListComponent implements OnInit {
         });
   }
 
-  deleteFormData(id): void {
-    this.formService.deleteFormData(id, this.route.snapshot.params.name)
-      .subscribe(
-        response => {
-          console.log(response);
-          this.formService.getAll(this.clientFk);
-          this.router.navigate(['/template']);
-        },
-        error => {
-          console.log(error);
-        });
+  addNewForm(): void {
+    //this.templateFormName=this.name;
+    this.tempid = this.route.snapshot.params['id'];
+    this.router.navigate(['/addForm/' + this.route.snapshot.params.name + '/' + this.tempid ]);
   }
 
+  private extractData(serverData) {
+    var rowDataList:any = [];
 
+    serverData.forEach(dbRecord => {
+      var rowdata; 
+      //Prepare Row Data
+      rowdata = Object.assign({"id":dbRecord.id})
+     // rowdata = Object.assign(rowdata, {"name":dbRecord.name})
+   
+       //Extract label and values from the Attributes
+        dbRecord.attributes.forEach(dbRecordCol => {
+        var colVal = dbRecordCol.value ? dbRecordCol.value : ""
+        var colLabel = dbRecordCol.label
+        rowdata = Object.assign(rowdata, { [colLabel]:colVal })
+    });
+        if(this.isQuantity == "true"){
+          rowdata = Object.assign(rowdata, {"Quantity": ``})
+        }
+        rowdata = Object.assign(rowdata, {"actions": `<a class="bi-pencil-fill mr-2" href="http://localhost:4200/EditForm/${this.route.snapshot.params.name}/${dbRecord.id}"></a>`})
+    
+      //push a record 
+      rowDataList.push(rowdata);
+    });
+
+    //Extract column names
+    this.displayedColumns = Object.getOwnPropertyNames(rowDataList[0])
+    this.dataSource.data = rowDataList
+  }
+
+  // private getData(): any {
+  //   this.http.get('/assets/testdata/itemlisting.json')
+  //   .subscribe((data: any) => {
+  //     this.extractData(data)      
+  //   });
+  // }
+  
   removeForm(id) {
     swal({
       title: 'Are you sure?',
@@ -126,51 +161,19 @@ export class FormListComponent implements OnInit {
         this.deleteFormData(id);
       }
     });
-
   }
 
-  addNewForm(): void {
-    //this.templateFormName=this.name;
-    this.tempid = this.route.snapshot.params['id'];
-    this.router.navigate(['/addForm/' + this.route.snapshot.params.name + '/' + this.tempid ]);
-  }
-
-  private extractData(serverData) {
-    var rowDataList:any = [];
-
-    serverData.forEach(dbRecord => {
-
-      var rowdata; 
-      //Prepare Row Data
-      rowdata = Object.assign({"id":dbRecord.id})
-     // rowdata = Object.assign(rowdata, {"name":dbRecord.name})
-      
-      //Extract label and values from the Attributes
-      dbRecord.attributes.forEach(dbRecordCol => {
-        var colVal = dbRecordCol.value ? dbRecordCol.value : ""
-        var colLabel = dbRecordCol.label
-        rowdata = Object.assign(rowdata, { [colLabel]:colVal }) 
-    });
-
-      rowdata = Object.assign(rowdata, { "quantity":`<input type="number" value="120" />` })
-      rowdata = Object.assign(rowdata, {"actions": `<a href="http://localhost:4200/EditForm/${this.route.snapshot.params.name}/${dbRecord.id}"> Edit</a>`})
-      
-      //push a record 
-      rowDataList.push(rowdata);
-    });
-
-    console.log(rowDataList)
-
-    //Extract column names
-    this.displayedColumns = Object.getOwnPropertyNames(rowDataList[0])
-    this.dataSource.data = rowDataList
-  }
-
-  private getData(): any {
-    this.http.get('/assets/testdata/itemlisting.json')
-    .subscribe((data: any) => {
-      this.extractData(data)      
-    });
+  deleteFormData(id): void {
+    this.formService.deleteFormData(id, this.route.snapshot.params.name)
+      .subscribe(
+        response => {
+          this.alertService.success(response.message,this.options)
+          this.router.navigate(['/template'])
+         
+        },
+        error => {
+          console.log(error);
+        });
   }
 
 }

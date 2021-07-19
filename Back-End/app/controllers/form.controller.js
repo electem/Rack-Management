@@ -105,8 +105,10 @@ exports.delete = (req, res) => {
   const id = req.params.id;
   const name = req.params.name;
   let query = `Delete from ${name}_template WHERE id = ${id}`;
-  sequelize.query(query, { type: sequelize.QueryTypes.DELETE}).then(num => {
-    
+  sequelize.query(query, { type: sequelize.QueryTypes.DELETE}).then(data => {
+    res.send({
+      message: "Form was deleted successfully."
+    });
     })
     .catch(err => {
       res.status(500).send({
