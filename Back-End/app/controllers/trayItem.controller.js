@@ -1,9 +1,8 @@
 const db = require("../models");
 const TrayItem = db.trayItems;
-const Op = db.Sequelize.Op;
 const Sequelize = require("sequelize");
-db.Sequelize = Sequelize;
-
+const Op = db.Sequelize.Op;
+const sequelize = require("../config/seq.config.js");
 exports.trayItemCreate = (req, res) => {
 
     const trayItem = {
@@ -25,3 +24,16 @@ exports.trayItemCreate = (req, res) => {
             });
         });
 };
+
+exports.fetchTrayItem = (req, res) => {
+    const trayId= req.params.trayId;
+    let query = `SELECT * FROM "trayItems" WHERE "trayId" = ${trayId} `;
+    sequelize.query(query, { type: sequelize.QueryTypes.SELECT})
+    .then(data => {
+      res.send(data);
+    }).catch(err => {
+        res.status(500).send({
+          message: "Error retrieving Form with id=" + trayId
+        });
+      });
+  };

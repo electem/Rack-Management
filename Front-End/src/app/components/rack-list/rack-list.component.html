@@ -45,8 +45,8 @@
         <mat-header-cell  *matHeaderCellDef > Actions </mat-header-cell>
         <mat-cell *matCellDef="let element" >
           <a class="bi-pencil-fill mr-2" routerLink="/editRack/{{ element.id }}"></a>
-          <a class="bi-trash-fill mr-2" (click)="deleteRack(element.id)" style="margin-left: 10px;"></a>
-          <a class="mr-2"  (click)="fetchTrayView(element.id)" style="margin-left: 10px;">
+          <a class="bi-trash-fill context-menu mr-2" (click)="deleteRack(element.id)"></a>
+          <a class="context-menu mr-2"  (click)="fetchTrayView(element.id)">
             Tray-View
           </a>
         </mat-cell>

@@ -1,5 +1,5 @@
 import {SelectionModel} from '@angular/cdk/collections';
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import { HttpClient } from '@angular/common/http';
 import { FormService } from 'src/app/services/app.form.service';
@@ -19,6 +19,14 @@ export class ItemListingComponent {
     templateList:any;
     name:any;
     id:any;
+    trayId:any;
+
+    @Input()
+    trayListId:string;
+    
+    @Input()
+    rackId:string;
+
 
     constructor(private http: HttpClient,private formService:FormService,
       private route: ActivatedRoute,
@@ -27,6 +35,7 @@ export class ItemListingComponent {
     ngOnInit(): void {
       this.UserObj = JSON.parse(sessionStorage.getItem('userObj'));
       this.clientFk = this.UserObj.clientFk;
+      //console.log(this.trayListId);
       this.retrieveTemplates();
     }
 
@@ -68,14 +77,12 @@ export class ItemListingComponent {
           console.log(error);
         });
   }
-  
 
     private getData(): any {
       this.http.get('/assets/testdata/itemlisting.json')
       .subscribe((data: any) => {
         this.dataSource.data = data;
       });
-
       //// this.dataSource.data = <any> await this.http.get('https://www.ag-grid.com/example-assets/olympic-winners.json').toPromise();
     }
 
@@ -83,6 +90,7 @@ export class ItemListingComponent {
       this.formList = true;
       this.name = formName;
       this.id = formId;
-     
+      this.trayId=this.trayListId;
+      this.rackId=this.rackId;
     }
 }

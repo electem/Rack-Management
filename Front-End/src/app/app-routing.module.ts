@@ -22,6 +22,7 @@ import { UploadFilesComponent } from './components/upload-files/upload-files.com
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { ProfileListingComponent } from './components/profile-listing/profile-listing.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { ItemListingComponent } from './components/item-crud/item-listing.component';
 const routes: Routes = [
   
   { path: 'login', component: LoginComponent },
@@ -36,7 +37,6 @@ const routes: Routes = [
   { path: 'addForm/:id', component: AddFormComponent},
   { path: 'addForm/:name/:id', component: AddFormComponent},
   { path: 'EditForm/:name/:id', component: EditFormsComponent },
-  { path: 'form', component: FormListComponent },
   { path: 'form/:name/:id', component: FormListComponent },
   { path: 'menu/:id', component: AppComponent },
   { path: 'menu/:name/:id', component: FormListComponent},
@@ -48,13 +48,14 @@ const routes: Routes = [
   { path: 'add-staff', component:AddStaffComponent},
   { path: 'edit-staff/:id', component:AddStaffComponent},
   { path: 'forgotpassword', component:ForgotPasswordComponent},
-  { path: 'upload', component:UploadFilesComponent},
   { path: 'userProfile/:id', component:UserProfileComponent},
   { path: 'profileListing/:user_fk', component:ProfileListingComponent},
   { path: 'changePassword', component:ChangePasswordComponent},
-  { path: 'form', component: FormListComponent },
+  { path: 'form/:name/:id/:isQuantity/:trayId/:rackId', component: FormListComponent },
+   { path: 'itemList/:trayListId/:rackId', component: ItemListingComponent},
   
   
+ 
 ];
 
 @NgModule({

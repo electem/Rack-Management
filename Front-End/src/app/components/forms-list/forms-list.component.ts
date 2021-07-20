@@ -6,6 +6,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import swal from 'sweetalert2';
 import { HttpClient } from '@angular/common/http';
 import { AlertService } from '../_alert';
+import { TrayItems } from 'src/app/models/trayItems.model';
+import { RackService } from 'src/app/services/rack.service';
 @Component({
   selector: 'app-forms-list',
   templateUrl: './forms-list.component.html',
@@ -22,6 +24,9 @@ export class FormListComponent implements OnInit {
   UserObj: any = {};
   templateName: any;
   templateFormName:any;
+  trayItems = { quantity: 0,trayId:0,itemId:0,rackId:0};
+  quantity:number=0;
+  trayItemId:any;
 
   @Input()
   name:string;
@@ -31,6 +36,12 @@ export class FormListComponent implements OnInit {
 
   @Input()
   isQuantity:string;
+
+  @Input()
+  trayId:string;
+
+  @Input()
+  rackId:string;
 
   options = {
     autoClose: true,
@@ -42,6 +53,7 @@ export class FormListComponent implements OnInit {
   constructor(private formService: FormService,
     private route: ActivatedRoute,
     private alertService: AlertService,
+    private rackService: RackService,
     private router: Router, private http: HttpClient) { }
     dataSource = new MatTableDataSource<any>();
     
@@ -53,6 +65,8 @@ export class FormListComponent implements OnInit {
     }
     //this.getData();
     this.templateFormName=this.name;
+    // console.log(this.trayId);
+    console.log(this.rackId);
     this.tempid=this.id;
     this.retrieveForms();
     this.UserObj = JSON.parse(sessionStorage.getItem('userObj'));
@@ -64,6 +78,9 @@ export class FormListComponent implements OnInit {
       .subscribe(
         data => {
           this.extractData(data)
+           if(this.trayId!=undefined){
+             this.fetchTrayItemById(this.trayId)
+           }
         });
   }
 
@@ -169,11 +186,38 @@ export class FormListComponent implements OnInit {
         response => {
           this.alertService.success(response.message,this.options)
           this.router.navigate(['/template'])
-         
         },
         error => {
           console.log(error);
         });
   }
+
+  addTraysToItem(){
+    this.trayItems.quantity=this.quantity;
+    this.trayItems.itemId=+this.tempid;
+    this.trayItems.trayId=+this.trayId;
+    this.trayItems.rackId=+this.rackId;
+    this.rackService.createTrayItems(this.trayItems) 
+    .subscribe(
+      response=>{
+       console.log(response.id);
+      },
+      error => {
+        console.log(error);
+      });
+   }
+
+   fetchTrayItemById(id){
+     this.trayItemId=+id;
+     this.rackService.getTrayItemById(this.trayItemId)
+     .subscribe(
+      response=>{
+          let totalQuantity = response.reduce(function(accumulator, currentValue) {
+            return accumulator + currentValue.quantity;
+          }, 0);
+          this.quantity = totalQuantity;
+        }
+     )
+   }
 
 }

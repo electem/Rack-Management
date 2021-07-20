@@ -87,6 +87,7 @@ export class TrayComponent implements OnInit, OnDestroy {
     currentlyBeingEditedTray = null;
     traySelected = false;
     fileId=undefined;
+    rackId:any;
 
 
     currentlyTraySearchable = false;
@@ -103,6 +104,7 @@ export class TrayComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.UserObj = JSON.parse(sessionStorage.getItem('userObj'));
         this.file.user_fk = this.UserObj.clientFk; 
+        this.rackId=this.route.snapshot.params.id;
         this.getTrayProp(this.route.snapshot.params.id);
         this.getTrayDataById(this.route.snapshot.params.id);
         this.resizeSubscription = merge(
@@ -295,8 +297,9 @@ export class TrayComponent implements OnInit, OnDestroy {
         this.traySelected = true;
         const index = this.trayList.findIndex((item) => item.id === id);
         if (index > -1) {
-            this.currentlyBeingEditedTray = this.trayDataListFetched[index];
+            this.currentlyBeingEditedTray = this.trayDataList[index];
             this.form.setValue({trayname: this.currentlyBeingEditedTray.name});
+            this.trayId=this.currentlyBeingEditedTray.id;
             this.currentlyTraySearchable = this.currentlyBeingEditedTray.searchable;
             this.currentlyBeingEditedTray.cssClass = 'traySelected';
         }
@@ -373,8 +376,7 @@ export class TrayComponent implements OnInit, OnDestroy {
         this.rackService.getTrayDataById(rack_fk)
             .subscribe(
                 data => {
-                    this.trayDataList[0] = data[0];
-                    this.trayDataListFetched = this.trayDataList[0];
+                    this.trayDataList = data;
                 },
                 error => {
                     console.log(error);
