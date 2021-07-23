@@ -59,18 +59,22 @@ export class FormListComponent implements OnInit {
     dataSource = new MatTableDataSource<any>();
     
   ngOnInit(): void {
+    this.UserObj = JSON.parse(sessionStorage.getItem('userObj'));
+    this.clientFk = this.UserObj.clientFk;
     if(this.name == undefined || this.id == undefined || this.isQuantity == "false"){
       this.tempid = this.route.snapshot.params['id'];
       this.templateFormName=this.route.snapshot.params.name;
       this.retrieveForms();
     }
+    else{
+      this.templateFormName=this.name;
+      console.log(this.rackId);
+      this.tempid=this.id;
+      this.retrieveForms();
+    }
     // this.getData();
-    this.templateFormName=this.name;
-    console.log(this.rackId);
-    this.tempid=this.id;
-    this.retrieveForms();
-    this.UserObj = JSON.parse(sessionStorage.getItem('userObj'));
-    this.clientFk = this.UserObj.clientFk;
+   
+  
   }
 
   retrieveForms(): void {    
@@ -147,7 +151,7 @@ export class FormListComponent implements OnInit {
                 if (this.isQuantity == "true") {
                   rowdata = Object.assign(rowdata, {"quantity":this.quantity[i]})
                 }
-                rowdata = Object.assign(rowdata, { "actions": `<a class="bi-pencil-fill mr-2" href="http://localhost:4200/EditForm/${this.route.snapshot.params.name}/${dbRecord.id}"></a>` })
+                rowdata = Object.assign(rowdata, { "actions": `<a class="bi-pencil-fill mr-2" href="http://localhost:4200/EditForm/${this.templateFormName}/${dbRecord.id}"></a>` })
 
                 // push a record 
                 rowDataList.push(rowdata);
