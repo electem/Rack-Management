@@ -1,10 +1,12 @@
 <div class="card-body">
-    <ul class="nav border border-secondary">
-      <li class="nav-item" *ngFor="let template of templateList">
-        <a class="nav-link active" (click)="fetchFormList(template.name,template.id)" style="position: relative;">{{template.name}}</a>
-        <div *ngIf="template.name==name && formList" >
-          <app-forms-list name={{template.name}} id={{template.id}} isQuantity="true" trayId={{trayId}} rackId={{rackId}}></app-forms-list>
-        </div>
-      </li>
-   </ul>
+  <ul class="nav border border-secondary">
+    <li class="nav-item" *ngFor="let template of templateList">
+      <a class="nav-link active" (click)="fetchFormList(template.name,template.id)"
+        style="position: relative;">{{template.name}}</a>
+      <div *ngIf="template.name==name && formList">
+        <app-forms-list name={{template.name}} id={{template.id}} isQuantity="true" trayId={{trayId}} rackId={{rackId}}>
+        </app-forms-list>
+      </div>
+    </li>
+  </ul>
 </div>

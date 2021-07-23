@@ -6,7 +6,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import swal from 'sweetalert2';
 import { HttpClient } from '@angular/common/http';
 import { AlertService } from '../_alert';
-import { TrayItems } from 'src/app/models/trayItems.model';
 import { RackService } from 'src/app/services/rack.service';
 @Component({
   selector: 'app-forms-list',
@@ -24,9 +23,11 @@ export class FormListComponent implements OnInit {
   UserObj: any = {};
   templateName: any;
   templateFormName:any;
-  trayItems = { quantity: 0,trayId:0,itemId:0,rackId:0};
-  quantity:number=0;
+  trayItems = { quantity: 0,trayId:0,formId:0,rackId:0};
+  quantity: any = [];
+  totalquantity: any = [];
   trayItemId:any;
+  formId:any;
 
   @Input()
   name:string;
@@ -58,14 +59,13 @@ export class FormListComponent implements OnInit {
     dataSource = new MatTableDataSource<any>();
     
   ngOnInit(): void {
-    if(this.name == undefined || this.id == undefined || this.isQuantity== "false"){
+    if(this.name == undefined || this.id == undefined || this.isQuantity == "false"){
       this.tempid = this.route.snapshot.params['id'];
       this.templateFormName=this.route.snapshot.params.name;
       this.retrieveForms();
     }
-    //this.getData();
+    // this.getData();
     this.templateFormName=this.name;
-    // console.log(this.trayId);
     console.log(this.rackId);
     this.tempid=this.id;
     this.retrieveForms();
@@ -78,9 +78,6 @@ export class FormListComponent implements OnInit {
       .subscribe(
         data => {
           this.extractData(data)
-           if(this.trayId!=undefined){
-             this.fetchTrayItemById(this.trayId)
-           }
         });
   }
 
@@ -123,46 +120,50 @@ export class FormListComponent implements OnInit {
   }
 
   addNewForm(): void {
-    //this.templateFormName=this.name;
+    // this.templateFormName=this.name;
     this.tempid = this.route.snapshot.params['id'];
     this.router.navigate(['/addForm/' + this.route.snapshot.params.name + '/' + this.tempid ]);
   }
 
   private extractData(serverData) {
-    var rowDataList:any = [];
-
-    serverData.forEach(dbRecord => {
-      var rowdata; 
-      //Prepare Row Data
-      rowdata = Object.assign({"id":dbRecord.id})
-     // rowdata = Object.assign(rowdata, {"name":dbRecord.name})
-   
-       //Extract label and values from the Attributes
-        dbRecord.attributes.forEach(dbRecordCol => {
-        var colVal = dbRecordCol.value ? dbRecordCol.value : ""
-        var colLabel = dbRecordCol.label
-        rowdata = Object.assign(rowdata, { [colLabel]:colVal })
-    });
-        if(this.isQuantity == "true"){
-          rowdata = Object.assign(rowdata, {"Quantity": ``})
-        }
-        rowdata = Object.assign(rowdata, {"actions": `<a class="bi-pencil-fill mr-2" href="http://localhost:4200/EditForm/${this.route.snapshot.params.name}/${dbRecord.id}"></a>`})
+    var rowDataList: any = [];
     
-      //push a record 
-      rowDataList.push(rowdata);
+    serverData.forEach(dbRecord => {
+      var rowdata;
+      // Prepare Row Data
+      rowdata = Object.assign({ "id": dbRecord.id })
+      // rowdata = Object.assign(rowdata, {"name":dbRecord.name})
+      this.rackService.fetchAllItems()
+        .subscribe(
+          response => {
+            for (let i = 0; i < response.length; i++) {
+              if (response[i].formId == dbRecord.id) {
+                this.quantity[i]=response[i].quantity;
+                dbRecord.attributes.forEach(dbRecordCol => {
+                  var colVal = dbRecordCol.value ? dbRecordCol.value : ""
+                  var colLabel = dbRecordCol.label
+                  rowdata = Object.assign(rowdata, { [colLabel]: colVal })
+                });
+                if (this.isQuantity == "true") {
+                  rowdata = Object.assign(rowdata, {"quantity":this.quantity[i]})
+                }
+                rowdata = Object.assign(rowdata, { "actions": `<a class="bi-pencil-fill mr-2" href="http://localhost:4200/EditForm/${this.route.snapshot.params.name}/${dbRecord.id}"></a>` })
+
+                // push a record 
+                rowDataList.push(rowdata);
+                // Extract label and values from the Attributes
+                // Extract column names
+                this.displayedColumns = Object.getOwnPropertyNames(rowDataList[0])
+                this.dataSource.data = rowDataList
+              }
+            }
+
+          }
+        )
+
     });
 
-    //Extract column names
-    this.displayedColumns = Object.getOwnPropertyNames(rowDataList[0])
-    this.dataSource.data = rowDataList
   }
-
-  // private getData(): any {
-  //   this.http.get('/assets/testdata/itemlisting.json')
-  //   .subscribe((data: any) => {
-  //     this.extractData(data)      
-  //   });
-  // }
   
   removeForm(id) {
     swal({
@@ -184,7 +185,7 @@ export class FormListComponent implements OnInit {
     this.formService.deleteFormData(id, this.route.snapshot.params.name)
       .subscribe(
         response => {
-          this.alertService.success(response.message,this.options)
+          this.alertService.success(response.message, this.options)
           this.router.navigate(['/template'])
         },
         error => {
@@ -192,32 +193,39 @@ export class FormListComponent implements OnInit {
         });
   }
 
-  addTraysToItem(){
-    this.trayItems.quantity=this.quantity;
-    this.trayItems.itemId=+this.tempid;
-    this.trayItems.trayId=+this.trayId;
-    this.trayItems.rackId=+this.rackId;
-    this.rackService.createTrayItems(this.trayItems) 
-    .subscribe(
-      response=>{
-       console.log(response.id);
-      },
-      error => {
-        console.log(error);
-      });
-   }
-
-   fetchTrayItemById(id){
-     this.trayItemId=+id;
-     this.rackService.getTrayItemById(this.trayItemId)
-     .subscribe(
-      response=>{
-          let totalQuantity = response.reduce(function(accumulator, currentValue) {
-            return accumulator + currentValue.quantity;
-          }, 0);
-          this.quantity = totalQuantity;
+  addItemsToTray(formId) {
+    this.trayItems.quantity = this.quantity;
+    this.trayItems.formId = formId;
+    this.trayItems.trayId = parseInt(this.trayId);
+    this.trayItems.rackId = parseInt(this.rackId);
+    this.rackService.getItemById(formId)
+      .subscribe(
+        response => {
+          if (response.length > 0) {
+            this.trayItems.quantity=response[0].quantity+this.trayItems.quantity
+            this.rackService.updateTrayItem(this.trayItems.formId,this.trayItems)
+            .subscribe(
+              response => {
+                this.alertService.success("Items Updated Successfully To Tray", this.options)
+              },
+              error => {
+                console.log(error);
+              });
+          }
+          else{
+            this.rackService.createTrayItems(this.trayItems)
+            .subscribe(
+              response => {
+                this.alertService.success("Items Added Successfully To Tray", this.options)
+              },
+              error => {
+                console.log(error);
+              });
+          }
         }
-     )
-   }
+
+      )
+
+  }
 
 }

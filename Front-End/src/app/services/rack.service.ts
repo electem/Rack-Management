@@ -24,8 +24,8 @@ export class RackService {
     return this.http.delete(`${baseUrl}/api/rack/tray/${id}`);
   }
 
-  searchRack(data:any): Observable<any> {
-    return this.http.post(`${baseUrl}/api/rack/searchRack`,data);
+  searchRack(data: any): Observable<any> {
+    return this.http.post(`${baseUrl}/api/rack/searchRack`, data);
   }
 
   createRack(rackData: any): Observable<any> {
@@ -36,12 +36,12 @@ export class RackService {
     return this.http.post(baseUrl + '/api/rack/tray', trayData);
   }
 
-  updateTray(id:any,trayObject:any): Observable<any> {
-    return this.http.put(baseUrl + '/api/rack/tray/'+`${id}`,trayObject);
+  updateTray(id: any, trayObject: any): Observable<any> {
+    return this.http.put(baseUrl + '/api/rack/tray/' + `${id}`, trayObject);
   }
 
-  updateRack(id: any,rackObject:any): Observable<any> {
-    return this.http.put(baseUrl + '/api/rack/'+`${id}`,rackObject);
+  updateRack(id: any, rackObject: any): Observable<any> {
+    return this.http.put(baseUrl + '/api/rack/' + `${id}`, rackObject);
   }
 
   fetchTrayById(id: any): Observable<any> {
@@ -53,7 +53,7 @@ export class RackService {
   }
 
   saveTrayLayout(trayList: any): Observable<any> {
-    return this.http.post(`${baseUrl}/api/rack/tray/props/`,trayList);
+    return this.http.post(`${baseUrl}/api/rack/tray/props/`, trayList);
   }
 
   getTrayPropById(id: any): Observable<any> {
@@ -62,6 +62,22 @@ export class RackService {
 
   getTrayDataById(rack_fk: any): Observable<any> {
     return this.http.get(`${baseUrl}/api/rack/traylisting/data/${rack_fk}`);
+  }
+
+  createTrayItems(trayItem: any): Observable<any> {
+    return this.http.post(baseUrl + '/api/trayItem/createTrayItem', trayItem);
+  }
+
+  updateTrayItem(formId: any,trayItem:any): Observable<any> {
+    return this.http.put(baseUrl + '/api/trayItem/' + `${formId}`, trayItem);
+  }
+
+  getItemById(formId: any): Observable<any> {
+    return this.http.get(`${baseUrl}/api/trayItem/fetchItem/${formId}`);
+  }
+
+  fetchAllItems(): Observable<any> {
+    return this.http.get(`${baseUrl}/api/trayItem/findAllItems`);
   }
 
 }

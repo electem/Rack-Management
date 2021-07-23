@@ -3,6 +3,9 @@ module.exports = (sequelize, Sequelize) => {
         quantity: {
             type: Sequelize.INTEGER,
         },
+        formId: {
+          type: Sequelize.INTEGER,
+      },
         rackId: {
             type: Sequelize.INTEGER,
             allowNull: true,
@@ -19,14 +22,7 @@ module.exports = (sequelize, Sequelize) => {
               key: 'id'
             }
           },
-          itemId: {
-            type: Sequelize.INTEGER,
-            allowNull: true,
-            references: {         
-              model: 'templates',
-              key: 'id'
-            }
-          },
+
     });
 
     trayItem.associate = (models) => {
@@ -35,10 +31,6 @@ module.exports = (sequelize, Sequelize) => {
 
     trayItem.associate = (models) => {
         trayItem.belongsTo(models.Tray, { foreignKey: 'trayId', as: 'tray' })
-    };
-
-    trayItem.associate = (models) => {
-        trayItem.belongsTo(models.Item, { foreignKey: 'itemId', as: 'template' })
     };
 
     return trayItem;

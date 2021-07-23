@@ -2,32 +2,33 @@
   <h4>Form Listing</h4>
 </div>
 <div class="list row">
-    <div class="col-md-8">
-      <button class="m-3 btn btn-sm btn-primary" style="
-    border-color: #2185d0;"  (click)="addNewForm()">
-        Add new form
-      </button>
-    </div>
-    <div class="mat-app-background basic-container" >
-        <mat-table  #table  [dataSource]="dataSource"  class="mat-elevation-z8">
-          <ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumns">
-            <mat-header-cell  class="custom-mat-header-styling tableHeaderCellDiv" *matHeaderCellDef>{{ column }} </mat-header-cell>
-            <mat-cell *matCellDef="let element">  
-                <div [innerHTML]="element[column]">
-              </div> 
-              &nbsp;<a *ngIf="column=='actions'" class="bi-trash-fill context-menu mr-3" (click)="removeForm(element.id)"></a>
-              <div *ngIf="column =='Quantity' && isQuantity=='true'">
-              <input type="number" id="quantity" [(ngModel)]="quantity" class="form-control"/>
-            </div>
-
-            <div class="mr-3" *ngIf="column=='actions' && isQuantity=='true' ">
-
-              <a *ngIf="column=='actions'" class="btn btn-primary btn-sm active" (click)="addTraysToItem()">AddTrayItems</a>
-            </div>
-          </mat-cell>
-          </ng-container>
-          <mat-header-row *matHeaderRowDef="displayedColumns"> </mat-header-row>
-          <mat-row  *matRowDef="let row; columns: displayedColumns;"></mat-row>
-        </mat-table>
-    </div>
-  </div> 
+  <div class="col-md-8">
+    <button class="m-3 btn btn-sm btn-primary" style="
+    border-color: #2185d0;" (click)="addNewForm()">
+      Add new form
+    </button>
+  </div>
+  <div class="mat-app-background basic-container">
+    <mat-table #table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumns">
+        <mat-header-cell class="custom-mat-header-styling tableHeaderCellDiv" *matHeaderCellDef>{{ column }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <div [innerHTML]="element[column]">
+          </div>
+          &nbsp;<a *ngIf="column =='actions'" class="bi-trash-fill context-menu mr-3" (click)="removeForm(element.id)"></a>
+          <div *ngIf="column =='quantity' && isQuantity =='true'"  >
+            <input type="number" id="quantity" [(ngModel)]="quantity" class="form-control" />
+          </div>
+    
+          <div class="mr-3" *ngIf="column =='actions' && isQuantity =='true'">
+            <a *ngIf="column =='actions' && isQuantity =='true' " class="btn btn-primary btn-sm active"
+              (click)="addItemsToTray(element.id)">AddItemsToTray</a>
+          </div>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"> </mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </div>
+</div>
